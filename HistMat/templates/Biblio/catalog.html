@@ -4,9 +4,17 @@
 
 
 {% block content%}
+<h1>POST ALL</h1>
     <ul>
-    {% for libro in libros %}
+    {% for libro in posts_all %}
         <li> {{libro.title}}</li>
     {% endfor %}
     </ul>
+
+<h1>POST ALL : {{request.user}}</h1>
+<ul>
+{% for libro in post_whiwho %}
+    <li> {{libro.title}}</li>
+{% endfor %}
+</ul>
 {% endblock %}

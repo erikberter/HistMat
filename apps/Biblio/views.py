@@ -4,14 +4,21 @@ from .models import Book
 
 # Create your views here.
 def catalog_list(request):
-    libros = Book.objects.all()
-    return render(request, 'Biblio/catalog.html', {"libros" : libros})
+    post_whiwho = Book.objects.filter(publications=request.user)
+    context = {
+        'posts_all': Book.objects.all()
+        if request.user.is_authenticated else [], 
+        'post_whiwho' : post_whiwho
+    }
+    return render(request, 'Biblio/catalog.html', context)
 
 
 def index(request):
+    post_whiwho = Book.objects.filter(publications=request.user)
     context = {
-        'posts': Book.objects.all()
-        if request.user.is_authenticated else []
+        'posts_all': Book.objects.all()
+        if request.user.is_authenticated else [], 
+        'post_whiwho' : post_whiwho
     }
 
     return render(request, 'blog/index.html', context)

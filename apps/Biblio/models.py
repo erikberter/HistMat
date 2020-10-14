@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.utils import timezone
 
 from autoslug import AutoSlugField
@@ -23,6 +24,8 @@ class Book(models.Model):
 
     title = models.CharField(max_length=255)
     author= models.ForeignKey(Author, on_delete=models.CASCADE,null=True, blank=True, default=None)
+
+    publications = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
     slug = AutoSlugField(max_length=50, unique_for_date='publish', populate_from='title', 
                         slugify=custom_slugify)
