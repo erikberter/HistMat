@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block content%}
+    <ul>
+    {% for libro in libros %}
+        <li> libro.title</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
