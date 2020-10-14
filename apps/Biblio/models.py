@@ -35,7 +35,6 @@ class Book(models.Model):
 
     publish = models.DateTimeField(default=timezone.now)
 
-
     
 
 

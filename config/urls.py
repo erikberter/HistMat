@@ -15,12 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import logout
 
-from . import settings
+from .settings import settings
 
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path('', include('apps.Biblio.urls', namespace='post')),
-]+ static(settings.settings.MEDIA_URL, document_root=settings.settings.MEDIA_ROOT)
+    path('', include('apps.Biblio.urls', namespace='post')),
+    path('', include('social_django.urls', namespace='social')),
+    path('logout/', logout , name='logout'),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

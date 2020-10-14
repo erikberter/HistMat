@@ -18,6 +18,11 @@ sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
 from .local_settings import SECRET_KEY as LOCAL_SECRET_KEY
 
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
 PROJECT_NAME = "HistMat"
 
 
@@ -47,9 +52,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.Biblio',
+
     'autoslug',
     'taggit',
     'crispy_forms',
+    'social_django'
 ]
 
 MIDDLEWARE = [
@@ -93,6 +100,20 @@ DATABASES = {
     }
 }
 
+
+# Authentication Backends
+# https://medium.com/trabe/oauth-authentication-in-django-with-social-auth-c67a002479c1
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+LOGIN_URL = '/auth/login/google-oauth2/'
+
+LOGIN_REDIRECT_URL = '/manage/'
+LOGOUT_REDIRECT_URL = '/'
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

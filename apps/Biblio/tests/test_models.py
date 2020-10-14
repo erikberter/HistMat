@@ -25,15 +25,4 @@ class BookModelTest(TestCase):
 
     def test_null_author_create(self):
 
-class BiblioModelTest(TestCase):
-    def test_create_biblio(self):
-
-    # TODO Test on create User create biblio
-
-    def test_add_book_to_biblio(self):
-
-    def test_delete_book_to_biblio(self):
-
-
-
     
