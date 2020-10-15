@@ -53,11 +53,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.Biblio',
     'apps.Users',
+    'apps.Layout',
 
     'autoslug',
     'taggit',
     'crispy_forms',
-    'social_django'
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -111,7 +112,7 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_URL = '/auth/login/google-oauth2/'
 
-LOGIN_REDIRECT_URL = '/manage/'
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
@@ -156,7 +157,7 @@ USE_TZ = True
 STATIC_URL = '/' + PROJECT_NAME +'/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '../' + PROJECT_NAME +'/assets')
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "../' + PROJECT_NAME +'/static"),
+    os.path.join(BASE_DIR, "../" + PROJECT_NAME +"/static"),
 )
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'../' + PROJECT_NAME +'/media') 

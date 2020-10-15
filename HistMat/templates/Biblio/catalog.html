@@ -4,17 +4,13 @@
 
 
 {% block content%}
-<h1>POST ALL</h1>
-    <ul>
-    {% for libro in posts_all %}
-        <li> {{libro.title}}</li>
-    {% endfor %}
-    </ul>
 
-<h1>POST ALL : {{request.user}}</h1>
-<ul>
-{% for libro in post_whiwho %}
-    <li> {{libro.title}}</li>
-{% endfor %}
-</ul>
+    {% if user.is_authenticated %}
+        <h1>POST ALL : {{request.user}}</h1>
+        {% include 'Biblio/_books.html' with books=books_user %}    
+    {% else %}
+        <h1>POST ALL</h1>
+        {% include 'Biblio/_books.html' with books=books_all %}  
+    {% endif %}
+    
 {% endblock %}

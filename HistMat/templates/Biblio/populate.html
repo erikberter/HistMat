@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label>N_Author</label>
+        <input type="text" name="n_author" />
+        <label>N_Book</label>
+        <input type="text" name="n_book"/>
+        <input type="hidden" name="same_user" value="no" />
+        <button type="submit" >Submit</button>
+    </form>
+{% endblock %}

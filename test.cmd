@@ -14,6 +14,9 @@ cls
 call :color 25 "  ###### STARTING MIGRATIONS #####  "
 @echo on
 
+python manage.py makemigrations Users
+python manage.py makemigrations Layout
+python manage.py makemigrations Biblio
 python manage.py migrate
 
 @echo off

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <h1>{{book.title}}</h1>
+        <p> Escrito por {{book.author}}</p>
+        <p> Tiene {{book.npages}} paginas</p>
+        {% if book.book_file%}
+        <a href="{{book.book_file.url}}"> enlace </a>
+        {% else %}
+        <p>Suber algun archivo</p>
+        {% endif %}
+    </div>
+
+{% endblock %}

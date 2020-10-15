@@ -27,7 +27,9 @@
     <!-- Basic libraries -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/\bootstrap.min.css"
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81i\uXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -39,23 +41,23 @@
         </script>
     {% endif %}
     
-<div class="content">
-    <!-- Navbar  -->
-    <div class="navbar navbar-expand-lg navbar-light  bg-danger shadow">
-        <a href="/" class="web-title navbar-brand text-white font-weight-bold" style ="font-size: 2rem;">HisMat</a>
-    </div>
+    <div class="content">
+        <!-- Navbar  -->
+        {% include '_navbar.html'%}
 
-    <!-- Main Body -->
-    <div id="main-content">
-        <div class="justify-content-center mx-5" >
-            {% block content %}
-            {% endblock %}
+        <!-- Main Body -->
+        <div id="main-content">
+            <div class="justify-content-center mx-5" >
+                {% block content %}
+                {% endblock %}
+            </div>
         </div>
     </div>
-</div>
+
+    <!-- Footer section -->
     <footer class="footer py-4 bg-dark text-white-50">
         <div class="container text-center">
-            <small>Copyright &copy; Your Website</small>
+            <small>Copyright &copy; HistMat</small>
         </div>
     </footer>
 

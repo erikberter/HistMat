@@ -1,0 +1,11 @@
+<div>
+    {% if book.cover %}
+        <img src="{{book.cover.url}}" alt="{{book.title}} cover" style="width:150px;">
+    {% else %}
+        <p> No hay imagen </p>
+    {% endif %}
+        <a href="{{ book.get_absolute_url }}">
+            <p>{{book.title}}</p>
+        </a>
+        <p>{{book.author}}</p>
+</div>
