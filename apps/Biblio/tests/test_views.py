@@ -5,7 +5,7 @@ from django.test.client import Client
 
 from apps.Biblio.models import Book, Author
 
-from apps.Biblio.views import catalog
+from apps.Biblio.views import catalog, book_detail
 
 class BiblioViewTest(TestCase):
     def setUp(self):
@@ -72,14 +72,42 @@ class BiblioViewTest(TestCase):
         response = self.client.get('/biblio/catalog')
         self.assertContains(response, self.book_public_1.get_absolute_url())
 
+    ###  BOOK_DETAIL VIEW  ###
 
-class BookViewTest(TestCase):
-    def setUp(self):
-        self.example_author = Author.objects.create(name="test_name_author")
-        self.example_book = Book.objects.create(title="example", npages = 200, author=self.example_author)
+    def test_user_access_book_detail_returns_200_on_public_book(self):
+        response = self.client.get(self.book_public_1.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response,self.book_public_1.title)
+    
+    def test_user_access_book_detail_returns_200_on_own_private_book(self):
+        response = self.client.get(self.book_private_1.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response,self.book_private_1.title)
+
+    def test_user_access_book_detail_returns_404_on_not_own_private_book(self):
+        response = self.client.get(self.book_private_2_u.get_absolute_url())
+        self.assertEqual(response.status_code, 404)
+    
+    def test_anonymous_access_book_detail_returns_200_on_public_book(self):
+        request = self.factory.get(self.book_public_1.get_absolute_url())
+        request.user = AnonymousUser()
+        response = book_detail(request, self.book_public_1.slug)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response,self.book_public_1.title)
+    
+    def test_anonymous_access_book_detail_returns_404_on_private_book(self):
+        request = self.factory.get(self.book_private_1.get_absolute_url())
+        request.user = AnonymousUser()
+        response = book_detail(request,self.book_private_1.slug)
+        self.assertEqual(response.status_code, 404, "Error on 'own' book")
+
+        request = self.factory.get(self.book_private_2_u.get_absolute_url())
+        request.user = AnonymousUser()
+        response = book_detail(request,self.book_private_2_u.slug )
+        self.assertEqual(response.status_code, 404, "Error on external book")
 
     def test_book_detail_contains_correct_properties(self):
-        response = self.client.get(self.example_book.get_absolute_url())
-        self.assertContains(response, self.example_book.title)
-        self.assertContains(response, self.example_book.author)
-        self.assertContains(response, self.example_book.npages)
+        response = self.client.get(self.book_public_1.get_absolute_url())
+        self.assertContains(response, self.book_public_1.title)
+        self.assertContains(response, self.book_public_1.author)
+        self.assertContains(response, self.book_public_1.npages)

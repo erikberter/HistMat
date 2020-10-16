@@ -5,6 +5,11 @@
 
 {% block content%}
 
+    <div class="btn-group d-flex justify-content-center" role="group" aria-label="Catalog Type">
+        <button type="button" class="btn btn-secondary">My Library</button>
+        <button type="button" class="btn btn-secondary">Public Library</button>
+    </div>
+
     {% if user.is_authenticated %}
         <h1>POST ALL : {{request.user}}</h1>
         {% include 'Biblio/_books.html' with books=books_user %}    

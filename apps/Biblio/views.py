@@ -1,8 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
+from django.http import HttpResponseNotFound
+
+from django.db.models import Q
+
 
 from .models import Book, Author
-
+from .forms import BookCreateForm
 
 # Create your views here.
 def catalog(request):
@@ -18,11 +22,28 @@ def catalog(request):
 
 
 def book_detail(request, slug):
-    book = get_object_or_404(Book, slug=slug)
+    if not request.user.is_authenticated:
+        book = Book.objects.filter(slug=slug, status="public").first()
+    else:
+        book = Book.objects.filter(slug=slug).filter(Q(publications=request.user) | Q(status="public")).first()
+    if book == None:
+        return HttpResponseNotFound("Book not found")  
     context = {
         'book' : book,
     }
     return render(request, 'Biblio/book_detail.html', context)
+
+
+def create_book(request):
+    if request.method == "POST":
+        bookform = BookCreateForm(request.POST)
+        if bookform.is_valid():
+            bookform.save()
+        else:
+            # TODO Add custom template for error
+            pass
+    bookform = BookCreateForm()
+    return render(request, 'Biblio/forms/book_create.html', {'bookform': bookform})
 
 
 #### DELETE  IN PRODUCTION 
