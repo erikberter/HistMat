@@ -1,5 +1,7 @@
 from django.test import TestCase
-from apps.Biblio.models import * 
+from django.contrib.auth.models import User, AnonymousUser
+
+from apps.Biblio.models import *
 
 class AuthorModelTest(TestCase):
     def test_create_author(self):
@@ -32,7 +34,7 @@ class BookModelTest(TestCase):
         self.assertEqual(book_test_1.title, "test_title_1")
         self.assertEqual(book_test_1.npages, 200)
         self.assertEqual(book_test_1.actpages, 0)
-        self.assertEqual(book_test_1.status, "private")
+        self.assertEqual(book_test_1.visibility, "private")
 
     
     def test_create_multiple_book(self):
@@ -54,3 +56,19 @@ class BookModelTest(TestCase):
     def test_book_get_absolute_path(self):
         book_test_1 = Book.objects.create(title="test_title_1", npages=200, author=self.author_test_1)
         self.assertEquals('/biblio/book_detail/' + book_test_1.title+'_' + book_test_1.author.name, book_test_1.get_absolute_url())
+
+class BookUserDetailTest(TestCase):
+    def setUp(self):
+        self.author_test_1 = Author.objects.create(name="test_name", surname="test_surname")
+        self.book_test_1 = Book.objects.create(title="test_title_1", npages=200, author=self.author_test_1)
+        self.user = User.objects.create_user(username="test_1", password="test_pass_1")
+    
+    def test_create_book_user_detail(self):
+        self.book_user_detail_test = BookUserDetail.objects.create(user=self.user, book=self.book_test_1)
+        self.assertEqual(self.book_user_detail_test.user, self.user)
+        self.assertEqual(self.book_user_detail_test.book, self.book_test_1)
+    
+    def test_queryset_to_book_values(self):
+        self.book_user_detail_test = BookUserDetail.objects.create(user=self.user, book=self.book_test_1)
+        book1 = self.user.book_set.all().first()
+        self.assertEqual(book1, self.book_test_1)

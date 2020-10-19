@@ -1,0 +1,59 @@
+<div class="bg-white border-right" id="sidebar-wrapper">
+    <!-- TODO make default settings by cookies-->
+
+    <h3 class="font-weight-bold text-center">Catalog Options </h3>
+
+    
+
+    <div class="p-3 mt-3">
+        <h4 class="b-3">Search</h4>
+          <div class="form-group mb-4 border-0">
+              <input id="exampleFormControlInput1" type="search" name="search" placeholder="What are you searching for?" class="form-control form-control-underlined">
+          </div>
+    </div>
+    
+    <hr>
+     
+     <div>
+      <h4 class="px-3"> State Filter </h4>
+      
+      <div class="d-flex flex-column p-2">
+        <input type="button" class="btn_filter_selector btn btn-light" name="public" value="Public">
+        <input type="button" class="btn_filter_selector btn btn-light" name="want_to_read" value="Want to Read">
+        <input type="button" class="btn_filter_selector btn btn-light" name="reading" value="Reading">  
+        <input type="button" class="btn_filter_selector btn btn-light" name="read" value="Read"> 
+        
+        
+      </div>
+    </div>
+     <hr>
+
+     <!-- Orden -->
+     <form action="" method="POST" target="">
+      <h4 class="px-3"> Catalog Order </h4>
+        <div class="btn-group" data-toggle="buttons">
+          
+            <label >
+              <input  type="radio" name="filter-order" value="order-last-added">
+              Last Added
+            </label>
+          
+            <label  >
+            <input type="radio" name="filter-order"  value="order-first-added">
+            First Added</label> 
+          
+            <label >
+              <input type="radio" name="filter-order"value="order-last-visited">
+            Last Visited</label> 
+          
+          
+          
+          <!-- TODO make on click send AJAX-->
+        </div>
+        
+    
+    </form>
+
+     <button class="btn btn-primary"> Save as Defautl</button>
+    
+</div>

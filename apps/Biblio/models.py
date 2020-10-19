@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.urls import reverse
-
+from django.contrib.auth.models import User
 
 from autoslug import AutoSlugField
 from taggit.managers import TaggableManager
@@ -32,15 +32,14 @@ class Book(models.Model):
     title = models.CharField(max_length=255)
     author= models.ForeignKey(Author, on_delete=models.CASCADE,null=True, blank=True, default=None)
 
-    publications = models.ManyToManyField(settings.AUTH_USER_MODEL)
-
     slug = AutoSlugField(max_length=100, unique_with=('title','author'), populate_from=custom_populate)
 
-    book_file = models.FileField(upload_to='media/books/docs/', null=True, blank=True, default=None)
+    book_file = models.FileField(upload_to='biblio/books/docs/', null=True, blank=True, default=None)
+    users = models.ManyToManyField(User, through='BookUserDetail')
 
     npages = models.IntegerField()
     actpages = models.IntegerField(default=0)
-    status  = models.CharField(max_length = 15, choices = VISIBILITY_CHOICES, default = 'private')
+    visibility  = models.CharField(max_length = 15, choices = VISIBILITY_CHOICES, default = 'private')
 
     cover = models.ImageField(upload_to='biblio/books/covers/', null=True, blank=True)
 
@@ -64,14 +63,16 @@ class IntegerRangeField(models.IntegerField):
 
 class BookUserDetail(models.Model):
     BOOK_STATE = (
-        ('want_to_read', 'Private'),
-        ('reading','Friends Only'),
-        ('read', 'Public'),
+        ('want_to_read', 'Want to Read'),
+        ('reading','Reading'),
+        ('read', 'Read'),
         ('dropped', 'Dropped'),
         ('on_hold', 'On Hold'))
+    BOOK_STATE_L = [t[0] for t in BOOK_STATE]
+
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
 
     book_state =  models.CharField(max_length = 20, choices = BOOK_STATE, default = 'want_to_read')
-    rating =  models.IntegerRangeField(min_value=1, max_value=10, default=5)
+    rating =  IntegerRangeField(min_value=1, max_value=10, default=5)

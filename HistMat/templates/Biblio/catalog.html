@@ -1,21 +1,36 @@
 {% extends 'base.html' %}
 
+{% load static %}
 
+{% block css%}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/simple-sidebar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/search_bar.css' %}">
+{% endblock %}
 
+{% block js%}
+    <script src="{% static 'js/Biblio/catalog.js' %}"> </script>
+{% endblock %}
 
 {% block content%}
 
-    <div class="btn-group d-flex justify-content-center" role="group" aria-label="Catalog Type">
-        <button type="button" class="btn btn-secondary">My Library</button>
-        <button type="button" class="btn btn-secondary">Public Library</button>
+<div class="p-0 m-0">
+    <div class="wrapper d-flex align-items-stretch" id="wrapper"> 
+        <div>
+            {% include 'Biblio/_catalog_sidebar.html'%}
+        </div>
+        <div class="p-5 w-100">
+            <div>
+                <div>
+                    <button class="btn btn-primary py-2" id="menu-toggle">Filter Menu</button>
+                    <a href="{% url 'biblio:book_create'%}"><div class="btn btn-success"> Create Book</div></a>
+                    <h1 id="catalog_book_title">{{book_self_name}}</h1>
+                </div>
+                <div id="catalog_book_window">
+                    {% include 'Biblio/_books.html' with books=book_self %}
+                </div>
+            </div>
+        </div>
+        
     </div>
-
-    {% if user.is_authenticated %}
-        <h1>POST ALL : {{request.user}}</h1>
-        {% include 'Biblio/_books.html' with books=books_user %}    
-    {% else %}
-        <h1>POST ALL</h1>
-        {% include 'Biblio/_books.html' with books=books_all %}  
-    {% endif %}
-    
+</div>
 {% endblock %}

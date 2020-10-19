@@ -1,7 +1,7 @@
 <div class="container-lg">
     <ul class="d-flex flex-row flex-wrap ">
         {% for book in books %}
-            <li class="w-25 card flex-fill p-2 m-2"> 
+            <li class="card  p-2 m-2"> 
                 {% include 'Biblio/_book.html' with book=book %}
             </li>
         {% endfor %}
