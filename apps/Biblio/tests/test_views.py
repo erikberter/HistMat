@@ -28,6 +28,9 @@ class BiblioViewTest(TestCase):
         self.book_private_2_u = Book.objects.create(title="test_private_book_2", npages=202, visibility="private")
         self.book_private_2_u_BUD = BookUserDetail.objects.create(user = self.user_2, book=self.book_private_2_u)
 
+        self.book_public_3_u = Book.objects.create(title="test_public_book_3", npages=202, visibility="public")
+        self.book_public_3_u_BUD = BookUserDetail.objects.create(user = self.user_2, book=self.book_public_3_u)
+
     
 
     ## CATALOG VIEW ##
@@ -47,6 +50,7 @@ class BiblioViewTest(TestCase):
     def test_catalog_public_on_user_contains_public_books(self):
         response = self.client.post('/biblio/catalog', DEFAULT_CATALOG_DATA, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
         self.assertContains(response,self.book_public_1.title)
+        self.assertContains(response,self.book_public_3_u.title)
     
     def test_catalog_public_on_anonymous_contains_public_book(self):
         request = self.factory.post('/biblio/catalog', DEFAULT_CATALOG_DATA, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
@@ -54,6 +58,7 @@ class BiblioViewTest(TestCase):
         response = catalog(request)
 
         self.assertContains(response,self.book_public_1.title)
+        self.assertContains(response,self.book_public_3_u.title)
 
     def test_catalog_public_on_anonymous_not_contains_private_book(self):
         request = self.factory.post('/biblio/catalog', DEFAULT_CATALOG_DATA, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
@@ -85,14 +90,20 @@ class BiblioViewTest(TestCase):
     def test_book_url_in_catalog_html(self):
         response = self.client.post('/biblio/catalog', DEFAULT_CATALOG_DATA, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
         self.assertContains(response, self.book_public_1.get_absolute_url())
+        self.assertContains(response,self.book_public_3_u.get_absolute_url())
 
     ###  BOOK_DETAIL VIEW  ###
 
-    def test_user_access_book_detail_returns_200_on_public_book(self):
+    def test_user_access_book_detail_returns_200_on_public_self_book(self):
         response = self.client.get(self.book_public_1.get_absolute_url())
         self.assertEqual(response.status_code, 200)
         self.assertContains(response,self.book_public_1.title)
-    
+
+    def test_user_access_book_detail_returns_200_on_public_other_user_book(self):
+        response = self.client.get(self.book_public_3_u.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response,self.book_public_3_u.title)
+
     def test_user_access_book_detail_returns_200_on_own_private_book(self):
         response = self.client.get(self.book_private_1.get_absolute_url())
         self.assertEqual(response.status_code, 200)
@@ -109,6 +120,12 @@ class BiblioViewTest(TestCase):
         response = book_detail(request, self.book_public_1.slug)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response,self.book_public_1.title)
+
+        request = self.factory.get(self.book_public_3_u.get_absolute_url())
+        request.user = AnonymousUser()
+        response = book_detail(request, self.book_public_3_u.slug)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response,self.book_public_3_u.title)
     
     def test_anonymous_access_book_detail_returns_404_on_private_book(self):
         request = self.factory.get(self.book_private_1.get_absolute_url())

@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'apps.Biblio',
     'apps.Users',
     'apps.Layout',
+    'apps.Trivia',
 
     'autoslug',
     'taggit',

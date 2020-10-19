@@ -40,10 +40,12 @@ def catalog(request):
 
 def book_detail(request, slug):
     if not request.user.is_authenticated:
-        book = get_object_or_404(Book, slug=slug, visibility="public")
+        book = get_object_or_404(Book, Q(slug=slug) & Q(visibility="public"))
     else:
-        book = get_object_or_404(Book, bookuserdetail__user = request.user, slug=slug)
-        
+        book = get_object_or_404(Book,
+            Q(slug=slug) & ( Q(bookuserdetail__user = request.user) |  Q(visibility="public") )
+        )
+
     context = {}
     context['book'] = book
 
