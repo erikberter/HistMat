@@ -17,6 +17,7 @@ call :color 25 "  ###### STARTING MIGRATIONS #####  "
 python manage.py makemigrations Users
 python manage.py makemigrations Layout
 python manage.py makemigrations Biblio
+python manage.py makemigrations Trivia
 python manage.py migrate
 
 @echo off

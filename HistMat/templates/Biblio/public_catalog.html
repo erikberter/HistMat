@@ -1,0 +1,14 @@
+{% extends 'base.html'%}
+
+{% block title%} HistMat | Public Catalog {% endblock %}
+
+{% load static %}
+{% block js%}
+    <script src="{% static 'js/Biblio/book_public.js' %}"> </script>
+{% endblock %}
+
+
+{%block content%}
+    {% include "Biblio/_infinite_books.html" with books=books %}
+{%endblock%}
+

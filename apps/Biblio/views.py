@@ -1,15 +1,65 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
-from django.http import HttpResponseNotFound, HttpResponseRedirect, Http404
-
+from django.http import HttpResponseNotFound, HttpResponseRedirect, Http404, HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Book, Author, BookUserDetail
 from .forms import BookCreateForm
 
+BOOK_PER_PAGE = 13
+
+
+
+
+def __get_book_by_paginator(books, page):
+    paginator = Paginator(books, BOOK_PER_PAGE) 
+
+    if page > paginator.num_pages:
+        return books, -1
+
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+
+    return books, 1
+
+def __get_public_book_list(request):
+    return {'books': Book.objects.all()}
+
+def __get_public_book_list_page(request):
+    context = __get_public_book_list(request)
+
+    page = 1
+    if 'page' in request.GET:
+        page = int(request.GET.get('page'))
+
+    books, validator = __get_book_by_paginator(context['books'], page)
+
+    context['books'] = books
+    context['validator'] = validator
+    return context
+
 # TODO Try to delete the decorator
+@csrf_exempt
+def public_catalog(request):
+    context  = __get_public_book_list_page(request)
+
+    if request.is_ajax():
+        if context['validator'] == -1:
+            raise Http404
+        return render(request,"Biblio/_books_no_ul.html",context)
+
+    return render(request, 'Biblio/public_catalog.html', context)
+
+
+@login_required
 @csrf_exempt
 def catalog(request):
     
@@ -17,14 +67,10 @@ def catalog(request):
 
     if request.is_ajax():
         if 'book_self' in request.POST:
+            context['book_self'] = request.POST.get('book_self')
             book_self = request.POST.get('book_self')
-            books = None
-            if book_self == 'public':
-                books = Book.objects.filter(visibility='public')
-            elif request.user.is_authenticated:
-                books = request.user.book_set.filter(bookuserdetail__book_state=book_self)
-            else:
-                raise Http404("Anonymous User trying to access non valid data")  
+            
+            books = request.user.book_set.filter(bookuserdetail__book_state=book_self)
             
             if 'search_book' in request.POST:
                 if request.POST.get('search_book'):
@@ -37,17 +83,47 @@ def catalog(request):
 
     return render(request, 'Biblio/catalog.html', context)
 
+from django.http import JsonResponse
+@csrf_exempt
+def book_state_change(request):
+    context={}
+    if request.is_ajax() and request.method == 'POST':
+        if 'book_pk' in request.POST and 'book_state' in request.POST:
+
+            book_pk = request.POST.get('book_pk')
+            book = Book.objects.get(pk=book_pk)
+
+            book_ud_c = BookUserDetail.objects.filter(
+                 Q(book=book) & Q(user = request.user) 
+            ).count()
+
+            if book_ud_c == 0:
+                book_ud = BookUserDetail()
+                book_ud.user = request.user
+                book_ud.book = book
+            else:
+                book_ud = BookUserDetail.objects.filter(
+                 Q(book=book) & Q(user = request.user) 
+                ).first()
+            
+            book_ud.book_state = request.POST.get('book_state')
+            book_ud.save()
+
+            return JsonResponse({'status':'Success', 'msg': 'save successfully'})
+        else:
+            print("Test 16")
+            raise Http404("State or Pk not found")
+
+
 
 def book_detail(request, slug):
+    context = {}
     if not request.user.is_authenticated:
-        book = get_object_or_404(Book, Q(slug=slug) & Q(visibility="public"))
+        context['book'] = get_object_or_404(Book, Q(slug=slug) & Q(visibility="public"))
     else:
-        book = get_object_or_404(Book,
+        context['book'] = get_object_or_404(Book,
             Q(slug=slug) & ( Q(bookuserdetail__user = request.user) |  Q(visibility="public") )
         )
-
-    context = {}
-    context['book'] = book
 
     return render(request, 'Biblio/book_detail.html', context)
 

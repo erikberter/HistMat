@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'apps.Layout',
     'apps.Trivia',
 
+    'bootstrap4',
     'autoslug',
     'taggit',
     'crispy_forms',

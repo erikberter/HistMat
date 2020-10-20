@@ -4,8 +4,8 @@ from .models import *
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'publish', 'visibility')
-    list_filter = ('visibility',  'publish')
+    list_display = ('title', 'slug', 'created', 'visibility')
+    list_filter = ('visibility',  'created')
     search_fields = ('title',)
-    date_hierarchy = 'publish'
-    ordering = ('visibility', 'publish')
+    date_hierarchy = 'created'
+    ordering = ('visibility', 'created')

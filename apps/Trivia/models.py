@@ -1,5 +1,5 @@
 from django.db import models
-from polymorphic.models import PolymorphicModel
+
 import abc
 
 

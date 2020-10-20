@@ -1,9 +1,4 @@
-<div class="container-lg">
-    <ul class="d-flex flex-row flex-wrap ">
-        {% for book in books %}
-            <li class="card  p-2 m-2"> 
-                {% include 'Biblio/_book.html' with book=book %}
-            </li>
-        {% endfor %}
-    </ul>
-</div>
+
+<ul class="d-flex flex-row flex-wrap" id="scroll-element">
+    {% include 'Biblio/_books_no_ul.html' with books=books %}
+</ul>

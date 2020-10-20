@@ -1,12 +1,13 @@
 
 var catalog_data = {
     "search_book" : "",
-    "book_self" : "public",
+    "book_self" : "reading",
     "book_order" : "last_added"
 }
 
 $(document).ready(function(){
-    $('#catalog_book_title').empty().append("Public");
+    $('#catalog_book_title').empty().append("Reading");
+    $('.btn_filter_selector[value=Reading]').addClass("active");
     send_catalog_ajax();
 });
 
@@ -32,16 +33,17 @@ function send_catalog_ajax(){
 }
 
 
-
 $(document).ready(function() {
+    
     $(".btn_filter_selector").click(function(e) {
         e.preventDefault();
         catalog_data["book_self"] = $(this).attr('name');
+        $(".btn_filter_selector").removeClass("active");
+        $(this).addClass("active");
         $('#catalog_book_title').empty().append($(this).val());
         send_catalog_ajax();
     });
     $('#exampleFormControlInput1').keypress(function(e){
-        e.preventDefault();
         if(e.which == 13){
             catalog_data["search_book"] =  $('#exampleFormControlInput1').val();
             send_catalog_ajax();
@@ -51,4 +53,6 @@ $(document).ready(function() {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
       });
+    
+      
 });
