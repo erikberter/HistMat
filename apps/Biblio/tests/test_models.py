@@ -33,7 +33,6 @@ class BookModelTest(TestCase):
         self.assertEqual(Book.objects.first(), book_test_1)
         self.assertEqual(book_test_1.title, "test_title_1")
         self.assertEqual(book_test_1.npages, 200)
-        self.assertEqual(book_test_1.actpages, 0)
         self.assertEqual(book_test_1.visibility, "private")
 
     
@@ -70,5 +69,5 @@ class BookUserDetailTest(TestCase):
     
     def test_queryset_to_book_values(self):
         self.book_user_detail_test = BookUserDetail.objects.create(user=self.user, book=self.book_test_1)
-        book1 = self.user.book_set.all().first()
-        self.assertEqual(book1, self.book_test_1)
+        book1 = BookUserDetail.objects.filter(user=self.user, book=self.book_test_1).first()
+        self.assertEqual(book1.book, self.book_test_1)

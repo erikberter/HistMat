@@ -19,7 +19,7 @@ def get_book_state(user, book):
 def is_book_in_user(user, book):
     
     book_ud_c = BookUserDetail.objects.filter(
-                 Q(book=book) & Q(user = user) 
-            ).count()
+        Q(book=book) & Q(user = user) 
+        ).count()
     
-    return book_ud_c>0
+    return book_ud_c > 0

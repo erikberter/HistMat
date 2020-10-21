@@ -31,11 +31,12 @@ def __get_book_by_paginator(books, page):
     return books, 1
 
 def __get_public_book_list(request):
-    return {'books': Book.objects.all()}
+    return {'books': Book.objects.filter(visibility='public')}
 
 def __get_public_book_list_page(request):
     context = __get_public_book_list(request)
 
+    
     page = 1
     if 'page' in request.GET:
         page = int(request.GET.get('page'))
@@ -61,7 +62,7 @@ def public_catalog(request):
 
 @login_required
 @csrf_exempt
-def catalog(request):
+def mybooks(request):
     
     context = {}
 
@@ -69,6 +70,7 @@ def catalog(request):
         if 'book_self' in request.POST:
             context['book_self'] = request.POST.get('book_self')
             book_self = request.POST.get('book_self')
+            
             
             books = request.user.book_set.filter(bookuserdetail__book_state=book_self)
             
@@ -81,7 +83,7 @@ def catalog(request):
         else:
             raise Http404("Book Self not found")  
 
-    return render(request, 'Biblio/catalog.html', context)
+    return render(request, 'Biblio/mybooks.html', context)
 
 from django.http import JsonResponse
 @csrf_exempt
@@ -111,7 +113,6 @@ def book_state_change(request):
 
             return JsonResponse({'status':'Success', 'msg': 'save successfully'})
         else:
-            print("Test 16")
             raise Http404("State or Pk not found")
 
 
