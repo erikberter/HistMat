@@ -36,9 +36,6 @@ def custom_populate(instance):
         return f"{instance.title}_anonymous"
     return f"{instance.title}_{instance.author.name}"
 
-class StatusManager(models.Manager):
-    def get_queryset(self):
-        return super(StatusManager, self).get_queryset().filter(visibility='public')
 
 class Book(models.Model):
     VISIBILITY_CHOICES = (
@@ -48,6 +45,7 @@ class Book(models.Model):
     )
 
     title = models.CharField(max_length=255)
+    description = models.TextField()
     author= models.ForeignKey(Author, on_delete=models.CASCADE,null=True, blank=True, default=None)
 
     slug = AutoSlugField(max_length=100, unique_with=('title','author'), populate_from=custom_populate)
@@ -60,13 +58,13 @@ class Book(models.Model):
     
     users = models.ManyToManyField(User, through='BookUserDetail')
 
-    public = StatusManager()
-    objects = models.Manager() 
-
-    visibility  = models.CharField(max_length = 15, choices = VISIBILITY_CHOICES, default = 'private')
+    visibility  = models.CharField(max_length = 35, choices = VISIBILITY_CHOICES, default = 'private')
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['id']
 
     def __str__(self):
         return self.slug

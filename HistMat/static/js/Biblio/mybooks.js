@@ -1,24 +1,24 @@
 
-var catalog_data = {
+var mybooks_data = {
     "search_book" : "",
-    "book_self" : "reading",
+    "book_state" : "reading",
     "book_order" : "last_added"
 }
 
 $(document).ready(function(){
     $('#catalog_book_title').empty().append("Reading");
     $('.btn_filter_selector[value=Reading]').addClass("active");
-    send_catalog_ajax();
+    send_mybook_ajax();
 });
 
-function send_catalog_ajax(){
+function send_mybook_ajax(){
     $.ajax({
         type: "POST",
-        url: "/biblio/catalog",
+        url: "/biblio/mybooks",
         data: { 
-            search_book : catalog_data["search_book"],
-            book_self : catalog_data["book_self"],
-            book_order : catalog_data["book_order"]
+            search_book : mybooks_data["search_book"],
+            book_state : mybooks_data["book_state"],
+            book_order : mybooks_data["book_order"]
         },
         success: function(result) {
             
@@ -37,16 +37,16 @@ $(document).ready(function() {
     
     $(".btn_filter_selector").click(function(e) {
         e.preventDefault();
-        catalog_data["book_self"] = $(this).attr('name');
+        mybooks_data["book_state"] = $(this).attr('name');
         $(".btn_filter_selector").removeClass("active");
         $(this).addClass("active");
         $('#catalog_book_title').empty().append($(this).val());
-        send_catalog_ajax();
+        send_mybook_ajax();
     });
     $('#exampleFormControlInput1').keypress(function(e){
         if(e.which == 13){
-            catalog_data["search_book"] =  $('#exampleFormControlInput1').val();
-            send_catalog_ajax();
+            mybooks_data["search_book"] =  $('#exampleFormControlInput1').val();
+            send_mybook_ajax();
         }
     });
     $("#menu-toggle").click(function(e) {

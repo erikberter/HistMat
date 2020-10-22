@@ -7,10 +7,14 @@ from apps.Biblio.models import Book, Author, BookUserDetail
 
 from apps.Biblio.views import catalog, book_detail
 
-DEFAULT_CATALOG_DATA = {
+
+DEFAULT_MYBOOKS_DATA = {
     "search_book" : "",
-    "book_self" : "public",
-    "book_order" : "last_added"}
+    "book_state" : "want_to_read",
+    "book_order" : "last_added"
+    }
+
+AYAX_COM = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
 
 class BiblioViewTest(TestCase):
     def setUp(self):
@@ -20,77 +24,113 @@ class BiblioViewTest(TestCase):
         self.user_2 = User.objects.create_user(username="test_2", password="test_pass_2")
 
         self.book_public_1 = Book.objects.create(title="test_book_public_1", npages=200, visibility="public")
-        self.book_public_1_BUD = BookUserDetail.objects.create(user = self.user, book=self.book_public_1)
+        self.book_public_1_BUD = BookUserDetail.objects.create(user = self.user, book=self.book_public_1, book_state="want_to_read")
 
         self.book_private_1 = Book.objects.create(title="test_private_book_1", npages=201, visibility="private")
-        self.book_private_1_BUD = BookUserDetail.objects.create(user = self.user, book=self.book_private_1)
+        self.book_private_1_BUD = BookUserDetail.objects.create(user = self.user, book=self.book_private_1, book_state="want_to_read")
+
+        self.book_private_1_r = Book.objects.create(title="test_private_book_1_r", npages=201, visibility="private")
+        self.book_private_1_r_BUD = BookUserDetail.objects.create(user = self.user, book=self.book_private_1_r, book_state="reading")
 
         self.book_private_2_u = Book.objects.create(title="test_private_book_2", npages=202, visibility="private")
-        self.book_private_2_u_BUD = BookUserDetail.objects.create(user = self.user_2, book=self.book_private_2_u)
+        self.book_private_2_u_BUD = BookUserDetail.objects.create(user = self.user_2, book=self.book_private_2_u, book_state="want_to_read")
 
         self.book_public_3_u = Book.objects.create(title="test_public_book_3", npages=202, visibility="public")
-        self.book_public_3_u_BUD = BookUserDetail.objects.create(user = self.user_2, book=self.book_public_3_u)
+        self.book_public_3_u_BUD = BookUserDetail.objects.create(user = self.user_2, book=self.book_public_3_u, book_state="want_to_read")
 
     
 
-    ## CATALOG VIEW ##
+    ## catalog VIEW ##
 
-    def test_catalog_on_user_returns_code_200(self):
-        response = self.client.get('/biblio/catalog')
+    def test_catalog_public_returns_200(self):
+        response = self.client.get('/biblio/public/catalog')
         self.assertEqual(response.status_code, 200)
-
-    def test_catalog_on_anonymous_user_returns_code_200(self):
-        request = self.factory.get('/biblio/catalog')
+    
+    def test_catalog_public_on_anonymous_user_returns_code_200(self):
+        request = self.factory.get('/biblio/public/catalog')
         request.user = AnonymousUser()
         response = catalog(request)
         self.assertEqual(response.status_code, 200)
 
-    ## PUBLIC ##
-
     def test_catalog_public_on_user_contains_public_books(self):
-        response = self.client.post('/biblio/catalog', DEFAULT_CATALOG_DATA, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        response = self.client.get('/biblio/public/catalog')
         self.assertContains(response,self.book_public_1.title)
         self.assertContains(response,self.book_public_3_u.title)
     
     def test_catalog_public_on_anonymous_contains_public_book(self):
-        request = self.factory.post('/biblio/catalog', DEFAULT_CATALOG_DATA, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        request = self.factory.get('/biblio/public/catalog')
         request.user = AnonymousUser()
         response = catalog(request)
 
         self.assertContains(response,self.book_public_1.title)
         self.assertContains(response,self.book_public_3_u.title)
 
+    def test_catalog_public_contains_book_url(self):
+        response = self.client.get('/biblio/public/catalog')
+        self.assertContains(response,self.book_public_1.get_absolute_url())
+
+    def test_catalog_public_not_contains_private_book(self):
+        response = self.client.get('/biblio/public/catalog')
+
+        self.assertNotIn(self.book_private_1.title, response.content.decode())
+        self.assertNotIn(self.book_private_2_u.title, response.content.decode())
+
     def test_catalog_public_on_anonymous_not_contains_private_book(self):
-        request = self.factory.post('/biblio/catalog', DEFAULT_CATALOG_DATA, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+        request = self.factory.get('/biblio/public/catalog')
         request.user = AnonymousUser()
         response = catalog(request)
 
         self.assertNotIn(self.book_private_1.title, response.content.decode())
         self.assertNotIn(self.book_private_2_u.title, response.content.decode())
 
-    def test_catalog_want_to_read_on_user_contains_own_private_book(self):
-        catalog_data = DEFAULT_CATALOG_DATA.copy()
-        catalog_data['book_self'] = "want_to_read"
-        response = self.client.post('/biblio/catalog', catalog_data, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
-        self.assertIn(self.book_private_1.title, response.content.decode())
-
-    def test_catalog_on_user_not_contains_other_private_book(self):
-        catalog_data = DEFAULT_CATALOG_DATA.copy()
-        catalog_data['book_self'] = "want_to_read"
-        response = self.client.post('/biblio/catalog', catalog_data, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
-        self.assertNotIn(self.book_private_2_u.title, response.content.decode())
-
-
     def test_catalog_returns_correct_html(self):
-        response = self.client.get('/biblio/catalog')
+        response = self.client.get('/biblio/public/catalog')
 
         self.assertTemplateUsed(response, 'Biblio/catalog.html')
         self.assertTemplateUsed(response, 'base.html')
 
-    def test_book_url_in_catalog_html(self):
-        response = self.client.post('/biblio/catalog', DEFAULT_CATALOG_DATA, **{'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'})
+    ###  MYBOOKS ###
+    ### We won't check for anonymous users since we have the Django login_required decorator
+    ### All the tests happend with a logged client
+
+    def test_mybooks_returns_200(self):
+        response = self.client.get('/biblio/mybooks')
+        self.assertEqual(response.status_code, 200)
+
+    def test_mybooks_contains_own_public_book(self):
+        response = self.client.post('/biblio/mybooks', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
+        self.assertIn(self.book_public_1.title, response.content.decode())
+
+    def test_mybooks_contains_own_private_book(self):
+        response = self.client.post('/biblio/mybooks', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
+        self.assertIn(self.book_private_1.title, response.content.decode())
+
+    def test_mybooks_not_contains_other_private_book(self):
+        response = self.client.post('/biblio/mybooks', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
+        self.assertNotIn(self.book_private_2_u.title, response.content.decode())
+
+    def test_mybooks_not_contains_other_public_book(self):
+        response = self.client.post('/biblio/mybooks', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
+        self.assertNotIn(self.book_public_3_u.title, response.content.decode())
+
+    def test_mybooks_on_want_to_read_not_contains_reading_book(self):
+        response = self.client.post('/biblio/mybooks', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
+        self.assertNotIn(self.book_private_1_r.title, response.content.decode())
+
+
+    def test_mybooks_returns_correct_html(self):
+        response = self.client.get('/biblio/mybooks')
+
+        self.assertTemplateUsed(response, 'Biblio/mybooks.html')
+        self.assertTemplateUsed(response, 'base.html')
+    
+    def test_mybooks_conatins_book_url(self):
+        response = self.client.post('/biblio/mybooks', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
         self.assertContains(response, self.book_public_1.get_absolute_url())
-        self.assertContains(response,self.book_public_3_u.get_absolute_url())
+        self.assertContains(response, self.book_private_1.get_absolute_url())
+
+
+
 
     ###  BOOK_DETAIL VIEW  ###
 

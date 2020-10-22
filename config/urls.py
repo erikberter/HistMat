@@ -25,5 +25,6 @@ urlpatterns = [
     path('biblio/', include('apps.Biblio.urls', namespace='post')),
     path('', include('apps.Users.urls', namespace='users')),
     path('', include('apps.Layout.urls', namespace='layout')),
+    path('trivia/', include('apps.Trivia.urls', namespace='trivia')),
     path('', include('social_django.urls', namespace='social')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

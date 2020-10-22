@@ -1,5 +1,6 @@
 <li class="card  p-2 m-2"> 
 <div style="max-width: 150px;">
+    
     <a href="{{ book.get_absolute_url }}">
     {% if book.cover %}
         <img src="{{book.cover.url}}" alt="{{book.title}} cover" style="width:150px;">
@@ -8,32 +9,9 @@
     {% endif %}
         
             <p>{{book.title}}</p>
-        </a>
-        <p>{{book.author}}</p>
-
-        {%load book_access%}
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle book_state_button" b_id={{book.id}} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                
-                {% if user.is_authenticated %}
-                    {% is_book_in_user user book as book_flag %}
-                    {% if book_flag %}
-                        {% get_book_state user book %}
-                    {% else %}
-                        Add Book
-                    {% endif %}
-                {% else %}
-                    Add Book
-                {% endif %}
-                
-            </button>
-            <div class="dropdown-menu" aria-labelledby="book_state_button">
-                <input type="button" class="dropdown-item book_state_form_field" b_id="{{book.id}}" value="Want to Read" >
-                <input type="button" class="dropdown-item book_state_form_field" b_id="{{book.id}}" value="Reading" >
-                <input type="button" class="dropdown-item book_state_form_field" b_id="{{book.id}}" value="Read">
-            </div>
-            </div>
+    </a>
+    <p>{{book.author}}</p>
+    {% include 'Biblio/widgets/self_dropdown.html' with book=book%}
         
-
 </div>
 </li>

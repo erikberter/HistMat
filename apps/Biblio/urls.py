@@ -5,7 +5,7 @@ from django.conf import settings
 app_name = 'biblio'
 
 urlpatterns = [
-    path('catalog/public', views.public_catalog, name='public_catalog'),
+    path('public/catalog', views.catalog, name='public_catalog'),
     path('mybooks', views.mybooks, name='mybooks'),
 
     path('catalog/state_change', views.book_state_change, name='book_state_change'),

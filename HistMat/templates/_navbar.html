@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light m-0 shadow">
     <div class="d-flex" id="navbar-logo">
-        <a href="/" class="navbar-brand font-weight-bold" style ="font-size: 3rem;">
+        <a href="/" class="navbar-brand font-weight-bold" style ="font-size: 2.5rem;">
             HistMat
         </a>
     </div>
@@ -12,7 +12,7 @@
             </li>
             {% if user.is_authenticated%}
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'biblio:catalog'%}">My Books</a>
+                <a class="nav-link active" href="{% url 'biblio:mybooks'%}">My Books</a>
             </li>
             {% endif %}
             <li class="nav-item">

@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block js%}
-    <script src="{% static 'js/Biblio/catalog.js' %}"> </script>
+    <script src="{% static 'js/Biblio/mybooks.js' %}"> </script>
     <script src="{% static 'js/Biblio/book_public.js' %}"> </script>
 {% endblock %}
 
@@ -17,14 +17,14 @@
 <div class="p-0 m-0">
     <div class="wrapper d-flex align-items-stretch" id="wrapper"> 
         <div>
-            {% include 'Biblio/_catalog_sidebar.html'%}
+            {% include 'Biblio/_filter_sidebar.html'%}
         </div>
         <div class="p-5 w-100">
             <div>
                 <div>
                     <button class="btn btn-primary py-2" id="menu-toggle">Filter Menu</button>
                     <a href="{% url 'biblio:book_create'%}"><div class="btn btn-success"> Create Book</div></a>
-                    <h1 id="catalog_book_title">{{book_self_name}}</h1>
+                    <h1 id="catalog_book_title">{{book_state_name}}</h1>
                 </div>
                 <div id="catalog_book_window" class="container-fluid">
                     {% include 'Biblio/_books.html' with books=books %}
