@@ -3,12 +3,46 @@
 {% block title%} HistMat | Public catalog {% endblock %}
 
 {% load static %}
-{% block js%}
-    <script src="{% static 'js/Biblio/widgets.js' %}"> </script>
+
+{% block js%}    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/shortcuts/infinite.min.js'></script>
 {% endblock %}
 
 
+
+
 {%block content%}
-    {% include "Biblio/_infinite_books.html" with books=books %}
+<div class="container">
+    <div class="row infinite-container">
+        {% for book in books %}
+            {% include 'Biblio/_book.html'%}
+        {% endfor %}
+    </div>
+    {% if page_obj.has_next %}
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+    {% endif %}
+    <div class="d-flex justify-content-center loading" style="display:none;">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+
+<script>
+ $(document).ready( function() {
+        var infinite = new Waypoint.Infinite({
+            element: $('.infinite-container')[0],
+            onBeforePageLoad: function () {
+                $('.loading').show();
+            },
+            onAfterPageLoad: function ($items) {
+                $('.loading').hide();
+            }
+            });
+    });
+    
+</script>
+    
 {%endblock%}
 

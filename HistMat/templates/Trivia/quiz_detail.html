@@ -5,6 +5,6 @@
     
     <p> {{quiz.name}}</p>
     <p> {{quiz.user.username}} </p>
-
+    <a href="{% url 'trivia:quiz' quiz.pk%}"><div>GOTO</div></a>
 </div>
 {% endblock %}

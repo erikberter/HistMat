@@ -1,8 +1,13 @@
-
+import random
+import string
 
 def tuple_find(tuple_pair, key):
-    res = [y for (x, y) in tuple_pair if x == key]
-    if res:
-        return res[0]
-    else:
+    try:
+        return dict(tuple_pair)[key]
+    except:
         return None
+
+def get_random_string(length):
+    letters = string.ascii_lowercase
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    return result_str

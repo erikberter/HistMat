@@ -5,7 +5,7 @@ from django.test.client import Client
 
 from apps.Biblio.models import Book, Author, BookUserDetail
 
-from apps.Biblio.views import catalog, book_detail
+from apps.Biblio.views import CatalogView, book_detail
 
 
 DEFAULT_MYBOOKS_DATA = {
@@ -49,7 +49,7 @@ class BiblioViewTest(TestCase):
     def test_catalog_public_on_anonymous_user_returns_code_200(self):
         request = self.factory.get('/biblio/public/catalog')
         request.user = AnonymousUser()
-        response = catalog(request)
+        response = CatalogView.as_view()(request)
         self.assertEqual(response.status_code, 200)
 
     def test_catalog_public_on_user_contains_public_books(self):
@@ -60,7 +60,7 @@ class BiblioViewTest(TestCase):
     def test_catalog_public_on_anonymous_contains_public_book(self):
         request = self.factory.get('/biblio/public/catalog')
         request.user = AnonymousUser()
-        response = catalog(request)
+        response = CatalogView.as_view()(request)
 
         self.assertContains(response,self.book_public_1.title)
         self.assertContains(response,self.book_public_3_u.title)
@@ -78,10 +78,11 @@ class BiblioViewTest(TestCase):
     def test_catalog_public_on_anonymous_not_contains_private_book(self):
         request = self.factory.get('/biblio/public/catalog')
         request.user = AnonymousUser()
-        response = catalog(request)
+        response = CatalogView.as_view()(request)
 
-        self.assertNotIn(self.book_private_1.title, response.content.decode())
-        self.assertNotIn(self.book_private_2_u.title, response.content.decode())
+        self.assertNotContains(response,self.book_private_1.title)
+        self.assertNotContains(response,self.book_private_2_u.title)
+
 
     def test_catalog_returns_correct_html(self):
         response = self.client.get('/biblio/public/catalog')
@@ -124,7 +125,7 @@ class BiblioViewTest(TestCase):
         self.assertTemplateUsed(response, 'Biblio/mybooks.html')
         self.assertTemplateUsed(response, 'base.html')
     
-    def test_mybooks_conatins_book_url(self):
+    def test_mybooks_contains_book_url(self):
         response = self.client.post('/biblio/mybooks', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
         self.assertContains(response, self.book_public_1.get_absolute_url())
         self.assertContains(response, self.book_private_1.get_absolute_url())

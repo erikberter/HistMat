@@ -2,7 +2,9 @@
 
 {% load static %}
 {% block js%}
-    <script src="{% static 'js/Biblio/widgets.js' %}"> </script>
+
+    {% csrf_token %}
+    <script type="text/javascript">     window.CSRF_TOKEN = "{{ csrf_token }}"; </script> 
 {% endblock %}
 
 {% block content %}

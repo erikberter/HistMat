@@ -1,0 +1,7 @@
+<div id="{{ div_id }}">
+    <h1 id="catalog_book_title">{{shelf_title}}</h1>
+    <div id="catalog_book_window" class="container-fluid">
+        {% include 'Biblio/_books.html' with books=books id_name=shelf_sortable shelf_name=shelf_title %}
+    </div>
+
+</div>

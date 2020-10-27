@@ -36,6 +36,9 @@ def custom_populate(instance):
         return f"{instance.title}_anonymous"
     return f"{instance.title}_{instance.author.name}"
 
+class PublicBookManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(visibility='public')
 
 class Book(models.Model):
     VISIBILITY_CHOICES = (
@@ -62,6 +65,10 @@ class Book(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    
+    objects = models.Manager()
+    public = PublicBookManager()
 
     class Meta:
         ordering = ['id']

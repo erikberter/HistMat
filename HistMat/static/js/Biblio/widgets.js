@@ -19,7 +19,7 @@ function send_change_state_ajax(){
         dataType:'json',
         data: { 
             book_state : catalog_data_s['book_state'],
-            
+            csrfmiddlewaretoken: window.CSRF_TOKEN,
             book_pk : catalog_data_s['book_pk']
         },
         success: function(result) {

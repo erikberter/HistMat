@@ -1,8 +1,58 @@
 {% extends 'base.html'%}
 
+{% block js %}
+<script>
+
+    function send_get_question_ajax(){
+        $.ajax({
+            type: "POST",
+            url: "/trivia/quiz/{{quiz.pk}}/question/"+number_question+"/",
+            data: { 
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(result) {
+                
+                $('#question').empty();
+                $('#question').append(result);
+                number_question+=1;
+                
+            },
+            error: function(result) {
+                alert('error');
+            }
+        }); 
+    };
+
+    
+    
+    var number_question = 0;
+    
+    $(document).ready(function() {
+        $('#question-next').click( function(e){
+            e.preventDefault();
+            send_get_question_ajax();
+        });
+    });
+    
+    
+    </script>
+{% endblock %}
 
 {% block content %}
 <p>{{quiz.name}}</p>
+
+<div id="question">
+<div id="answer-tt"></div>
+</div>
+<div>
+    <form>
+
+        {% csrf_token %}
+        <input id="question-next" type="button" value="next">
+    </form>
+    
+</div>
+
 
 
 {%endblock%}

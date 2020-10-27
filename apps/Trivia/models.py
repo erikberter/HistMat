@@ -25,6 +25,8 @@ class Quiz(models.Model):
     def get_questions_url(self):
         return reverse('trivia:quiz',args=[self.pk])
 
+
+
 class Question(models.Model):
     question = models.CharField(max_length = 255)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
@@ -38,7 +40,7 @@ class Question(models.Model):
         return reverse('trivia:question',args=[self.quiz.pk, self.pk])
 
     def __str__(self):
-        return str(self.pk)
+        return self.question
 
     #https://stackoverflow.com/questions/5225556/determining-django-model-instance-types-after-a-query-on-a-base-class
     def cast(self):

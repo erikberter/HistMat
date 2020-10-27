@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'apps.Trivia',
 
     'bootstrap4',
+    'django_static_jquery_ui',
     'autoslug',
     'taggit',
     'crispy_forms',

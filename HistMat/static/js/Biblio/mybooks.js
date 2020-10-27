@@ -1,9 +1,10 @@
 
 var mybooks_data = {
     "search_book" : "",
-    "book_state" : "reading",
+    "book_state" : "",
     "book_order" : "last_added"
 }
+
 
 $(document).ready(function(){
     $('#catalog_book_title').empty().append("Reading");
@@ -18,12 +19,11 @@ function send_mybook_ajax(){
         data: { 
             search_book : mybooks_data["search_book"],
             book_state : mybooks_data["book_state"],
-            book_order : mybooks_data["book_order"]
+            book_order : mybooks_data["book_order"],
+            csrfmiddlewaretoken: window.CSRF_TOKEN
         },
         success: function(result) {
-            
-            $('#catalog_book_window').empty();
-            $('#catalog_book_window').append(result);
+            $('#book-to-add').append(result);
             
         },
         error: function(result) {
@@ -32,16 +32,52 @@ function send_mybook_ajax(){
     }); 
 }
 
+function refreshSortable(){
+    var selected = [];
+        $('.cb_filter_selector:checked').each(function() {
+            selected.push("#Sortable" + $(this).val());
+        });
+        alert(selected.join());
+$(selected.join() ).sortable({
+        connectWith: ".connectedSortable",
+        receive: function( event, ui ) {
+            let book_state = $(this).attr('shelf_name');
+            let bookPK = ui.item.attr('b_id');
+            
+            $.ajax({
+                type: "POST",
+                url: "/biblio/catalog/state_change",
+                dataType:'json',
+                data: { 
+                    book_state : book_state,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    book_pk : bookPK
+                },
+                error: function(result) {
+                    alert('error');
+                }
+            });
+        }
+        }).disableSelection();
+    
+}
 
 $(document).ready(function() {
     
-    $(".btn_filter_selector").click(function(e) {
+    $(".cb_filter_selector").change(function(e) {
         e.preventDefault();
-        mybooks_data["book_state"] = $(this).attr('name');
-        $(".btn_filter_selector").removeClass("active");
-        $(this).addClass("active");
-        $('#catalog_book_title').empty().append($(this).val());
-        send_mybook_ajax();
+        
+        if(this.checked) {
+            mybooks_data["book_state"] = $(this).val();
+            send_mybook_ajax();
+            $(this).prop('checked',true);
+        }else{
+            $('#Container'+$(this).val()).remove();
+            $(this).prop('checked',false);
+        }
+        refreshSortable();
+        //$('#catalog_book_title').empty().append($("label[for="+$(this).attr("id") + "]").text());
+        
     });
     $('#exampleFormControlInput1').keypress(function(e){
         if(e.which == 13){

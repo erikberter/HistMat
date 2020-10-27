@@ -1,6 +1,5 @@
 <div class="bg-white border-right" id="sidebar-wrapper">
     <!-- TODO make default settings by cookies-->
-
     <h3 class="font-weight-bold text-center">catalog Options </h3>
 
     
@@ -17,10 +16,20 @@
      <div>
       <h4 class="px-3"> State Filter </h4>
       
-      <div class="d-flex flex-column p-2">
-        <input type="button" class="btn_filter_selector btn btn-light" name="want_to_read" value="Want to Read">
-        <input type="button" class="btn_filter_selector btn btn-light" name="reading" value="Reading">  
-        <input type="button" class="btn_filter_selector btn btn-light" name="read" value="Read"> 
+      <div id="book-state-cb" class="d-flex flex-column p-2">
+        <div>
+          <input type="checkbox" class="cb_filter_selector" value="want_to_read" id="cb-want-to-read">
+          <label for="cb-want-to-read"> Want to Read</label><br>
+        </div>
+        <div>
+          <input type="checkbox" class="cb_filter_selector" value="reading" id="cb-reading">
+          <label for="cb-reading"> Reading</label><br>
+        </div>
+        <div>
+          <input type="checkbox" class="cb_filter_selector" value="read" id="cb-read">
+          <label for="cb-read"> Read</label><br>
+        </div>
+        
         
         
       </div>

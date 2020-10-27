@@ -109,14 +109,15 @@ class QuizModels(TestCase):
         data = DEFAULT_QUIZ_DATA.copy()
         data["quiz_pk"] = self.quiz_1.pk
         data["question_number"] = 0
-        response = self.client.post('/trivia/quiz/question/', data, **AYAX_COM)
+
+        response = self.client.post(f'/trivia/quiz/{self.quiz_1.pk}/questions/', data, **AYAX_COM)
         self.assertContains(response, self.mc_question_1_quiz_1.question)
         print(response.content.decode())
         self.assertContains(response, self.mc_question_1_quiz_1_answer_1.answer)
         self.assertContains(response, self.mc_question_1_quiz_1_answer_2.answer)
 
         data["question_number"] = 1
-        response = self.client.post('/trivia/quiz/question/', data, **AYAX_COM)
+        response = self.client.post(f'/trivia/quiz/{self.quiz_1.pk}/questions/', data, **AYAX_COM)
         self.assertContains(response, self.textquestion_2_quiz_1.question)
 
     def test_quiz_returns_only_one_questions(self):
