@@ -1,14 +1,15 @@
-<li class="card  p-2 m-2 draggable infinite-item" b_id="{{book.pk}}"> 
+<li class="card  p-2 m-2 draggable infinite-item" b_slug="{{book.slug}}"> 
     <div style="max-width: 150px;">
     
     <a href="{{ book.get_absolute_url }}">
-    {% if book.cover %}
-        <img src="{{book.cover.url}}" alt="{{book.title}} cover" style="width:150px;">
-    {% else %}
-        <p> No hay imagen </p>
-    {% endif %}
-        
-            <p>{{book.title}}</p>
+        {% if book.cover %}
+            <img src="{{book.cover.url}}" alt="{{book.title}} cover" style="width:150px;">
+        {% else %}
+            {% load static %}
+            <img src="/HistMat/media/no_image.jpg" alt="{{book.title}} cover" style="width:150px;">
+        {% endif %}
+            
+        <p>{{book.title}}</p>
     </a>
     <!--<p>{{book.author}}</p>
     {% include 'Biblio/widgets/self_dropdown.html' with book=book%}-->

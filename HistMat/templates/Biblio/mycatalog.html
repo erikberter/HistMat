@@ -11,7 +11,8 @@
     {% csrf_token %}
     <script type="text/javascript">     window.CSRF_TOKEN = "{{ csrf_token }}"; </script> 
     <script src="{% static 'js/Biblio/widgets.js' %}"> </script>
-    <script src="{% static 'js/Biblio/mybooks.js' %}"> </script>
+    <script src="{% static 'js/Biblio/general.js' %}"> </script>
+    <script src="{% static 'js/Biblio/mycatalog.js' %}"> </script>
     <script src="{% static 'js/Biblio/book_public.js' %}"> </script>
 {% endblock %}
 

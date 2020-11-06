@@ -1,5 +1,5 @@
-<div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle book_state_button" b_id={{book.id}} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<div id="book_state_dropdown" class="dropdown w-100">
+    <button id="book_state_button" class="btn btn-secondary dropdown-toggle w-100" b_slug={{book.slug}} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {%load book_access%}
         {% if user.is_authenticated %}
             {% is_book_in_user user book as book_flag %}
@@ -13,9 +13,9 @@
         {% endif %}
         
     </button>
-    <div class="dropdown-menu" aria-labelledby="book_state_button">
-        <input type="button" class="dropdown-item book_state_form_field" b_id="{{book.id}}" value="Want to Read" >
-        <input type="button" class="dropdown-item book_state_form_field" b_id="{{book.id}}" value="Reading" >
-        <input type="button" class="dropdown-item book_state_form_field" b_id="{{book.id}}" value="Read">
+    <div class="dropdown-menu w-100" aria-labelledby="book_state_button">
+        <input type="button" class="dropdown-item" value="Want to Read" >
+        <input type="button" class="dropdown-item" value="Reading" >
+        <input type="button" class="dropdown-item" value="Read">
     </div>
 </div>

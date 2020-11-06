@@ -1,65 +1,95 @@
 {% extends 'base.html' %}
 
+
+{%block title%}
+HistMat | {{book.title}}
+{% endblock %}
 {% load static %}
 {% block js%}
 
     {% csrf_token %}
     <script type="text/javascript">     window.CSRF_TOKEN = "{{ csrf_token }}"; </script> 
+    <script src="{% static 'js/Biblio/general.js' %}"> </script>
+    <script src="{% static 'js/Biblio/widgets.js' %}"> </script>
 {% endblock %}
 
 {% block content %}
-    <div class="card container-lg bg-light mt-5 shadow py-2 px-4">
+<div class="p-5">
+    <div class="card container-fluid bg-light shadow p-5">
         <div class="row">
-
-            <div class="col">
+            <!-- Left Sector -->
+            <div class="col-3">
                 <div class="row">
                     {%if book.cover%}
                      <img src="{{book.cover.url}}" alt="{{book.title}} cover">
                     {%endif%}
                 </div>
-                <div class="row">
-                    <div class="col">
-                        {% if book.book_file%}
-                            <a class="btn btn-success" href="{{book.book_file.url}}"> Book File </a>
-                        {% else %}
-                            <a class="btn btn-success disabled" > Book File </a>
-                        {% endif %}
-                    </div>
-                    <div class="col">
-                        {% include 'Biblio/widgets/self_dropdown.html' with book=book%}
-                    </div>
+                <div class="row pt-2">
+                    {% if book.book_file%}
+                        <a class="btn w-100 btn-success" href="{{book.book_file.url}}"> Book File </a>
+                    {% else %}
+                        <a class="btn w-100 btn-success disabled" > Book File </a>
+                    {% endif %}
                 </div>
             </div>
-            <div class="col">
+
+            <!-- Middle Sector -->
+            <div class="col-7">
                 <h1>{{book.title}}</h1>
                 <p> Escrito por {{book.author}}</p>
                 <p> {{book.description}}</p>
 
-                <div class="card" id="book-detail-data">
+                <div class="card">
                     <p> {{book.npages}} paginas</p>
                 </div>
-
-                
-                {% if user.is_authenticated %}
-                    {%load book_access%}
-                    {% is_book_in_user user book as book_flag %}
-                    {% is_book_act_page_in_user user book as act_book_page %}
-                    {% if book_flag %}
-                    <div class="card" id="book-detail-data">
-
-                        <p> Vas por la página {{act_book_page}}</p>
-                    </div>
+            </div>
+            <!-- Right Sector -->
+            <div class="col-2">
+                <div class="row">
+                    {% if book.creator == request.user%}
+                        <a class="btn btn-primary w-100" href = "{% url 'biblio:book_update' slug=book.slug %}">Update Book</a>
                     {% endif %}
-                {% endif %}
-                
-                    
-                
+                </div>
+                <div class="row">
+                    {% include 'Biblio/widgets/self_dropdown.html' with book=book%}
+                </div>
+                <div class="row">
+                    {% if user.is_authenticated %}
+                        {%load book_access%}
+                        {% is_book_in_user user book as book_user_related %}
+
+                        {% if book_user_related %}
+                        <form method="POST" action="?">
+                            {%csrf_token%}
+                            <input type="radio" id="male" name="rating_v" value="1">
+                            <label for="male">1</label><br>
+                            <input type="radio" id="female" name="rating_v" value="2">
+                            <label for="female">2</label><br>
+                            <input type="radio" id="other" name="rating_v" value="3">
+                            <label for="other">3</label>
+                            <input type="submit" value="Enviar">
+                        </form>
+                        {% endif %}
+                    {% endif %}
+                    <!-- Rating -->
+                    El libro tiene una puntuación de {{ rating.total }}.
+                </div>
+                <div class="row">
+                    {% if user.is_authenticated %}
+                        {%load book_access%}
+                        {% is_book_in_user user book as book_user_related %}
+
+                        {% if book_user_related %}
+                            {% is_book_act_page_in_user user book as act_book_page %}
+                            <p> Vas por la página {{act_book_page}}</p>
+                        {% endif %}
+                    {% endif %}
+                </div>
             </div>
             
             
             
         </div>
     </div>    
-
-
+</div>
 {% endblock %}

@@ -94,39 +94,39 @@ class BiblioViewTest(TestCase):
     ### We won't check for anonymous users since we have the Django login_required decorator
     ### All the tests happend with a logged client
 
-    def test_mybooks_returns_200(self):
-        response = self.client.get('/biblio/mybooks')
+    def test_mycatalog_returns_200(self):
+        response = self.client.get('/biblio/mycatalog')
         self.assertEqual(response.status_code, 200)
 
-    def test_mybooks_contains_own_public_book(self):
-        response = self.client.post('/biblio/mybooks', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
+    def test_mycatalog_contains_own_public_book(self):
+        response = self.client.post('/biblio/mycatalog', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
         self.assertIn(self.book_public_1.title, response.content.decode())
 
-    def test_mybooks_contains_own_private_book(self):
-        response = self.client.post('/biblio/mybooks', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
+    def test_mycatalog_contains_own_private_book(self):
+        response = self.client.post('/biblio/mycatalog', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
         self.assertIn(self.book_private_1.title, response.content.decode())
 
-    def test_mybooks_not_contains_other_private_book(self):
-        response = self.client.post('/biblio/mybooks', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
+    def test_mycatalog_not_contains_other_private_book(self):
+        response = self.client.post('/biblio/mycatalog', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
         self.assertNotIn(self.book_private_2_u.title, response.content.decode())
 
-    def test_mybooks_not_contains_other_public_book(self):
-        response = self.client.post('/biblio/mybooks', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
+    def test_mycatalog_not_contains_other_public_book(self):
+        response = self.client.post('/biblio/mycatalog', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
         self.assertNotIn(self.book_public_3_u.title, response.content.decode())
 
-    def test_mybooks_on_want_to_read_not_contains_reading_book(self):
-        response = self.client.post('/biblio/mybooks', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
+    def test_mycatalog_on_want_to_read_not_contains_reading_book(self):
+        response = self.client.post('/biblio/mycatalog', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
         self.assertNotIn(self.book_private_1_r.title, response.content.decode())
 
 
-    def test_mybooks_returns_correct_html(self):
-        response = self.client.get('/biblio/mybooks')
+    def test_mycatalog_returns_correct_html(self):
+        response = self.client.get('/biblio/mycatalog')
 
-        self.assertTemplateUsed(response, 'Biblio/mybooks.html')
+        self.assertTemplateUsed(response, 'Biblio/mycatalog.html')
         self.assertTemplateUsed(response, 'base.html')
     
-    def test_mybooks_contains_book_url(self):
-        response = self.client.post('/biblio/mybooks', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
+    def test_mycatalog_contains_book_url(self):
+        response = self.client.post('/biblio/mycatalog', DEFAULT_MYBOOKS_DATA, **AYAX_COM)
         self.assertContains(response, self.book_public_1.get_absolute_url())
         self.assertContains(response, self.book_private_1.get_absolute_url())
 

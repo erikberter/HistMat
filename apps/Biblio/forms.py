@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, Form
 from apps.Biblio.models import Book
 
 class BookCreateForm(ModelForm):
@@ -9,3 +9,4 @@ class BookCreateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
         super(BookCreateForm, self).__init__(*args, **kwargs)
+

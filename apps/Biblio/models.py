@@ -7,9 +7,6 @@ from django.contrib.auth.models import User
 from autoslug import AutoSlugField
 from taggit.managers import TaggableManager
 
-
-
-
 # https://stackoverflow.com/questions/849142/how-to-limit-the-maximum-value-of-a-numeric-field-in-a-django-model
 class IntegerRangeField(models.IntegerField):
     def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
@@ -48,7 +45,7 @@ class Book(models.Model):
     )
 
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(default="", blank=True)
     author= models.ForeignKey(Author, on_delete=models.CASCADE,null=True, blank=True, default=None)
 
     slug = AutoSlugField(max_length=100, unique_with=('title','author'), populate_from=custom_populate)
@@ -59,7 +56,8 @@ class Book(models.Model):
     book_file = models.FileField(upload_to='biblio/books/docs/', null=True, blank=True, default=None)
     cover = models.ImageField(upload_to='biblio/books/covers/', null=True, blank=True)
     
-    users = models.ManyToManyField(User, through='BookUserDetail')
+    users = models.ManyToManyField(User, through='BookUserDetail', related_name='users')
+    creator = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, default=None)
 
     visibility  = models.CharField(max_length = 35, choices = VISIBILITY_CHOICES, default = 'private')
 
@@ -71,15 +69,17 @@ class Book(models.Model):
     public = PublicBookManager()
 
     class Meta:
-        ordering = ['id']
+        ordering = ['updated']
 
     def __str__(self):
         return self.slug
     
     def get_absolute_url(self):
         return reverse('biblio:book_detail',args=[self.slug])
-    
 
+
+class BookRating(models.Model):
+    rating =  IntegerRangeField(min_value=1, max_value=10, default=5)
 
 class BookUserDetail(models.Model):
     BOOK_STATE = (
@@ -93,11 +93,14 @@ class BookUserDetail(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-
+    rating = models.ForeignKey(BookRating, null=True, blank=True, on_delete=models.CASCADE)
     book_state =  models.CharField(max_length = 20, choices = BOOK_STATE, default = 'want_to_read')
     act_page = models.IntegerField(default=0)
-    rating =  IntegerRangeField(min_value=1, max_value=10, default=5)
+    
 
     tags = TaggableManager()
 
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.__str__() + self.book.__str__()
