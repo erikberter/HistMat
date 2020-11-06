@@ -8,4 +8,5 @@ app_name = 'users'
 
 urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view() , name='logout'),
+    path('user_detail/', views.user_detail, name='user_detail')
 ]

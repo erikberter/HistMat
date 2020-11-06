@@ -4,6 +4,8 @@ from django.urls import reverse
 
 import abc
 
+from django.conf import settings
+
 
 class Quiz(models.Model):
 
@@ -14,7 +16,7 @@ class Quiz(models.Model):
 
     name = models.CharField(max_length = 255)
     status =  models.CharField(max_length = 25, choices = CHOICE_STATUS, default = 'draft')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
