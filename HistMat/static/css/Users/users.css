@@ -1,0 +1,52 @@
+
+.profile_container{
+    position: relative;
+    width: 250px;
+    height: 150px;
+}
+.star_photo{
+    position: absolute;
+    padding-left: 5px;
+    padding-top: 5px;
+    max-width: 70px;
+    max-height: 70px;
+}
+.level_num{
+    position: absolute;
+    padding-left: 20px;
+    padding-top: 30px;
+    width: 60px;
+    height: 60px;
+}
+.photo{
+    position: absolute;
+    padding-left: 30px;
+    padding-top: 25px;
+    max-width: 200px;
+    max-height: 200px;
+
+}
+
+.user_data{
+    position: relative;
+    top: 0px;
+    right: 0px;
+    z-index: -1;
+}
+
+.nickname{
+    position: absolute;
+    left: 250px;
+    top: 20px;
+    padding-left: 5px;
+}
+.profile_name_surname{
+    position: absolute;
+    top:140px;
+    padding-left: 20px;
+}
+.country{
+    position: absolute;
+    top:140px;
+    left:250px;
+}

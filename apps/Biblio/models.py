@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from autoslug import AutoSlugField
 from taggit.managers import TaggableManager
 
-
+from django.conf import settings
 
 
 # https://stackoverflow.com/questions/849142/how-to-limit-the-maximum-value-of-a-numeric-field-in-a-django-model
@@ -59,7 +59,7 @@ class Book(models.Model):
     book_file = models.FileField(upload_to='biblio/books/docs/', null=True, blank=True, default=None)
     cover = models.ImageField(upload_to='biblio/books/covers/', null=True, blank=True)
     
-    users = models.ManyToManyField(User, through='BookUserDetail')
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, through='BookUserDetail')
 
     visibility  = models.CharField(max_length = 35, choices = VISIBILITY_CHOICES, default = 'private')
 
@@ -91,7 +91,7 @@ class BookUserDetail(models.Model):
     BOOK_STATE_L = [t[0] for t in BOOK_STATE]
 
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
 
     book_state =  models.CharField(max_length = 20, choices = BOOK_STATE, default = 'want_to_read')

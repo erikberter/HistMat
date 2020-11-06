@@ -87,6 +87,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -167,3 +169,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'../' + PROJECT_NAME +'/media')
 MEDIA_URL = '/' + PROJECT_NAME +'/media/' 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+
+# User handling
+
+AUTH_USER_MODEL = 'Users.Profile'

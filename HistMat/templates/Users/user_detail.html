@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %} User Profile {% endblock title %}
+
+{% block css %}
+<link href="{% static 'css/Users/users.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+<div class = "container-fluid">
+    <p> Bienvenido {{user.get_full_name}}</p>
+    <div class= "row">
+
+        <!-- MENU -->
+        <div class = "col-md-1 mt-4">
+            <p>Menu</p>
+        </div>
+
+    
+        <!-- USER -->
+        {% if detail %}
+        <div class = "col-md-8 mt-4">
+            <div class = "card mb-4">
+                <div class = "profile_container">
+                    <div class = "profile_photo">
+                        <img class = "photo" src='/HistMat/media/{{detail.profile_image}}' alt= profile_image>
+                    </div>
+                    <div class = "level_star"> 
+                        <img class = "star_photo" src= "{% static 'img/star.png'%}">
+                        <div class ="level_num">
+                            <p> {{rol.level}} </p>
+                        </div>
+                    </div>
+                    
+                </div>
+                {% if rol %}
+                <div class = "nickname">
+                    <h1> {{user.get_username}}</h1>
+                    <strong> Rol: {{rol.kind_of_user}}</strong>
+                </div>
+                <div class= "profile_name_surname">
+                    <p> Nombre y Apellidos: {{user.get_full_name}} </p>
+                </div>
+                <div class = "country">
+                    <p> Pais: {{detail.country}} </p>
+                </div>
+                <div class = "study_center">
+                    <p> Centro de estudios: {{detail.study_center}}</p>
+                </div>
+                <div class = "profile_xp">
+                    <p> XP: {{rol.xp}}</p>
+                </div>
+                {% else %}
+                    <p> No hay rol</p>
+                {% endif %}
+
+            </div>
+        </div>
+        {% else %}
+            <p> datos vacios</p>
+        {% endif %}
+    
+        <!-- ACHIEVEMENTS -->
+        <div class = "col-md-3 float-right">
+            <p>Logros</p>
+        </div>
+        
+    </div>
+    
+</div>
+
+{% endblock %}
+
