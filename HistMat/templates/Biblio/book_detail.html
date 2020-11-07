@@ -4,6 +4,7 @@
 {%block title%}
 HistMat | {{book.title}}
 {% endblock %}
+
 {% load static %}
 {% block js%}
 
@@ -11,7 +12,9 @@ HistMat | {{book.title}}
     <script type="text/javascript">     window.CSRF_TOKEN = "{{ csrf_token }}"; </script> 
     <script src="{% static 'js/Biblio/general.js' %}"> </script>
     <script src="{% static 'js/Biblio/widgets.js' %}"> </script>
+    <script src="{% static 'js/Biblio/book_detail.js' %}"> </script>
 {% endblock %}
+
 
 {% block content %}
 <div class="p-5">
@@ -51,7 +54,7 @@ HistMat | {{book.title}}
                     {% endif %}
                 </div>
                 <div class="row">
-                    {% include 'Biblio/widgets/self_dropdown.html' with book=book%}
+                    {% include 'Biblio/widgets/shelf_dropdown_p.html' with book=book %}
                 </div>
                 <div class="row">
                     {% if user.is_authenticated %}

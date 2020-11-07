@@ -8,9 +8,7 @@ register = template.Library()
 @register.simple_tag
 def get_book_state(user, book):
     try:
-        book_ud = BookUserDetail.objects.get(
-                    Q(book=book) & Q(user = user) 
-                )
+        book_ud = BookUserDetail.objects.filter(book=book).get(user=user)
     except:
         return "None"
     state = BookUserDetail.BOOK_STATE_L.index(book_ud.book_state)
@@ -18,7 +16,6 @@ def get_book_state(user, book):
 
 @register.simple_tag
 def is_book_in_user(user, book):
-    
     try:
         book_ud_c = BookUserDetail.objects.filter(
             Q(book=book) & Q(user = user) 

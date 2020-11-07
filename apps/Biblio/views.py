@@ -14,10 +14,12 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
-from .models import Book, Author, BookUserDetail, BookRating
+from .models import Book, Author, BookUserDetail
 from .forms import BookCreateForm
 
 import json
+
+from slugify import slugify
 
 BOOK_PER_PAGE = 13
 
@@ -45,17 +47,26 @@ class MyCatalogView(LoginRequiredMixin, View):
             if 'book_state' in request.POST:
                 if not request.POST.get('book_state'):
                     raise Http404("Empty")
-
-                context['book_state'] = request.POST.get('book_state')
-                context['shelf_sortable'] = "Sortable"+context['book_state']
-                context['shelf_title'] = context['book_state']
-                context['div_id'] = "Container" + context['book_state']
-                context['books'] = request.user.book_set.filter(bookuserdetail__book_state=context['book_state'])
-
+                
+                context['shelf_title'] = request.POST.get('book_state')
+                context['book_state'] = slugify(context['shelf_title'], separator="_")
+                context['books'] = Book.objects.filter(bookuserdetail__user=request.user).filter(bookuserdetail__book_state=context['book_state'])
+                
+                context['book_state'] = slugify(context['shelf_title'])
                 if 'search_book' in request.POST:
                     if request.POST.get('search_book'):
                         context[book_state] = context[book_state].filter(title__contains = request.POST.get('search_book'))
-        
+                if 'book_order' in request.POST:
+                    order = request.POST.get('book_order')
+                    if order=="order-last-added":
+                        context['books'] = context['books'].order_by("bookuserdetail__updated")
+                        print("-----2------")
+                        print(context['books'])
+                    elif order == "order-first-added":
+                        context['books'] = context['books'].order_by("-bookuserdetail__updated")
+                        print("-----1------")
+                        print(context['books'])
+
                 return render(request, 'Biblio/_book_shelf_list.html', context)
             else:
                 raise Http404("Book Self not found") 
@@ -87,21 +98,39 @@ def book_detail(request, slug):
     context = {}
 
     if not request.user.is_authenticated:
-        context['book'] = get_object_or_404(Book, Q(slug=slug) | Q(visibility="public"))
+        context['book'] = get_object_or_404(Book, slug=slug, visibility="public")
     else:
         context['book'] = Book.objects.filter(slug=slug).filter(
             Q(bookuserdetail__user = request.user) | Q(visibility="public")
-        ).first()
+        ).distinct().first()
+
+    if context['book'] == None:
+        raise Http404("Book not found")
 
     if request.method == 'POST':
-        budetail = BookUserDetail.objects.filter(book=context['book']).get(user = request.user)
-        if budetail.rating==None:
-            budetail.rating = BookRating()
-        budetail.rating.rating = int(request.POST.get("rating_v"))
-        budetail.rating.save()
-        budetail.save()
+        if "book_state" in request.POST:
+            
+            book_ud_c = BookUserDetail.objects.filter(book=context['book']).filter(user = request.user).distinct().count()
+            
+            if book_ud_c == 0:
+                book_ud = BookUserDetail.objects.create(user = request.user, book=context['book'])
+            else:
+                book_ud = BookUserDetail.objects.filter(book=context['book']).distinct().get(user = request.user)
+                
+            book_state_t = slugify(request.POST.get('book_state'))
 
-    context['rating'] = context['book'].users.aggregate(total = Avg('bookuserdetail__rating__rating'))
+            if book_state_t == "none":
+                book_ud.delete()
+            else:
+                book_ud.book_state = slugify(request.POST.get('book_state'), separator='_')
+                book_ud.save()
+                
+        if "rating_v" in request.POST:
+            budetail = BookUserDetail.objects.filter(book=context['book']).distinct().get(user = request.user)
+            budetail.rating = int(request.POST.get("rating_v"))
+            budetail.save()
+
+    context['rating'] = context['book'].users.aggregate(total = Avg('bookuserdetail__rating'))
     return render(request, 'Biblio/book_detail.html', context)
 
 class BookCreateView(LoginRequiredMixin, CreateView):
@@ -140,7 +169,7 @@ if DEBUG:
     from django.core.files import File  # you need this somewhere
     import urllib.request
     import os
-
+    from apps.Users.models import Profile
 
     def add_random_book():
         book_state_l = ['reading','want_to_read','read']
@@ -153,7 +182,7 @@ if DEBUG:
         book.save()
         result = urllib.request.urlretrieve("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/action-thriller-book-cover-design-template-3675ae3e3ac7ee095fc793ab61b812cc_screen.jpg?ts=1588152105")
         book.cover.save(os.path.basename("Algo"), File(open(result[0], 'rb')))
-        book_du = BookUserDetail.objects.create(book=book, user=User.objects.order_by('?')[0], book_state=random.choice(book_state_l))
+        book_du = BookUserDetail.objects.create(book=book, user=Profile.objects.order_by('?')[0], book_state=random.choice(book_state_l))
         book_du.save()
         book.save()
 

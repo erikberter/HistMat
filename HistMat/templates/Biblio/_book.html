@@ -10,6 +10,7 @@
         {% endif %}
             
         <p>{{book.title}}</p>
+        <p>{{book.bookuserdetail_set.all.first.updated}}</p>
     </a>
     <!--<p>{{book.author}}</p>
     {% include 'Biblio/widgets/self_dropdown.html' with book=book%}-->

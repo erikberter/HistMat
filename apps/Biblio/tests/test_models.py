@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User, AnonymousUser
 
 from apps.Biblio.models import *
-
+from apps.Users.models import Profile
 class AuthorModelTest(TestCase):
     def test_create_author(self):
         autor_test_1 = Author.objects.create(name="test_name", surname="test_surname")
@@ -60,7 +60,7 @@ class BookUserDetailTest(TestCase):
     def setUp(self):
         self.author_test_1 = Author.objects.create(name="test_name", surname="test_surname")
         self.book_test_1 = Book.objects.create(title="test_title_1", npages=200, author=self.author_test_1)
-        self.user = User.objects.create_user(username="test_1", password="test_pass_1")
+        self.user = Profile.objects.create_user(username="test_1", password="test_pass_1")
     
     def test_create_book_user_detail(self):
         self.book_user_detail_test = BookUserDetail.objects.create(user=self.user, book=self.book_test_1)

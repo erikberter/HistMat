@@ -1,0 +1,12 @@
+<form action="?" method="POST">
+    {% csrf_token %}
+    {% load book_access %}
+    {% get_book_state user book as book_user_related%}
+    <select name="book_state" id="book_state_button" b_state="{{book_user_related}}" onchange="this.form.submit()" class="btn btn-secondary dropdown-toggle w-100" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <option value="None">Add to shelf</option>
+        <option value="Want to Read">Want to Read</option>
+        <option value="Reading">Reading</option>
+        <option value="Read">Read</option>
+    </select>
+    <input type="hidden" value="{{book.slug}}" name="book_slug">
+</form>

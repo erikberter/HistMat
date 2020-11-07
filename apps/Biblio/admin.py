@@ -9,3 +9,5 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ('title',)
     date_hierarchy = 'created'
     ordering = ('visibility', 'created')
+
+admin.site.register(BookUserDetail)

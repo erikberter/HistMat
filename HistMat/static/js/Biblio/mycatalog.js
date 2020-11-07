@@ -4,7 +4,7 @@
 var mycatalog_data = {
     "search_query" : "",
     "book_state" : "",
-    "book_order" : "last_added"
+    "book_order" : "order-last-added"
 }
 
 /*
@@ -52,7 +52,7 @@ function refreshSortable(){
     var selected = [];
     $('.cb_filter_selector:checked').each(
         function() {
-            selected.push("#Sortable" + $(this).val());
+            selected.push("#sortable-" + this.id.substring(3));
         }
     ); 
     
@@ -75,14 +75,25 @@ function refreshSortable(){
 */
 
 function send_book_state_request(elem){
-    mycatalog_data["book_state"] = $(elem).val();
+    mycatalog_data["book_state"] = $("label[for=" + elem.id+"]").text();
     send_book_lookup_ajax();
     $(elem).prop('checked',true);
 }
 
 function delete_book_state_loaded_books(elem){
-    $('#Container'+$(elem).val()).remove();
+    $('#container-'+elem.id).remove();
     $(elem).prop('checked',false);
+}
+
+function load_checked_filters(){
+    $(".cb_filter_selector").each(function() {
+        if(this.checked){
+            delete_book_state_loaded_books(this);
+            send_book_state_request(this);
+        }else delete_book_state_loaded_books(this);
+        
+        refreshSortable();
+    });
 }
 
 /*
@@ -92,6 +103,17 @@ function delete_book_state_loaded_books(elem){
 
 $(document).ready(function() {
     
+    /**
+     *  **Summary**. On window load, check for default checked checkboxes.
+     */
+    load_checked_filters();
+
+    $("input[type=radio][name=filter-order]").change(function(e){
+        e.preventDefault();
+        mycatalog_data["book_order"] = $(this).val();
+        load_checked_filters();
+    })
+
     /**
      * **Summary**. On change event for the book_shelf checkboxes in the filter section. 
      */

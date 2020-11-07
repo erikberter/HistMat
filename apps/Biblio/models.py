@@ -80,10 +80,6 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse('biblio:book_detail',args=[self.slug])
 
-
-class BookRating(models.Model):
-    rating =  IntegerRangeField(min_value=1, max_value=10, default=5)
-
 class BookUserDetail(models.Model):
     BOOK_STATE = (
         ('want_to_read', 'Want to Read'),
@@ -96,7 +92,7 @@ class BookUserDetail(models.Model):
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    rating = models.ForeignKey(BookRating, null=True, blank=True, on_delete=models.CASCADE)
+    rating =  IntegerRangeField(min_value=1, max_value=10, null=True, blank=True)
     book_state =  models.CharField(max_length = 20, choices = BOOK_STATE, default = 'want_to_read')
     act_page = models.IntegerField(default=0)
     
@@ -104,6 +100,7 @@ class BookUserDetail(models.Model):
     tags = TaggableManager()
 
     created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.user.__str__() + self.book.__str__()

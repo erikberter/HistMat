@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from apps.Trivia.models import *
-
+from apps.Users.models import Profile
 
 DEFAULT_QUIZ_DATA = {
     "quiz_pk" : "",
@@ -13,11 +13,11 @@ AYAX_COM = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
 class QuizModels(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(username="test_user_1", password="test_pass_1")
+        self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
         login = self.client.login(username='test_user_1', password='test_pass_1')
 
-        self.user2 = User.objects.create_user(username="test_user_2", password="test_pass_2")
-        self.user3 = User.objects.create_user(username="test_user_3", password="test_pass_2")
+        self.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
+        self.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
 
         self.quiz_1 = Quiz.objects.create(name="test_quiz_1", status = "publish", user=self.user)
         self.quiz_2 = Quiz.objects.create(name="test_quiz_2", status = "publish", user=self.user2)

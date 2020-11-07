@@ -7,10 +7,11 @@ from apps.Biblio.models import Book, Author, BookUserDetail
 
 from apps.Biblio.views import CatalogView, book_detail
 
+from apps.Users.models import Profile
 
 DEFAULT_MYBOOKS_DATA = {
     "search_book" : "",
-    "book_state" : "want_to_read",
+    "book_state" : "Want to Read",
     "book_order" : "last_added"
     }
 
@@ -19,9 +20,9 @@ AYAX_COM = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
 class BiblioViewTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        self.user = User.objects.create_user(username="test_1", password="test_pass_1")
-        login = self.client.login(username='test_1', password='test_pass_1')
-        self.user_2 = User.objects.create_user(username="test_2", password="test_pass_2")
+        self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        self.user_2 = Profile.objects.create_user(username="test_2", password="test_pass_2")
 
         self.book_public_1 = Book.objects.create(title="test_book_public_1", npages=200, visibility="public")
         self.book_public_1_BUD = BookUserDetail.objects.create(user = self.user, book=self.book_public_1, book_state="want_to_read")
@@ -169,6 +170,7 @@ class BiblioViewTest(TestCase):
         self.assertContains(response,self.book_public_3_u.title)
     
     def test_anonymous_access_book_detail_returns_404_on_private_book(self):
+        
         request = self.factory.get(self.book_private_1.get_absolute_url())
         request.user = AnonymousUser()
         with self.assertRaises(Http404):
@@ -179,7 +181,7 @@ class BiblioViewTest(TestCase):
         request.user = AnonymousUser()
         with self.assertRaises(Http404):
             book_detail(request,self.book_private_2_u.slug )
-
+        
     def test_book_detail_contains_correct_properties(self):
         response = self.client.get(self.book_public_1.get_absolute_url())
         self.assertContains(response, self.book_public_1.title)
