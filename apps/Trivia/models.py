@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.conf import settings
 
 import abc
 
-from django.conf import settings
-
+from simple_history.models import HistoricalRecords
+from taggit.managers import TaggableManager
 
 class Quiz(models.Model):
 
@@ -15,8 +16,14 @@ class Quiz(models.Model):
     )
 
     name = models.CharField(max_length = 255)
+    description = models.TextField(blank=True, default="")
     status =  models.CharField(max_length = 25, choices = CHOICE_STATUS, default = 'draft')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # TODO Add editor option
+    # editor = models.ManyToMany(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    tags = TaggableManager()
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -33,9 +40,14 @@ class Question(models.Model):
     question = models.CharField(max_length = 255)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
 
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    history = HistoricalRecords()
+
     @abc.abstractmethod
     def is_answer_correct(self, data):
-        """Method documentation"""
+        """Returns True if the answer is correct"""
         return
     
     def get_absolute_url(self):
@@ -44,8 +56,12 @@ class Question(models.Model):
     def __str__(self):
         return self.question
 
-    #https://stackoverflow.com/questions/5225556/determining-django-model-instance-types-after-a-query-on-a-base-class
     def cast(self):
+        """ Casts the object to get the original type
+
+            Extracted from:
+                - https://stackoverflow.com/questions/5225556/determining-django-model-instance-types-after-a-query-on-a-base-class
+        """
         for name in dir(self):
             try:
                 attr = getattr(self, name)
@@ -83,3 +99,10 @@ class TextQuestion(Question):
         if 'answer' not in data:
             return False
         return data['answer']==self.text_answer
+
+
+
+
+
+# TODO Solve this in a more elegant way
+# I should add here the finished migration file with the corrected solution

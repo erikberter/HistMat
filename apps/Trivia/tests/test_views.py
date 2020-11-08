@@ -10,6 +10,85 @@ DEFAULT_QUIZ_DATA = {
 
 AYAX_COM = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
 
+class QuizHomeTest(TestCase):
+    def setUp(self):
+        self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+
+        self.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
+        self.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
+
+        self.quiz_1 = Quiz.objects.create(name="test_quiz_1", status = "publish", user=self.user)
+        self.quiz_2 = Quiz.objects.create(name="test_quiz_2", status = "publish", user=self.user2)
+        self.quiz_draft_3 = Quiz.objects.create(name="test_quiz_3", status = "draft", user=self.user)
+
+        self.mc_question_1_quiz_1 = MultiChoiceQuestion.objects.create(question="test_question", quiz=self.quiz_1)
+        self.mc_question_1_quiz_1_answer_1 = MultiChoiceAnswer.objects.create(answer="test_answer_1", question=self.mc_question_1_quiz_1)
+        self.mc_question_1_quiz_1_answer_2 = MultiChoiceAnswer.objects.create(answer="test_answer_2", question=self.mc_question_1_quiz_1)
+        self.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=self.quiz_1)
+        self.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=self.quiz_2)
+
+    def test_user_returns_200(self):
+        pass
+
+    def test_anonymous_returns_200(self):
+        pass
+
+    def test_returns_correct_html(self):
+        pass
+
+    def test_contains_quizz_logo(self):
+        pass
+
+    def test_page_contains_search_bar(self):
+        pass
+
+    def test_user_contains_my_quizz_section(self):
+        pass
+    
+    def test_anonymous_not_contains_my_quizz_section(self):
+        pass
+
+    def test_contains_popular_quizzes(self):
+        pass
+
+    # TODO Change to popular categories by modifying the categories to add visits
+    def test_contains_categories(self):
+        pass
+
+class QuizListTest(TestCase):
+    def setUp(self):
+        self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+
+        self.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
+        self.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
+
+        self.quiz_1 = Quiz.objects.create(name="test_quiz_1", status = "publish", user=self.user)
+        self.quiz_2 = Quiz.objects.create(name="test_quiz_2", status = "publish", user=self.user2)
+        self.quiz_draft_3 = Quiz.objects.create(name="test_quiz_3", status = "draft", user=self.user)
+
+        self.mc_question_1_quiz_1 = MultiChoiceQuestion.objects.create(question="test_question", quiz=self.quiz_1)
+        self.mc_question_1_quiz_1_answer_1 = MultiChoiceAnswer.objects.create(answer="test_answer_1", question=self.mc_question_1_quiz_1)
+        self.mc_question_1_quiz_1_answer_2 = MultiChoiceAnswer.objects.create(answer="test_answer_2", question=self.mc_question_1_quiz_1)
+        self.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=self.quiz_1)
+        self.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=self.quiz_2)
+
+    def test_user_returns_200(self):
+        pass
+
+    def test_anonymous_returns_200(self):
+        pass
+
+    def test_returns_correct_html(self):
+        pass
+
+    def test_contains_quizz_logo(self):
+        pass
+
+    def test_page_contains_search_bar(self):
+        pass
+
 class QuizModels(TestCase):
 
     def setUp(self):

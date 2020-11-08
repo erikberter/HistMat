@@ -49,10 +49,11 @@ class Book(models.Model):
 
     title = models.CharField(max_length=255)
     description = models.TextField(default="", blank=True)
-    author= models.ForeignKey(Author, on_delete=models.CASCADE,null=True, blank=True, default=None)
+    author= models.ForeignKey(Author, on_delete=models.SET_NULL,null=True, blank=True, default=None)
 
     slug = AutoSlugField(max_length=100, unique_with=('title','author'), populate_from=custom_populate)
 
+    # TODO Adapt to better handling model
     npages = models.IntegerField()
 
 
@@ -67,6 +68,7 @@ class Book(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    tags = TaggableManager()
     
     objects = models.Manager()
     public = PublicBookManager()
@@ -88,12 +90,12 @@ class BookUserDetail(models.Model):
         ('dropped', 'Dropped'),
         ('on_hold', 'On Hold'))
     BOOK_STATE_L = [t[0] for t in BOOK_STATE]
-
+    DEFAULT_BOOK_STATE = BOOK_STATE[0][0]
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     rating =  IntegerRangeField(min_value=1, max_value=10, null=True, blank=True)
-    book_state =  models.CharField(max_length = 20, choices = BOOK_STATE, default = 'want_to_read')
+    book_state =  models.CharField(max_length = 30, choices = BOOK_STATE, default = DEFAULT_BOOK_STATE)
     act_page = models.IntegerField(default=0)
     
 

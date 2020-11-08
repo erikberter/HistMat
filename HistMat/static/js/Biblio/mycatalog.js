@@ -143,9 +143,5 @@ $(document).ready(function() {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
       });
-    
-
-    // On page loaded script
-    // Sends the basic book_shelf to load
       
 })

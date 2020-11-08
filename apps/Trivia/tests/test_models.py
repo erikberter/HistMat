@@ -9,16 +9,38 @@ class QuizModels(TestCase):
         login = self.client.login(username='test_user_1', password='test_pass_1')
 
     def test_create_quiz(self):
-        quiz_test = Quiz.objects.create(name="test_name", user=self.user)
+        quiz_test = Quiz.objects.create(name="test_name",creator=self.user)
+        quiz_test.description = "test_description"
+        quiz_test.save()
         self.assertEqual(quiz_test.user, self.user)
         self.assertEqual(quiz_test.name,"test_name")
+        self.assertEqual(quiz_test.description,"test_description")
+        self.assertEqual(quiz_test.status,"draft")
         self.assertEqual(Quiz.objects.count(), 1)
     
+    def test_complex_description_text(self):
+        quiz_test = Quiz.objects.create(name="test_name",creator=self.user)
+        
+        complex_description_text = "This is a example TEXT.;:,?!_\\|@#~€~¬"
+        quiz_test.description = complex_description_text
+        quiz_test.save()
+        self.assertEqual(quiz_test.description,complex_description_text)
+
     def test_create_multiple_quiz(self):
-        quiz_test = Quiz.objects.create(name="test_name", user=self.user)
-        quiz_test_1 = Quiz.objects.create(name="test_name_1", user=self.user)
+        quiz_test = Quiz.objects.create(name="test_name", creator=self.user)
+        quiz_test_1 = Quiz.objects.create(name="test_name_1", creator=self.user)
         self.assertEqual(Quiz.objects.count(), 2)
         self.assertEqual(list(Quiz.objects.all()), [quiz_test, quiz_test_1])
+
+class QuestionTest(TestCase):
+    def setUp(self):
+        self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        self.quiz_test = Quiz.objects.create(name="test_name", creator=self.user)
+        
+    def test_create_question(self):
+        question = Question.objects.create(quiz= self.quiz_test, question="test_question")
+        self.assertEqual(question.question, "test_question")
 
 class MultipleChoiceModelTest(TestCase):
     
@@ -26,8 +48,8 @@ class MultipleChoiceModelTest(TestCase):
         self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
         login = self.client.login(username='test_user_1', password='test_pass_1')
 
-        self.quiz_test = Quiz.objects.create(name="test_name", user=self.user)
-        self.quiz_test_1 = Quiz.objects.create(name="test_name_1", user=self.user)
+        self.quiz_test = Quiz.objects.create(name="test_name", creator=self.user)
+        self.quiz_test_1 = Quiz.objects.create(name="test_name_1", creator=self.user)
     
     def test_create_mc_question(self):
         mc_question = MultiChoiceQuestion.objects.create(question="test_question", quiz=self.quiz_test)
@@ -46,8 +68,8 @@ class MultipleChoiceAnswersTest(TestCase):
         self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
         login = self.client.login(username='test_user_1', password='test_pass_1')
 
-        self.quiz_test = Quiz.objects.create(name="test_name", user=self.user)
-        self.quiz_test_1 = Quiz.objects.create(name="test_name_1", user=self.user)
+        self.quiz_test = Quiz.objects.create(name="test_name", creator=self.user)
+        self.quiz_test_1 = Quiz.objects.create(name="test_name_1", creator=self.user)
         self.mc_question = MultiChoiceQuestion.objects.create(
             question="test_question", quiz=self.quiz_test
             )
@@ -85,7 +107,7 @@ class TextQuestionTest(TestCase):
         self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
         login = self.client.login(username='test_user_1', password='test_pass_1')
 
-        self.quiz_test = Quiz.objects.create(name="test_name", user=self.user)
+        self.quiz_test = Quiz.objects.create(name="test_name", creator=self.user)
 
     def test_create_text_question(self):
         text_question = TextQuestion.objects.create(
@@ -101,7 +123,7 @@ class TextQuestionAnswerTest(TestCase):
         self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
         login = self.client.login(username='test_user_1', password='test_pass_1')
 
-        self.quiz_test = Quiz.objects.create(name="test_name", user=self.user)
+        self.quiz_test = Quiz.objects.create(name="test_name", creator=self.user)
         self.text_question = TextQuestion.objects.create(
             question="test_question", text_answer="test_answer", quiz=self.quiz_test
             )
@@ -120,7 +142,7 @@ class MultiTypeQuizTest(TestCase):
         self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
         login = self.client.login(username='test_user_1', password='test_pass_1')
 
-        self.quiz_test = Quiz.objects.create(name="test_name", user=self.user)
+        self.quiz_test = Quiz.objects.create(name="test_name", creator=self.user)
     
     def test_add_multi_type_question(self):
         text_question = TextQuestion.objects.create(

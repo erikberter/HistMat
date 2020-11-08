@@ -21,3 +21,27 @@ function send_book_state_change_ajax(book_state, book_slug){
         }
     });
 }
+
+/**
+ * **Summary**. Sends and AJAX request to the server to change the page of a book.
+ * 
+ * @param {string} book_state 
+ * @param {string} book_slug 
+ */
+function send_act_page_change_ajax(act_page, book_slug){
+    $.ajax({
+        type: "POST",
+        url: '/biblio/catalog/'+book_slug+'/page_change',
+        dataType:'json',
+        data: { 
+            act_page : act_page,
+            csrfmiddlewaretoken: window.CSRF_TOKEN,
+        },
+        success: function(result){
+            $('#set-act-page').empty().attr('placeholder',act_page);
+        },
+        error: function(result) {
+            alert('error');
+        }
+    });
+}

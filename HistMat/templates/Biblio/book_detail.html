@@ -84,7 +84,8 @@ HistMat | {{book.title}}
 
                         {% if book_user_related %}
                             {% is_book_act_page_in_user user book as act_book_page %}
-                            <p> Vas por la página {{act_book_page}}</p>
+                            <p> Vas por la página: </p>
+                            <input id="set-act-page" type="input" b_slug = "{{book.slug}}" placeholder="{{act_book_page}}">
                         {% endif %}
                     {% endif %}
                 </div>

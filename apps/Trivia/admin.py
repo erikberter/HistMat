@@ -9,7 +9,7 @@ class QuestionInline(admin.TabularInline):
 
 class QuizAdmin(admin.ModelAdmin):
     inlines=[QuestionInline,]
-    list_display=("name","user",)
+    list_display=("name","creator",)
 
 class MultiChoiceAnswerInline(admin.TabularInline):
     model=MultiChoiceAnswer

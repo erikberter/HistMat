@@ -17,6 +17,7 @@ urlpatterns = [
 
 
     path('catalog/<slug:slug>/state_change', views.book_state_change, name='book_state_change'),
+    path('catalog/<slug:slug>/page_change', views.book_page_change, name='book_page_change'),
 ]
 
 if settings.DEBUG:

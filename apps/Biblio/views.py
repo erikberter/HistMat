@@ -91,7 +91,23 @@ def book_state_change(request, slug):
         book_ud.save()
         return JsonResponse({'status':'Success', 'msg': 'save successfully'})
         
+@require_POST
+def book_page_change(request, slug):
+    context={}
+    if request.is_ajax():
+        print("hola")
+        book = Book.objects.get(slug=slug)
+        
+        book_ud_c = BookUserDetail.objects.filter(book=book).filter(user = request.user).count()
 
+        if book_ud_c == 0:
+            raise Http404("Book not found")
+        else:
+            book_ud = BookUserDetail.objects.filter(book=book).get(user = request.user) 
+            
+        book_ud.act_page = request.POST.get('act_page')
+        book_ud.save()
+        return JsonResponse({'status':'Success', 'msg': 'save successfully'})
 
 
 def book_detail(request, slug):
