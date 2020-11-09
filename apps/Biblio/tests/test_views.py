@@ -18,27 +18,33 @@ DEFAULT_MYBOOKS_DATA = {
 AYAX_COM = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
 
 class BiblioViewTest(TestCase):
+    
+    @classmethod
+    def setUpTestData(cls):
+        cls.factory = RequestFactory()
+        cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+
+        cls.user_2 = Profile.objects.create_user(username="test_2", password="test_pass_2")
+
+        cls.book_public_1 = Book.objects.create(title="test_book_public_1", npages=200, visibility="public")
+        cls.book_public_1_BUD = BookUserDetail.objects.create(user = cls.user, book=cls.book_public_1, book_state="want_to_read")
+
+        cls.book_private_1 = Book.objects.create(title="test_private_book_1", npages=201, visibility="private")
+        cls.book_private_1_BUD = BookUserDetail.objects.create(user = cls.user, book=cls.book_private_1, book_state="want_to_read")
+
+        cls.book_private_1_r = Book.objects.create(title="test_private_book_1_r", npages=201, visibility="private")
+        cls.book_private_1_r_BUD = BookUserDetail.objects.create(user = cls.user, book=cls.book_private_1_r, book_state="reading")
+
+        cls.book_private_2_u = Book.objects.create(title="test_private_book_2", npages=202, visibility="private")
+        cls.book_private_2_u_BUD = BookUserDetail.objects.create(user = cls.user_2, book=cls.book_private_2_u, book_state="want_to_read")
+
+        cls.book_public_3_u = Book.objects.create(title="test_public_book_3", npages=202, visibility="public")
+        cls.book_public_3_u_BUD = BookUserDetail.objects.create(user = cls.user_2, book=cls.book_public_3_u, book_state="want_to_read")
+
+
     def setUp(self):
-        self.factory = RequestFactory()
-        self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
         login = self.client.login(username='test_user_1', password='test_pass_1')
-        self.user_2 = Profile.objects.create_user(username="test_2", password="test_pass_2")
-
-        self.book_public_1 = Book.objects.create(title="test_book_public_1", npages=200, visibility="public")
-        self.book_public_1_BUD = BookUserDetail.objects.create(user = self.user, book=self.book_public_1, book_state="want_to_read")
-
-        self.book_private_1 = Book.objects.create(title="test_private_book_1", npages=201, visibility="private")
-        self.book_private_1_BUD = BookUserDetail.objects.create(user = self.user, book=self.book_private_1, book_state="want_to_read")
-
-        self.book_private_1_r = Book.objects.create(title="test_private_book_1_r", npages=201, visibility="private")
-        self.book_private_1_r_BUD = BookUserDetail.objects.create(user = self.user, book=self.book_private_1_r, book_state="reading")
-
-        self.book_private_2_u = Book.objects.create(title="test_private_book_2", npages=202, visibility="private")
-        self.book_private_2_u_BUD = BookUserDetail.objects.create(user = self.user_2, book=self.book_private_2_u, book_state="want_to_read")
-
-        self.book_public_3_u = Book.objects.create(title="test_public_book_3", npages=202, visibility="public")
-        self.book_public_3_u_BUD = BookUserDetail.objects.create(user = self.user_2, book=self.book_public_3_u, book_state="want_to_read")
-
+        
     
 
     ## catalog VIEW ##

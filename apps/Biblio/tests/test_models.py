@@ -25,8 +25,9 @@ class AuthorModelTest(TestCase):
 
 class BookModelTest(TestCase):
 
-    def setUp(self):
-        self.author_test_1 = Author.objects.create(name="test_name", surname="test_surname")
+    @classmethod
+    def setUpTestData(cls):
+        cls.author_test_1 = Author.objects.create(name="test_name", surname="test_surname")
 
     def test_create_book(self):
         book_test_1 = Book.objects.create(title="test_title_1", npages=200)
@@ -57,10 +58,11 @@ class BookModelTest(TestCase):
         self.assertEquals('/biblio/book_detail/' + book_test_1.title+'_' + book_test_1.author.name, book_test_1.get_absolute_url())
 
 class BookUserDetailTest(TestCase):
-    def setUp(self):
-        self.author_test_1 = Author.objects.create(name="test_name", surname="test_surname")
-        self.book_test_1 = Book.objects.create(title="test_title_1", npages=200, author=self.author_test_1)
-        self.user = Profile.objects.create_user(username="test_1", password="test_pass_1")
+    @classmethod
+    def setUpTestData(cls):
+        cls.author_test_1 = Author.objects.create(name="test_name", surname="test_surname")
+        cls.book_test_1 = Book.objects.create(title="test_title_1", npages=200, author=cls.author_test_1)
+        cls.user = Profile.objects.create_user(username="test_1", password="test_pass_1")
     
     def test_create_book_user_detail(self):
         self.book_user_detail_test = BookUserDetail.objects.create(user=self.user, book=self.book_test_1)

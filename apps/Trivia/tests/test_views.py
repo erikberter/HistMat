@@ -1,6 +1,8 @@
 from django.test import TestCase
 
 from apps.Trivia.models import *
+from apps.Trivia.views import * 
+
 from apps.Users.models import Profile
 
 DEFAULT_QUIZ_DATA = {
@@ -10,46 +12,75 @@ DEFAULT_QUIZ_DATA = {
 
 AYAX_COM = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
 
+
+# TODO add context check
+# https://docs.djangoproject.com/en/3.1/topics/testing/advanced/
+
 class QuizHomeTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+
+        cls.url = '/trivia/home/'
+
+        cls.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
+        cls.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
+
+        cls.quiz_1 = Quiz.objects.create(name="test_quiz_1", status = "publish", creator=cls.user)
+        cls.quiz_2 = Quiz.objects.create(name="test_quiz_2", status = "publish", creator=cls.user2)
+        cls.quiz_draft_3 = Quiz.objects.create(name="test_quiz_3", status = "draft", creator=cls.user)
+
+        cls.mc_question_1_quiz_1 = MultiChoiceQuestion.objects.create(question="test_question", quiz=cls.quiz_1)
+        cls.mc_question_1_quiz_1_answer_1 = MultiChoiceAnswer.objects.create(answer="test_answer_1", question=cls.mc_question_1_quiz_1)
+        cls.mc_question_1_quiz_1_answer_2 = MultiChoiceAnswer.objects.create(answer="test_answer_2", question=cls.mc_question_1_quiz_1)
+        cls.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=cls.quiz_1)
+        cls.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=cls.quiz_2)
+
+
     def setUp(self):
-        self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
         login = self.client.login(username='test_user_1', password='test_pass_1')
 
-        self.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
-        self.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
-
-        self.quiz_1 = Quiz.objects.create(name="test_quiz_1", status = "publish", user=self.user)
-        self.quiz_2 = Quiz.objects.create(name="test_quiz_2", status = "publish", user=self.user2)
-        self.quiz_draft_3 = Quiz.objects.create(name="test_quiz_3", status = "draft", user=self.user)
-
-        self.mc_question_1_quiz_1 = MultiChoiceQuestion.objects.create(question="test_question", quiz=self.quiz_1)
-        self.mc_question_1_quiz_1_answer_1 = MultiChoiceAnswer.objects.create(answer="test_answer_1", question=self.mc_question_1_quiz_1)
-        self.mc_question_1_quiz_1_answer_2 = MultiChoiceAnswer.objects.create(answer="test_answer_2", question=self.mc_question_1_quiz_1)
-        self.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=self.quiz_1)
-        self.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=self.quiz_2)
-
+        
     def test_user_returns_200(self):
-        pass
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
 
     def test_anonymous_returns_200(self):
-        pass
+        request = self.factory.get(self.url)
+        request.user = AnonymousUser()
+        response = QuizHome.as_view()(request)
+        self.assertEqual(response.status_code, 200)
 
     def test_returns_correct_html(self):
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'Trivia/home.html')
+        self.assertTemplateUsed(response, 'base.html')
+
+    def test_returns_correct_view(self):
         pass
 
-    def test_contains_quizz_logo(self):
+    def test_contains_quiz_logo(self):
         pass
 
     def test_page_contains_search_bar(self):
         pass
 
-    def test_user_contains_my_quizz_section(self):
-        pass
-    
-    def test_anonymous_not_contains_my_quizz_section(self):
+    def test_page_search_redirects_to_search(self):
         pass
 
-    def test_contains_popular_quizzes(self):
+    def test_user_contains_my_quiz_section(self):
+        pass
+
+    def test_user_my_quiz_redirects_to_my_quiz(self):
+        pass
+    
+    def test_anonymous_not_contains_my_quiz_section(self):
+        pass
+
+    def test_contains_popular_quizes(self):
+        pass
+    
+    def test_contains_quiz_url(self):
         pass
 
     # TODO Change to popular categories by modifying the categories to add visits
@@ -57,37 +88,342 @@ class QuizHomeTest(TestCase):
         pass
 
 class QuizListTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+
+        cls.url = '/trivia/quiz/list/'
+
+        cls.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
+        cls.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
+
+        cls.quiz_1 = Quiz.objects.create(name="test_quiz_1", status = "publish", creator=cls.user)
+        cls.quiz_2 = Quiz.objects.create(name="test_quiz_2", status = "publish", creator=cls.user2)
+        cls.quiz_draft_3 = Quiz.objects.create(name="test_quiz_3", status = "draft", creator=cls.user)
+
+        cls.mc_question_1_quiz_1 = MultiChoiceQuestion.objects.create(question="test_question", quiz=cls.quiz_1)
+        cls.mc_question_1_quiz_1_answer_1 = MultiChoiceAnswer.objects.create(answer="test_answer_1", question=cls.mc_question_1_quiz_1)
+        cls.mc_question_1_quiz_1_answer_2 = MultiChoiceAnswer.objects.create(answer="test_answer_2", question=cls.mc_question_1_quiz_1)
+        cls.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=cls.quiz_1)
+        cls.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=cls.quiz_2)
+
+
     def setUp(self):
-        self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
         login = self.client.login(username='test_user_1', password='test_pass_1')
 
-        self.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
-        self.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
-
-        self.quiz_1 = Quiz.objects.create(name="test_quiz_1", status = "publish", user=self.user)
-        self.quiz_2 = Quiz.objects.create(name="test_quiz_2", status = "publish", user=self.user2)
-        self.quiz_draft_3 = Quiz.objects.create(name="test_quiz_3", status = "draft", user=self.user)
-
-        self.mc_question_1_quiz_1 = MultiChoiceQuestion.objects.create(question="test_question", quiz=self.quiz_1)
-        self.mc_question_1_quiz_1_answer_1 = MultiChoiceAnswer.objects.create(answer="test_answer_1", question=self.mc_question_1_quiz_1)
-        self.mc_question_1_quiz_1_answer_2 = MultiChoiceAnswer.objects.create(answer="test_answer_2", question=self.mc_question_1_quiz_1)
-        self.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=self.quiz_1)
-        self.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=self.quiz_2)
-
     def test_user_returns_200(self):
-        pass
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
 
     def test_anonymous_returns_200(self):
-        pass
+        request = self.factory.get(self.url)
+        request.user = AnonymousUser()
+        response = QuizList.as_view()(request)
+        self.assertEqual(response.status_code, 200)
 
     def test_returns_correct_html(self):
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'Trivia/Quiz/list.html')
+        self.assertTemplateUsed(response, 'base.html')
+
+    def test_returns_correct_view(self):
         pass
 
-    def test_contains_quizz_logo(self):
+    def test_contains_quiz_logo(self):
         pass
 
     def test_page_contains_search_bar(self):
         pass
+
+    def test_returns_correct_quiz_by_search(self):
+        pass
+
+    def test_does_not_return_invalid_quiz_by_search(self):
+        pass
+
+    def test_contains_mode_selector(self):
+        pass
+
+
+class QuizCreateTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+
+        cls.url = '/trivia/quiz/create'
+
+        cls.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
+        cls.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
+
+        cls.quiz_1 = Quiz.objects.create(name="test_quiz_1", status = "publish", creator=cls.user)
+        cls.quiz_2 = Quiz.objects.create(name="test_quiz_2", status = "publish", creator=cls.user2)
+        cls.quiz_draft_3 = Quiz.objects.create(name="test_quiz_3", status = "draft", creator=cls.user)
+
+        cls.mc_question_1_quiz_1 = MultiChoiceQuestion.objects.create(question="test_question", quiz=cls.quiz_1)
+        cls.mc_question_1_quiz_1_answer_1 = MultiChoiceAnswer.objects.create(answer="test_answer_1", question=cls.mc_question_1_quiz_1)
+        cls.mc_question_1_quiz_1_answer_2 = MultiChoiceAnswer.objects.create(answer="test_answer_2", question=cls.mc_question_1_quiz_1)
+        cls.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=cls.quiz_1)
+        cls.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=cls.quiz_2)
+
+
+    def setUp(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+
+    def test_user_returns_200(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_anonymous_returns_404(self):
+        request = self.factory.get(self.url)
+        request.user = AnonymousUser()
+        response = QuizCreate.as_view()(request)
+        self.assertEqual(response.status_code, 404)
+    
+    def test_returns_correct_html(self):
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, 'Trivia/Quiz/create.html')
+        self.assertTemplateUsed(response, 'base.html')
+
+    def test_returns_correct_view(self):
+        pass
+
+class QuizUpdateTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+
+        cls.url = '/trivia/quiz/%s/update'
+
+        cls.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
+        cls.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
+
+        cls.quiz_1 = Quiz.objects.create(name="test_quiz_1", status = "publish", creator=cls.user)
+        cls.quiz_2 = Quiz.objects.create(name="test_quiz_2", status = "publish", creator=cls.user2)
+        cls.quiz_draft_3 = Quiz.objects.create(name="test_quiz_3", status = "draft", creator=cls.user)
+
+        cls.mc_question_1_quiz_1 = MultiChoiceQuestion.objects.create(question="test_question", quiz=cls.quiz_1)
+        cls.mc_question_1_quiz_1_answer_1 = MultiChoiceAnswer.objects.create(answer="test_answer_1", question=cls.mc_question_1_quiz_1)
+        cls.mc_question_1_quiz_1_answer_2 = MultiChoiceAnswer.objects.create(answer="test_answer_2", question=cls.mc_question_1_quiz_1)
+        cls.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=cls.quiz_1)
+        cls.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=cls.quiz_2)
+
+
+    def setUp(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+
+    def test_user_returns_200(self):
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertEqual(response.status_code, 200)
+
+    def test_fake_quiz_user_returns_404(self):
+        response = self.client.get(self.url % ('invented_slug'))
+        self.assertEqual(response.status_code, 404)
+
+    def test_anonymous_returns_404(self):
+        request = self.factory.get(self.url % (self.quiz_1.slug))
+        request.user = AnonymousUser()
+        response = QuizUpdate.as_view()(request)
+        self.assertEqual(response.status_code, 404)
+    
+    def test_fake_quiz_anonymous_returns_404(self):
+        request = self.factory.get(self.url % ('invented_slug'))
+        request.user = AnonymousUser()
+        response = QuizUpdate.as_view()(request)
+        self.assertEqual(response.status_code, 404)
+
+    def test_returns_correct_html(self):
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertTemplateUsed(response, 'Trivia/Quiz/update.html')
+        self.assertTemplateUsed(response, 'base.html')
+
+    def test_returns_correct_view(self):
+        pass
+
+    def test_conatins_quiz_data(self):
+        pass
+
+class QuizDeleteTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+
+        cls.url = '/trivia/quiz/%s/confirm_delete'
+
+        cls.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
+        cls.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
+
+        cls.quiz_1 = Quiz.objects.create(name="test_quiz_1", status = "publish", creator=cls.user)
+        cls.quiz_2 = Quiz.objects.create(name="test_quiz_2", status = "publish", creator=cls.user2)
+        cls.quiz_draft_3 = Quiz.objects.create(name="test_quiz_3", status = "draft", creator=cls.user)
+
+        cls.mc_question_1_quiz_1 = MultiChoiceQuestion.objects.create(question="test_question", quiz=cls.quiz_1)
+        cls.mc_question_1_quiz_1_answer_1 = MultiChoiceAnswer.objects.create(answer="test_answer_1", question=cls.mc_question_1_quiz_1)
+        cls.mc_question_1_quiz_1_answer_2 = MultiChoiceAnswer.objects.create(answer="test_answer_2", question=cls.mc_question_1_quiz_1)
+        cls.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=cls.quiz_1)
+        cls.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=cls.quiz_2)
+
+
+    def setUp(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+
+    def test_user_returns_200(self):
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertEqual(response.status_code, 200)
+
+    def test_fake_quiz_user_returns_404(self):
+        response = self.client.get(self.url % ('invented_slug'))
+        self.assertEqual(response.status_code, 404)
+
+    def test_anonymous_returns_404(self):
+        request = self.factory.get(self.url % (self.quiz_1.slug))
+        request.user = AnonymousUser()
+        response = QuizDelete.as_view()(request)
+        self.assertEqual(response.status_code, 404)
+
+    def test_fake_quiz_anonymous_returns_404(self):
+        request = self.factory.get(self.url % ('invented_slug'))
+        request.user = AnonymousUser()
+        response = QuizDelete.as_view()(request)
+        self.assertEqual(response.status_code, 404)
+
+    def test_returns_correct_html(self):
+        pass
+
+    def test_returns_correct_view(self):
+        pass
+
+    def test_conatins_quiz_name(self):
+        pass
+
+
+class QuizDetailTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+
+        cls.url = '/trivia/quiz/%s/detail'
+
+        cls.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
+        cls.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
+
+        cls.quiz_1 = Quiz.objects.create(name="test_quiz_1", status = "publish", creator=cls.user)
+        cls.quiz_2 = Quiz.objects.create(name="test_quiz_2", status = "publish", creator=cls.user2)
+        cls.quiz_draft_3 = Quiz.objects.create(name="test_quiz_3", status = "draft", creator=cls.user)
+
+        cls.mc_question_1_quiz_1 = MultiChoiceQuestion.objects.create(question="test_question", quiz=cls.quiz_1)
+        cls.mc_question_1_quiz_1_answer_1 = MultiChoiceAnswer.objects.create(answer="test_answer_1", question=cls.mc_question_1_quiz_1)
+        cls.mc_question_1_quiz_1_answer_2 = MultiChoiceAnswer.objects.create(answer="test_answer_2", question=cls.mc_question_1_quiz_1)
+        cls.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=cls.quiz_1)
+        cls.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=cls.quiz_2)
+
+
+    def setUp(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+
+    def test_user_returns_200(self):
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertEqual(response.status_code, 200)
+
+    def test_fake_quiz_user_returns_404(self):
+        response = self.client.get(self.url % ('invented_slug'))
+        self.assertEqual(response.status_code, 404)
+
+    def test_anonymous_returns_200(self):
+        request = self.factory.get(self.url % (self.quiz_1.slug))
+        request.user = AnonymousUser()
+        response = QuizDetail.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_fake_quiz_anonymous_returns_404(self):
+        request = self.factory.get(self.url % ('invented_slug'))
+        request.user = AnonymousUser()
+        response = QuizDetail.as_view()(request)
+        self.assertEqual(response.status_code, 404)
+
+    def test_returns_correct_html(self):
+        pass
+
+    def test_returns_correct_view(self):
+        pass
+
+    def test_contains_quiz_details(self):
+        pass
+
+    def test_contains_play_button(self):
+        pass
+
+    def test_contains_leaderboard(self):
+        pass
+
+    def test_contains_last_played(self):
+        pass
+
+
+class QuizPlayTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+
+        cls.url = '/trivia/quiz/%s/detail'
+
+        cls.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
+        cls.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
+
+        cls.quiz_1 = Quiz.objects.create(name="test_quiz_1", status = "publish", creator=cls.user)
+        cls.quiz_2 = Quiz.objects.create(name="test_quiz_2", status = "publish", creator=cls.user2)
+        cls.quiz_draft_3 = Quiz.objects.create(name="test_quiz_3", status = "draft", creator=cls.user)
+
+        cls.mc_question_1_quiz_1 = MultiChoiceQuestion.objects.create(question="test_question", quiz=cls.quiz_1)
+        cls.mc_question_1_quiz_1_answer_1 = MultiChoiceAnswer.objects.create(answer="test_answer_1", question=cls.mc_question_1_quiz_1)
+        cls.mc_question_1_quiz_1_answer_2 = MultiChoiceAnswer.objects.create(answer="test_answer_2", question=cls.mc_question_1_quiz_1)
+        cls.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=cls.quiz_1)
+        cls.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=cls.quiz_2)
+
+
+    def setUp(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+
+    def test_user_returns_200(self):
+        response = self.client.get(f"/trivia/quiz/{self.quiz_1.slug}/play")
+        self.assertEqual(response.status_code, 200)
+
+    def test_fake_quiz_user_returns_404(self):
+        response = self.client.get('/trivia/quiz/invented_slug/play')
+        self.assertEqual(response.status_code, 404)
+
+    def test_anonymous_returns_200(self):
+        request = self.factory.get(f"/trivia/quiz/{self.quiz_1.slug}/play")
+        request.user = AnonymousUser()
+        response = QuizPlay.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_fake_quiz_anonymous_returns_404(self):
+        request = self.factory.get('/trivia/quiz/invented_slug/play')
+        request.user = AnonymousUser()
+        response = QuizPlay.as_view()(request)
+        self.assertEqual(response.status_code, 404)
+
+    def test_returns_correct_html(self):
+        pass
+
+    def test_returns_correct_view(self):
+        pass
+
+    def test_conatains_quiz_name(self):
+        pass
+
+    def test_conatains_question(self):
+        pass
+
+    def test_conatains_question_answer_input(self):
+        pass
+
+    def test_conatains_next_button(self):
+        pass
+
+    def test_conatins_back_button(self):
+        pass
+
 
 class QuizModels(TestCase):
 
@@ -98,9 +434,9 @@ class QuizModels(TestCase):
         self.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
         self.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
 
-        self.quiz_1 = Quiz.objects.create(name="test_quiz_1", status = "publish", user=self.user)
-        self.quiz_2 = Quiz.objects.create(name="test_quiz_2", status = "publish", user=self.user2)
-        self.quiz_draft_3 = Quiz.objects.create(name="test_quiz_3", status = "draft", user=self.user)
+        self.quiz_1 = Quiz.objects.create(name="test_quiz_1", status = "publish", creator=self.user)
+        self.quiz_2 = Quiz.objects.create(name="test_quiz_2", status = "publish", creator=self.user2)
+        self.quiz_draft_3 = Quiz.objects.create(name="test_quiz_3", status = "draft", creator=self.user)
 
         self.mc_question_1_quiz_1 = MultiChoiceQuestion.objects.create(question="test_question", quiz=self.quiz_1)
         self.mc_question_1_quiz_1_answer_1 = MultiChoiceAnswer.objects.create(answer="test_answer_1", question=self.mc_question_1_quiz_1)

@@ -12,7 +12,7 @@ class QuizModels(TestCase):
         quiz_test = Quiz.objects.create(name="test_name",creator=self.user)
         quiz_test.description = "test_description"
         quiz_test.save()
-        self.assertEqual(quiz_test.user, self.user)
+        self.assertEqual(quiz_test.creator, self.user)
         self.assertEqual(quiz_test.name,"test_name")
         self.assertEqual(quiz_test.description,"test_description")
         self.assertEqual(quiz_test.status,"draft")
@@ -33,23 +33,29 @@ class QuizModels(TestCase):
         self.assertEqual(list(Quiz.objects.all()), [quiz_test, quiz_test_1])
 
 class QuestionTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+        cls.quiz_test = Quiz.objects.create(name="test_name", creator=cls.user)
+
     def setUp(self):
-        self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+        
         login = self.client.login(username='test_user_1', password='test_pass_1')
-        self.quiz_test = Quiz.objects.create(name="test_name", creator=self.user)
+        
         
     def test_create_question(self):
         question = Question.objects.create(quiz= self.quiz_test, question="test_question")
         self.assertEqual(question.question, "test_question")
 
 class MultipleChoiceModelTest(TestCase):
-    
-    def setUp(self):
-        self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
-        login = self.client.login(username='test_user_1', password='test_pass_1')
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+        cls.quiz_test = Quiz.objects.create(name="test_name", creator=cls.user)
+        cls.quiz_test_1 = Quiz.objects.create(name="test_name_1", creator=cls.user)
 
-        self.quiz_test = Quiz.objects.create(name="test_name", creator=self.user)
-        self.quiz_test_1 = Quiz.objects.create(name="test_name_1", creator=self.user)
+    def setUp(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
     
     def test_create_mc_question(self):
         mc_question = MultiChoiceQuestion.objects.create(question="test_question", quiz=self.quiz_test)
@@ -64,18 +70,21 @@ class MultipleChoiceModelTest(TestCase):
         self.assertEqual(list(MultiChoiceQuestion.objects.all()), [mc_question, mc_question_1])
 
 class MultipleChoiceAnswersTest(TestCase):
-    def setUp(self):
-        self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
-        login = self.client.login(username='test_user_1', password='test_pass_1')
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
 
-        self.quiz_test = Quiz.objects.create(name="test_name", creator=self.user)
-        self.quiz_test_1 = Quiz.objects.create(name="test_name_1", creator=self.user)
-        self.mc_question = MultiChoiceQuestion.objects.create(
-            question="test_question", quiz=self.quiz_test
+        cls.quiz_test = Quiz.objects.create(name="test_name", creator=cls.user)
+        cls.quiz_test_1 = Quiz.objects.create(name="test_name_1", creator=cls.user)
+        cls.mc_question = MultiChoiceQuestion.objects.create(
+            question="test_question", quiz=cls.quiz_test
             )
-        self.mc_question_1 = MultiChoiceQuestion.objects.create(
-            question="test_question_1", quiz=self.quiz_test_1
+        cls.mc_question_1 = MultiChoiceQuestion.objects.create(
+            question="test_question_1", quiz=cls.quiz_test_1
             )
+
+    def setUp(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
 
     def test_create_mc_answer(self):
         mc_answer_1_correct = MultiChoiceAnswer.objects.create(
@@ -102,12 +111,14 @@ class MultipleChoiceAnswersTest(TestCase):
         self.assertFalse(self.mc_question.is_answer_correct({'answer' : mc_answer_2_false.pk}))
         
 class TextQuestionTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
+
+        cls.quiz_test = Quiz.objects.create(name="test_name", creator=cls.user)
 
     def setUp(self):
-        self.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
         login = self.client.login(username='test_user_1', password='test_pass_1')
-
-        self.quiz_test = Quiz.objects.create(name="test_name", creator=self.user)
 
     def test_create_text_question(self):
         text_question = TextQuestion.objects.create(

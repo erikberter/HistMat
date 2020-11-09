@@ -12,20 +12,33 @@ cls
 
 @echo off
 call :color 25 "  ###### STARTING MIGRATIONS #####  "
-@echo on
 
-python manage.py makemigrations Users
-python manage.py makemigrations Layout
-python manage.py makemigrations Biblio
-python manage.py makemigrations Trivia
-python manage.py migrate
 
-@echo off
+SET PARAM=%~1
+IF "%PARAM%"=="-m" (
+  shift
+  @echo on
+  python manage.py makemigrations Users
+  python manage.py makemigrations Layout
+  python manage.py makemigrations Biblio
+  python manage.py makemigrations Trivia
+  python manage.py migrate
+  @echo off
+)
+
 call :color 64 "  ###### STARTING TESTS #####  "
-@echo on
 
+SET PARAM=%~1
+IF "%PARAM%" == "" (
+  @echo on
+  python manage.py test
+  @echo off
+) ELSE IF "%PARAM%"=="-p" (
+  @echo on
+  python manage.py test --parallel
+  @echo off
+)
 
-python manage.py test
 @echo off
 exit /b
 

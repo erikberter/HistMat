@@ -178,3 +178,21 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # User handling
 
 AUTH_USER_MODEL = 'Users.Profile'
+
+
+# For testing purpose
+# Details:
+#   - Changing the PASSWORD_HASHERS speeds up from 24 seconds to 1 second
+
+
+TESTING = 'test' in sys.argv
+
+TESTING_OPTIONS = {
+    'PASSWORD_HASHERS' : True,
+
+}
+
+if TESTING and TESTING_OPTIONS['PASSWORD_HASHERS']:
+    PASSWORD_HASHERS = [
+        'django.contrib.auth.hashers.MD5PasswordHasher',
+    ]
