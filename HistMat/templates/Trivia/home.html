@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <div id="quiz-logo">Diamat quiz</div>
+    <div id="quiz-search">
+        <input type="search" id="quiz-search-bar" placeholder="search">
+    </div>
+    {% if user.is_authenticated%}
+    <div>
+        <div><h3>My Quizzes</h3><h6>Create Quiz</h6><h6>All quiz</h6></div>
+        <div>
+            {% for quiz in my_quiz%}
+                <p>Quiz</p>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    <div>
+        <div><h3>Popular Quizzes</h3><h6>All quiz</h6></div>
+        <div>
+            {% for quiz in popular_quiz%}
+                <p>Quiz</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        <div><h3>Popular Categories</h3><h6>All categories</h6></div>
+        <div>
+            {% for categorie in popular_categories%}
+                <p>Categorie</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

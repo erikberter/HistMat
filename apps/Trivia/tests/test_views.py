@@ -1,9 +1,11 @@
-from django.test import TestCase
+from django.test import TestCase, RequestFactory
+from django.contrib.auth.models import AnonymousUser
 
 from apps.Trivia.models import *
 from apps.Trivia.views import * 
 
 from apps.Users.models import Profile
+
 
 DEFAULT_QUIZ_DATA = {
     "quiz_pk" : "",
@@ -19,6 +21,7 @@ AYAX_COM = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
 class QuizHomeTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cls.factory = RequestFactory()
         cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
 
         cls.url = '/trivia/home/'
@@ -48,7 +51,7 @@ class QuizHomeTest(TestCase):
     def test_anonymous_returns_200(self):
         request = self.factory.get(self.url)
         request.user = AnonymousUser()
-        response = QuizHome.as_view()(request)
+        response = QuizHomeView.as_view()(request)
         self.assertEqual(response.status_code, 200)
 
     def test_returns_correct_html(self):
@@ -56,11 +59,9 @@ class QuizHomeTest(TestCase):
         self.assertTemplateUsed(response, 'Trivia/home.html')
         self.assertTemplateUsed(response, 'base.html')
 
-    def test_returns_correct_view(self):
-        pass
-
     def test_contains_quiz_logo(self):
-        pass
+        response = self.client.get(self.url)
+        self.assertContains(response, "Diamat quiz")
 
     def test_page_contains_search_bar(self):
         pass
@@ -80,6 +81,14 @@ class QuizHomeTest(TestCase):
     def test_contains_popular_quizes(self):
         pass
     
+    def test_contains_quiz(self):
+        response = self.client.get(self.url)
+        self.assertContains(response, "test_quiz_1")
+
+    def test_not_contains_draft_quiz(self):
+        response = self.client.get(self.url)
+        self.assertNotContains(response, "test_quiz_3")
+
     def test_contains_quiz_url(self):
         pass
 
@@ -90,6 +99,7 @@ class QuizHomeTest(TestCase):
 class QuizListTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cls.factory = RequestFactory()
         cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
 
         cls.url = '/trivia/quiz/list/'
@@ -118,7 +128,7 @@ class QuizListTest(TestCase):
     def test_anonymous_returns_200(self):
         request = self.factory.get(self.url)
         request.user = AnonymousUser()
-        response = QuizList.as_view()(request)
+        response = QuizListView.as_view()(request)
         self.assertEqual(response.status_code, 200)
 
     def test_returns_correct_html(self):
@@ -126,11 +136,9 @@ class QuizListTest(TestCase):
         self.assertTemplateUsed(response, 'Trivia/Quiz/list.html')
         self.assertTemplateUsed(response, 'base.html')
 
-    def test_returns_correct_view(self):
-        pass
-
     def test_contains_quiz_logo(self):
-        pass
+        response = self.client.get(self.url)
+        self.assertContains(response, "Diamat quiz")
 
     def test_page_contains_search_bar(self):
         pass
@@ -148,9 +156,10 @@ class QuizListTest(TestCase):
 class QuizCreateTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cls.factory = RequestFactory()
         cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
 
-        cls.url = '/trivia/quiz/create'
+        cls.url = '/trivia/quiz/create/'
 
         cls.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
         cls.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
@@ -165,34 +174,28 @@ class QuizCreateTest(TestCase):
         cls.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=cls.quiz_1)
         cls.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=cls.quiz_2)
 
-
-    def setUp(self):
-        login = self.client.login(username='test_user_1', password='test_pass_1')
-
     def test_user_returns_200(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    def test_anonymous_returns_404(self):
-        request = self.factory.get(self.url)
-        request.user = AnonymousUser()
-        response = QuizCreate.as_view()(request)
-        self.assertEqual(response.status_code, 404)
+    def test_anonymous_returns_302(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)
     
     def test_returns_correct_html(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
         response = self.client.get(self.url)
         self.assertTemplateUsed(response, 'Trivia/Quiz/create.html')
         self.assertTemplateUsed(response, 'base.html')
 
-    def test_returns_correct_view(self):
-        pass
-
 class QuizUpdateTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cls.factory = RequestFactory()
         cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
 
-        cls.url = '/trivia/quiz/%s/update'
+        cls.url = '/trivia/quiz/%s/update/'
 
         cls.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
         cls.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
@@ -207,47 +210,47 @@ class QuizUpdateTest(TestCase):
         cls.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=cls.quiz_1)
         cls.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=cls.quiz_2)
 
-
-    def setUp(self):
-        login = self.client.login(username='test_user_1', password='test_pass_1')
-
     def test_user_returns_200(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
         response = self.client.get(self.url % (self.quiz_1.slug))
         self.assertEqual(response.status_code, 200)
 
     def test_fake_quiz_user_returns_404(self):
-        response = self.client.get(self.url % ('invented_slug'))
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url % ('123456789'))
         self.assertEqual(response.status_code, 404)
 
-    def test_anonymous_returns_404(self):
-        request = self.factory.get(self.url % (self.quiz_1.slug))
-        request.user = AnonymousUser()
-        response = QuizUpdate.as_view()(request)
-        self.assertEqual(response.status_code, 404)
+    def test_anonymous_returns_302(self):
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertEqual(response.status_code, 302)
     
-    def test_fake_quiz_anonymous_returns_404(self):
-        request = self.factory.get(self.url % ('invented_slug'))
-        request.user = AnonymousUser()
-        response = QuizUpdate.as_view()(request)
-        self.assertEqual(response.status_code, 404)
+    def test_fake_quiz_anonymous_returns_302(self):
+        response = self.client.get(self.url % ('123456789'))
+        self.assertEqual(response.status_code, 302)
 
     def test_returns_correct_html(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
         response = self.client.get(self.url % (self.quiz_1.slug))
         self.assertTemplateUsed(response, 'Trivia/Quiz/update.html')
         self.assertTemplateUsed(response, 'base.html')
 
-    def test_returns_correct_view(self):
-        pass
+    def test_contains_quiz_data(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertContains(response, self.quiz_1.name)
+        self.assertContains(response, self.quiz_1.creator)
+        self.assertContains(response, self.quiz_1.description)
 
-    def test_conatins_quiz_data(self):
+    def test_contains_correct_fields(self):
         pass
 
 class QuizDeleteTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cls.factory = RequestFactory()
         cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
 
-        cls.url = '/trivia/quiz/%s/confirm_delete'
+        cls.url = '/trivia/quiz/%s/confirm_delete/'
 
         cls.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
         cls.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
@@ -271,37 +274,41 @@ class QuizDeleteTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_fake_quiz_user_returns_404(self):
-        response = self.client.get(self.url % ('invented_slug'))
+        response = self.client.get(self.url % ('123456789'))
         self.assertEqual(response.status_code, 404)
 
-    def test_anonymous_returns_404(self):
+    def test_anonymous_returns_302(self):
         request = self.factory.get(self.url % (self.quiz_1.slug))
         request.user = AnonymousUser()
-        response = QuizDelete.as_view()(request)
-        self.assertEqual(response.status_code, 404)
+        response = QuizDeleteView.as_view()(request)
+        self.assertEqual(response.status_code, 302)
 
     def test_fake_quiz_anonymous_returns_404(self):
-        request = self.factory.get(self.url % ('invented_slug'))
+        request = self.factory.get(self.url % ('123456789'))
         request.user = AnonymousUser()
-        response = QuizDelete.as_view()(request)
-        self.assertEqual(response.status_code, 404)
+        response = QuizDeleteView.as_view()(request)
+        self.assertEqual(response.status_code, 302)
 
     def test_returns_correct_html(self):
-        pass
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertTemplateUsed(response, 'Trivia/Quiz/confirm_delete.html')
+        self.assertTemplateUsed(response, 'base.html')
 
-    def test_returns_correct_view(self):
-        pass
-
-    def test_conatins_quiz_name(self):
+    def test_contains_quiz_name(self):
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertContains(response, self.quiz_1.name)
+    
+    def test_contains_quiz_logo(self):
         pass
 
 
 class QuizDetailTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cls.factory = RequestFactory()
         cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
 
-        cls.url = '/trivia/quiz/%s/detail'
+        cls.url = '/trivia/quiz/%s/detail/'
 
         cls.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
         cls.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
@@ -316,41 +323,42 @@ class QuizDetailTest(TestCase):
         cls.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=cls.quiz_1)
         cls.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=cls.quiz_2)
 
-
-    def setUp(self):
-        login = self.client.login(username='test_user_1', password='test_pass_1')
-
     def test_user_returns_200(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
         response = self.client.get(self.url % (self.quiz_1.slug))
         self.assertEqual(response.status_code, 200)
 
     def test_fake_quiz_user_returns_404(self):
-        response = self.client.get(self.url % ('invented_slug'))
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url % ('123456789'))
         self.assertEqual(response.status_code, 404)
 
     def test_anonymous_returns_200(self):
-        request = self.factory.get(self.url % (self.quiz_1.slug))
-        request.user = AnonymousUser()
-        response = QuizDetail.as_view()(request)
+        response = self.client.get(self.url % (self.quiz_1.slug))
         self.assertEqual(response.status_code, 200)
 
     def test_fake_quiz_anonymous_returns_404(self):
-        request = self.factory.get(self.url % ('invented_slug'))
-        request.user = AnonymousUser()
-        response = QuizDetail.as_view()(request)
+        response = self.client.get(self.url % ('123456789'))
         self.assertEqual(response.status_code, 404)
 
     def test_returns_correct_html(self):
-        pass
-
-    def test_returns_correct_view(self):
-        pass
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertTemplateUsed(response, 'Trivia/Quiz/detail.html')
+        self.assertTemplateUsed(response, 'base.html')
 
     def test_contains_quiz_details(self):
-        pass
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertContains(response, self.quiz_1.name)
+        self.assertContains(response, self.quiz_1.creator)
+        self.assertContains(response, self.quiz_1.description)
 
     def test_contains_play_button(self):
-        pass
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertContains(response, "quiz-play-button")
+        # TODO Add check for functionality
 
     def test_contains_leaderboard(self):
         pass
@@ -362,9 +370,10 @@ class QuizDetailTest(TestCase):
 class QuizPlayTest(TestCase):
     @classmethod
     def setUpTestData(cls):
+        cls.factory = RequestFactory()
         cls.user = Profile.objects.create_user(username="test_user_1", password="test_pass_1")
 
-        cls.url = '/trivia/quiz/%s/detail'
+        cls.url = '/trivia/quiz/%s/play/'
 
         cls.user2 = Profile.objects.create_user(username="test_user_2", password="test_pass_2")
         cls.user3 = Profile.objects.create_user(username="test_user_3", password="test_pass_2")
@@ -378,53 +387,50 @@ class QuizPlayTest(TestCase):
         cls.mc_question_1_quiz_1_answer_2 = MultiChoiceAnswer.objects.create(answer="test_answer_2", question=cls.mc_question_1_quiz_1)
         cls.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=cls.quiz_1)
         cls.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=cls.quiz_2)
-
-
-    def setUp(self):
-        login = self.client.login(username='test_user_1', password='test_pass_1')
+        
 
     def test_user_returns_200(self):
-        response = self.client.get(f"/trivia/quiz/{self.quiz_1.slug}/play")
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url % (self.quiz_1.slug))
         self.assertEqual(response.status_code, 200)
 
     def test_fake_quiz_user_returns_404(self):
-        response = self.client.get('/trivia/quiz/invented_slug/play')
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url % ('123456789'))
         self.assertEqual(response.status_code, 404)
 
     def test_anonymous_returns_200(self):
-        request = self.factory.get(f"/trivia/quiz/{self.quiz_1.slug}/play")
-        request.user = AnonymousUser()
-        response = QuizPlay.as_view()(request)
+        response = self.client.get(self.url % (self.quiz_1.slug))
         self.assertEqual(response.status_code, 200)
 
     def test_fake_quiz_anonymous_returns_404(self):
-        request = self.factory.get('/trivia/quiz/invented_slug/play')
-        request.user = AnonymousUser()
-        response = QuizPlay.as_view()(request)
+        response = self.client.get(self.url % ('123456789'))
         self.assertEqual(response.status_code, 404)
 
     def test_returns_correct_html(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertTemplateUsed(response, 'Trivia/Quiz/play.html')
+        self.assertTemplateUsed(response, 'base.html')
+
+    def test_contains_quiz_name(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertContains(response, self.quiz_1.name)
+
+    def test_contains_question(self):
         pass
 
-    def test_returns_correct_view(self):
+    def test_contains_question_answer_input(self):
         pass
 
-    def test_conatains_quiz_name(self):
+    def test_contains_next_button(self):
         pass
 
-    def test_conatains_question(self):
+    def test_contains_back_button(self):
         pass
 
-    def test_conatains_question_answer_input(self):
-        pass
-
-    def test_conatains_next_button(self):
-        pass
-
-    def test_conatins_back_button(self):
-        pass
-
-
+"""
 class QuizModels(TestCase):
 
     def setUp(self):
@@ -477,7 +483,6 @@ class QuizModels(TestCase):
     
     def test_quiz_list_returns_correct_html(self):
         response = self.client.get('/trivia/quiz_list/')
-        self.assertTemplateUsed(response, 'Trivia/quiz_list.html')
         self.assertTemplateUsed(response, 'base.html')
 
     ### QUIZ DETAIL###
@@ -545,3 +550,5 @@ class QuizModels(TestCase):
     def test_quiz_without_ajax_no_questions(self):
         response = self.client.get('/trivia/quiz/question/')
         self.assertEqual(response.content.decode().count("question-id"), 0)
+
+"""

@@ -4,30 +4,60 @@ from apps.Trivia.models import *
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404, JsonResponse
 
-from django.views.generic import DetailView, ListView
+
+
+from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class QuizHomeView(TemplateView):
+    template_name = 'Trivia/home.html'
+    model = Quiz
 
 class QuizListView(ListView):
-    context_object_name = 'quiz_list'
-    template_name = 'Trivia/quiz_list.html'
+    template_name = 'Trivia/Quiz/list.html'
+    model = Quiz
 
-    def get_queryset(self):
-        return Quiz.objects.filter(status='publish')
+    
 
+class QuizCreateView(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'Trivia/Quiz/create.html'
+    model = Quiz
+
+    fields = [ 
+        "name", 
+        "description",
+        "status"
+        ] 
 
 class QuizDetailView(DetailView):
-    context_object_name = 'quiz'
-    template_name = 'Trivia/quiz_detail.html'
+    template_name = 'Trivia/Quiz/detail.html'
+    model = Quiz
 
-    def get_queryset(self):
-        return Quiz.objects.filter(status='publish')
 
-class QuizView(DetailView):
-    context_object_name = 'quiz'
-    template_name = 'Trivia/quiz.html'
+class QuizUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'Trivia/Quiz/update.html'
+    model = Quiz
+    fields = [ 
+        "name", 
+        "description",
+        "status"
+    ] 
 
-    def get_queryset(self):
-        return Quiz.objects.filter(status='publish')
+class QuizDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'Trivia/Quiz/confirm_delete.html'
+    model = Quiz
 
+class QuizPlayView(DetailView):
+    template_name = 'Trivia/Quiz/play.html'
+    model = Quiz
 
 def question(request, quiz_pk, question_number):
     context = {}

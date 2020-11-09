@@ -4,9 +4,11 @@ from django.urls import reverse
 from django.conf import settings
 
 import abc
+import uuid 
 
 from simple_history.models import HistoricalRecords
 from taggit.managers import TaggableManager
+from autoslug import AutoSlugField
 
 class Quiz(models.Model):
 
@@ -19,11 +21,17 @@ class Quiz(models.Model):
     description = models.TextField(blank=True, default="")
     status =  models.CharField(max_length = 25, choices = CHOICE_STATUS, default = 'draft')
     
+    unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
+    slug = AutoSlugField(populate_from='name', unique=True)
+
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     # TODO Add editor option
     # editor = models.ManyToMany(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     tags = TaggableManager()
+
+    # TODO Add the logo img field
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -31,8 +39,8 @@ class Quiz(models.Model):
     def get_absolute_url(self):
         return reverse('trivia:quiz_detail',args=[self.pk])
     
-    def get_questions_url(self):
-        return reverse('trivia:quiz',args=[self.pk])
+    #def get_questions_url(self):
+    #    return reverse('trivia:quiz',args=[self.pk])
 
 
 
