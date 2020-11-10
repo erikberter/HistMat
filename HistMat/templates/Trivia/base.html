@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+    <div id="quiz-logo">Diamat quiz</div>
+    <div id="quiz-search">
+        <input type="search" id="quiz-search-bar" placeholder="search">
+    </div>
+    {% block trivia_base %}
+    {% endblock %}
+</div>
+
+
+{% endblock %}

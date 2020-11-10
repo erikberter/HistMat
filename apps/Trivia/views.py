@@ -15,6 +15,13 @@ class QuizHomeView(TemplateView):
     template_name = 'Trivia/home.html'
     model = Quiz
 
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            data['my_quiz'] = Quiz.objects.filter(creator=self.request.user)
+        data['popular_quiz'] = Quiz.objects.filter(status='publish').all()
+        return data
+
 class QuizListView(ListView):
     template_name = 'Trivia/Quiz/list.html'
     model = Quiz
@@ -59,23 +66,7 @@ class QuizPlayView(DetailView):
     template_name = 'Trivia/Quiz/play.html'
     model = Quiz
 
-def question(request, quiz_pk, question_number):
-    context = {}
-    if request.is_ajax():
-        context['quiz'] =  Quiz.objects.get(pk=quiz_pk)
-        try:
-            context['question'] = Question.objects.filter(quiz=quiz_pk)[question_number]
-        except:
-            raise Http404
-        
-        if isinstance(context['question'].cast(), MultiChoiceQuestion):
-            context['answers'] = MultiChoiceAnswer.objects.filter(question=context['question'])
-        
-        return render(request, 'Trivia/_question.html', context)
-        
-    raise Http404
-
-def question_check(request, quiz_pk, question_number):
+"""def question_check(request, quiz_pk, question_number):
     context = {}
     if request.is_ajax():
         question = Question.objects.filter(quiz=quiz_pk)[question_number]
@@ -90,4 +81,4 @@ def question_check(request, quiz_pk, question_number):
             print("RESP:"+str(int(data['answer'])))
         data['result'] = question.cast().is_answer_correct(data)
         return JsonResponse(data)
-    raise Http404
+    raise Http404"""

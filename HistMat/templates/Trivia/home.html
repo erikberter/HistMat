@@ -1,39 +1,51 @@
-{% extends 'base.html' %}
+{% extends 'Trivia/base.html'%}
 
-{% block content %}
+{% block trivia_base %}
 
-<div>
-    <div id="quiz-logo">Diamat quiz</div>
-    <div id="quiz-search">
-        <input type="search" id="quiz-search-bar" placeholder="search">
-    </div>
-    {% if user.is_authenticated%}
-    <div>
-        <div><h3>My Quizzes</h3><h6>Create Quiz</h6><h6>All quiz</h6></div>
+{% if user.is_authenticated%}
+    <div id="my-quiz-section">
+        <div>
+            <h3>My Quizzes</h3>
+
+            <h6><a href="{% url 'trivia:quiz_create' %}">Create Quiz</a></h6>
+            <h6><a href="{% url 'trivia:quiz_list' %}?my_quiz">All quiz</a></h6>
+        </div>
         <div>
             {% for quiz in my_quiz%}
-                <p>Quiz</p>
+                <div class="card">
+                    <p>{{quiz.name}}</p>
+                    <p>{{quiz.description}}</p>
+                    <p>{{quiz.creator}}</p>
+                </div>
             {% endfor %}
         </div>
     </div>
     {% endif %}
-    <div>
-        <div><h3>Popular Quizzes</h3><h6>All quiz</h6></div>
+    <div id="popular-quiz-section">
+        <div>
+            <h3>Popular Quizzes</h3>
+            <h6><a href="{% url 'trivia:quiz_list'%}?popular">All quiz</a></h6>
+        </div>
         <div>
             {% for quiz in popular_quiz%}
-                <p>Quiz</p>
+                <div class="card">
+                    <p>{{quiz.name}}</p>
+                    <p>{{quiz.description}}</p>
+                    <p>{{quiz.creator}}</p>
+                </div>
             {% endfor %}
         </div>
     </div>
-    <div>
-        <div><h3>Popular Categories</h3><h6>All categories</h6></div>
+    <div id="popular-category-section">
+        <div>
+            <h3>Popular Categories</h3>
+            <h6><a href="{% url 'trivia:quiz_list'%}?categories&popular">All Categories</a></h6>
+        </div>
         <div>
             {% for categorie in popular_categories%}
                 <p>Categorie</p>
             {% endfor %}
         </div>
     </div>
-</div>
-
 
 {% endblock %}
