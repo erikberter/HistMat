@@ -14,7 +14,6 @@
     <div class="dropdown-menu dropdown-menu-right my-0" aria-labelledby="dropdownMenuLink">
         <a class="dropdown-item" href="{{ user.get_absolute_url }}">Perfil</a>
         <div class="dropdown-divider"></div>
-        <p>{{user.rol}}</p>
         <a class="dropdown-item" href="{% url 'users:logout' %}"> Logout</a>
     </div>
 </div>

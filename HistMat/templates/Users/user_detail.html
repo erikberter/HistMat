@@ -6,7 +6,12 @@
 
 {% block css %}
 <link href="{% static 'css/Users/users.css' %}" rel="stylesheet">
+<!--<link href="{% static 'css/Users/sidebar_menu.css' %}" rel="stylesheet">-->
 {% endblock css %}
+
+{% block js %}
+    <!--<script type="text/javascript" src="{% static 'js/Users/sidebar_menu.js' %}"></script>-->
+{% endblock js %}
 
 {% block content %}
 <div class = "container-fluid">
@@ -14,13 +19,10 @@
     <div class= "row">
 
         <!-- MENU -->
-        <div class = "col-md-1 mt-4">
-            <p>Menu</p>
-        </div>
 
     
         <!-- USER -->
-        {% if detail %}
+
         <div class = "col-md-8 mt-4">
             <div class = "card mb-4">
                 <div class = "profile_container">
@@ -35,32 +37,27 @@
                     </div>
                     
                 </div>
-                {% if rol %}
+                
                 <div class = "nickname">
                     <h1> {{user.get_username}}</h1>
-                    <strong> Rol: {{rol.kind_of_user}}</strong>
+                    <strong> Rol: {{user.kind_of_user}}</strong>
                 </div>
                 <div class= "profile_name_surname">
                     <p> Nombre y Apellidos: {{user.get_full_name}} </p>
                 </div>
                 <div class = "country">
-                    <p> Pais: {{detail.country}} </p>
+                    <p> Pais: {{user.country}} </p>
                 </div>
                 <div class = "study_center">
-                    <p> Centro de estudios: {{detail.study_center}}</p>
+                    <p> Centro de estudios: {{user.study_center}}</p>
                 </div>
                 <div class = "profile_xp">
-                    <p> XP: {{rol.xp}}</p>
+                    <p> XP: {{user.xp}}</p>
                 </div>
-                {% else %}
-                    <p> No hay rol</p>
-                {% endif %}
 
             </div>
         </div>
-        {% else %}
-            <p> datos vacios</p>
-        {% endif %}
+
     
         <!-- ACHIEVEMENTS -->
         <div class = "col-md-3 float-right">
@@ -71,5 +68,5 @@
     
 </div>
 
-{% endblock %}
+{% endblock content%}
 

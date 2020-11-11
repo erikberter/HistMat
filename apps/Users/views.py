@@ -6,12 +6,8 @@ from django.contrib.auth.models import User
 
 def user_detail(request):
     user = request.user
-    detail = user.detail
-    rol = user.rol
-
+ 
     context = {
         'user':user,
-        'detail':detail,
-        'rol':rol,
     }
     return render(request, "Users/user_detail.html", context)
