@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'apps.Users',
     'apps.Layout',
     'apps.Trivia',
+    'apps.Apuntes',
 
     'bootstrap4',
     'django_static_jquery_ui',
