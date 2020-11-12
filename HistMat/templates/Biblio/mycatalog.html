@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block css%}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">    
     <link rel="stylesheet" type="text/css" href="{% static 'css/simple-sidebar.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/search_bar.css' %}">
 {% endblock %}
@@ -14,10 +15,28 @@
     <script src="{% static 'js/Biblio/general.js' %}"> </script>
     <script src="{% static 'js/Biblio/mycatalog.js' %}"> </script>
     <script src="{% static 'js/Biblio/book_public.js' %}"> </script>
+
+    <script>
+        var fab = new Vue({
+            el: '#fab-container',
+            data: {
+                create_url: "{% url 'biblio:book_create'%}"
+            },
+            // definir métodos bajo el objeto `methods`
+            methods: {
+                fab_action: function (event) {
+                    window.location = this.create_url;
+                }
+            }
+        })
+    </script>
+
+    
+
 {% endblock %}
 
 {% block content%}
-
+{% include 'widgets/fab.html'%}
 <div class="p-0 m-0">
     
     <div class="wrapper d-flex align-items-stretch" id="wrapper"> 
