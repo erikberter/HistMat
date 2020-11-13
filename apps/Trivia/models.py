@@ -10,6 +10,10 @@ from simple_history.models import HistoricalRecords
 from taggit.managers import TaggableManager
 from autoslug import AutoSlugField
 
+class PublishedQuizManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(visibility='public')
+
 class Quiz(models.Model):
 
     CHOICE_STATUS = (
@@ -31,10 +35,19 @@ class Quiz(models.Model):
 
     tags = TaggableManager()
 
+
+
     # TODO Add the logo img field
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    objects = models.Manager()
+    public = PublishedQuizManager()
+    
+    visited = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
+
 
     def get_absolute_url(self):
         return reverse('trivia:quiz_detail',args=[self.pk])

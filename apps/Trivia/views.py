@@ -2,8 +2,8 @@ from django.shortcuts import render
 
 from apps.Trivia.models import *
 from django.shortcuts import render, get_object_or_404
-from django.http import Http404, JsonResponse
-
+from django.http import Http404, JsonResponse, HttpResponseRedirect
+from django.urls import reverse_lazy
 
 
 from django.views.generic import DetailView, ListView, TemplateView
@@ -34,11 +34,15 @@ class QuizCreateView(LoginRequiredMixin, CreateView):
     template_name = 'Trivia/Quiz/create.html'
     model = Quiz
 
-    fields = [ 
-        "name", 
-        "description",
-        "status"
-        ] 
+    success_url = reverse_lazy('trivia:quiz_list')
+
+    fields = ["name", "description","status"] 
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.creator = self.request.user
+        obj.save()        
+        return HttpResponseRedirect(self.success_url)
 
 class QuizDetailView(DetailView):
     template_name = 'Trivia/Quiz/detail.html'
@@ -49,7 +53,9 @@ class QuizUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
     template_name = 'Trivia/Quiz/update.html'
+    object_context_name = "quiz_object"
     model = Quiz
+
     fields = [ 
         "name", 
         "description",
@@ -59,6 +65,7 @@ class QuizUpdateView(LoginRequiredMixin, UpdateView):
 class QuizDeleteView(LoginRequiredMixin, DeleteView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
+    success_url = reverse_lazy('trivia:quiz_list')
     template_name = 'Trivia/Quiz/confirm_delete.html'
     model = Quiz
 
@@ -78,7 +85,7 @@ class QuizPlayView(DetailView):
         data['answer'] = request.POST.get('answer')
         if isinstance(question.cast(), MultiChoiceQuestion):
             data['answer'] = int(data['answer'])
-            print("RESP:"+str(int(data['answer'])))
+            
         data['result'] = question.cast().is_answer_correct(data)
         return JsonResponse(data)
     raise Http404"""

@@ -17,9 +17,7 @@ def get_book_state(user, book):
 @register.simple_tag
 def is_book_in_user(user, book):
     try:
-        book_ud_c = BookUserDetail.objects.filter(
-            Q(book=book) & Q(user = user) 
-            ).count()
+        book_ud_c = BookUserDetail.objects.filter(book=book).filter(user = user).count()
     except:
         return False
     return book_ud_c > 0

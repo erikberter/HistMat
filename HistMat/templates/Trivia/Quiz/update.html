@@ -1,5 +1,17 @@
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
 {% block content %}
+
+<div class="card">
+
+        <form action="?" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ quiz_object |crispy }}
+            <input type="submit" class="btn btn-secondary">
+            <a id="btn-delete-quizz" class="btn btn-danger">Delete</a>
+        </form>
+
+</div>
 
 {% endblock %}

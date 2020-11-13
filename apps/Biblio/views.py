@@ -60,12 +60,10 @@ class MyCatalogView(LoginRequiredMixin, View):
                     order = request.POST.get('book_order')
                     if order=="order-last-added":
                         context['books'] = context['books'].order_by("bookuserdetail__updated")
-                        print("-----2------")
-                        print(context['books'])
+                        
                     elif order == "order-first-added":
                         context['books'] = context['books'].order_by("-bookuserdetail__updated")
-                        print("-----1------")
-                        print(context['books'])
+                        
 
                 return render(request, 'Biblio/_book_shelf_list.html', context)
             else:
@@ -95,7 +93,6 @@ def book_state_change(request, slug):
 def book_page_change(request, slug):
     context={}
     if request.is_ajax():
-        print("hola")
         book = Book.objects.get(slug=slug)
         
         book_ud_c = BookUserDetail.objects.filter(book=book).filter(user = request.user).count()
@@ -198,7 +195,9 @@ if DEBUG:
         book.save()
         result = urllib.request.urlretrieve("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/action-thriller-book-cover-design-template-3675ae3e3ac7ee095fc793ab61b812cc_screen.jpg?ts=1588152105")
         book.cover.save(os.path.basename("Algo"), File(open(result[0], 'rb')))
-        book_du = BookUserDetail.objects.create(book=book, user=Profile.objects.order_by('?')[0], book_state=random.choice(book_state_l))
+        book_state = random.choice(book_state_l)
+        book_du = BookUserDetail.objects.create(book=book, user=Profile.objects.order_by('?')[0], book_state=book_state)
+        
         book_du.save()
         book.save()
 

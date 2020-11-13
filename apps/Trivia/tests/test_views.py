@@ -204,6 +204,18 @@ class QuizCreateTest(TestCase):
         self.assertTemplateUsed(response, 'Trivia/Quiz/create.html')
         self.assertTemplateUsed(response, 'base.html')
 
+    def test_contains_create_button(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url)
+        self.assertContains(response, "btn-create-quiz")
+
+    def test_contains_form(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url)
+        self.assertContains(response, "form")
+        self.assertContains(response, 'id="id_name"')
+        self.assertContains(response, 'id="id_description"')
+        
 class QuizUpdateTest(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -259,6 +271,11 @@ class QuizUpdateTest(TestCase):
     def test_contains_correct_fields(self):
         pass
 
+    def test_contains_delete_button(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertContains(response, "btn-delete-quiz")
+
 class QuizDeleteTest(TestCase):
     @classmethod
     def setUpTestData(cls):
@@ -279,43 +296,41 @@ class QuizDeleteTest(TestCase):
         cls.mc_question_1_quiz_1_answer_2 = MultiChoiceAnswer.objects.create(answer="test_answer_2", question=cls.mc_question_1_quiz_1)
         cls.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=cls.quiz_1)
         cls.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=cls.quiz_2)
-
-
-    def setUp(self):
-        login = self.client.login(username='test_user_1', password='test_pass_1')
+        
 
     def test_user_returns_200(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
         response = self.client.get(self.url % (self.quiz_1.slug))
         self.assertEqual(response.status_code, 200)
 
     def test_fake_quiz_user_returns_404(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
         response = self.client.get(self.url % ('123456789'))
         self.assertEqual(response.status_code, 404)
 
     def test_anonymous_returns_302(self):
-        request = self.factory.get(self.url % (self.quiz_1.slug))
-        request.user = AnonymousUser()
-        response = QuizDeleteView.as_view()(request)
+        response = self.client.get(self.url % (self.quiz_1.slug))
         self.assertEqual(response.status_code, 302)
 
     def test_fake_quiz_anonymous_returns_404(self):
-        request = self.factory.get(self.url % ('123456789'))
-        request.user = AnonymousUser()
-        response = QuizDeleteView.as_view()(request)
+        response = self.client.get(self.url % ('123456789'))
         self.assertEqual(response.status_code, 302)
 
     def test_returns_correct_html(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
         response = self.client.get(self.url % (self.quiz_1.slug))
         self.assertTemplateUsed(response, 'Trivia/Quiz/confirm_delete.html')
         self.assertTemplateUsed(response, 'base.html')
 
     def test_contains_quiz_name(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
         response = self.client.get(self.url % (self.quiz_1.slug))
         self.assertContains(response, self.quiz_1.name)
     
-    def test_contains_quiz_logo(self):
-        pass
-
+    def test_contains_confirm_delete_button(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url % (self.quiz_1.slug))
+        self.assertContains(response, "btn-confirm-delete")
 
 class QuizDetailTest(TestCase):
     @classmethod
