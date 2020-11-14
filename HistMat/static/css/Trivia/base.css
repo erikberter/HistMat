@@ -1,0 +1,17 @@
+#quiz-logo > h1{
+    font-size: 62px;
+}
+
+#quiz-search{
+
+}
+
+#quiz-search-bar{
+
+}
+
+
+.active-cyan-4 input[type=text]:focus:not([readonly]) {
+    border: 1px solid #4dd0e1;
+    box-shadow: 0 0 0 1px #4dd0e1;
+  }

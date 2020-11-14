@@ -50,7 +50,7 @@ class Quiz(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse('trivia:quiz_detail',args=[self.pk])
+        return reverse('trivia:quiz_detail',args=[self.slug])
     
     #def get_questions_url(self):
     #    return reverse('trivia:quiz',args=[self.pk])

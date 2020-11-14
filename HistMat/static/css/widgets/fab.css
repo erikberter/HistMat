@@ -5,25 +5,31 @@
         - Floating Action Button in CSS : https://www.youtube.com/watch?v=iYFNaeEeCDI
 */
 
+@import './../colors.css';
+
 .fab-container {
     position: fixed;
     bottom:50px;
     right: 50px;
     z-index: 999;
     cursor: pointer;
+
+    
 }
 
-.fab-icon-holder{
+
+.fab-icon-holder {
     width: 100px;
     height: 100px;
     border-radius: 100%;
-    background: #016fb9;
-
+    background: var(--quiz-blue);
+    transition: 0.4s;
     box-shadow: 0 6px 20px rgba(0,0,0,0.2);
 }
 
-.fav-icon-holder:hover{
-    opacity: 0.8;
+.fab-container:hover > .fab-icon-holder {
+    background: #006cb4;
+
 }
 
 .fab-icon-holder i {
@@ -32,6 +38,6 @@
     justify-content: center;
 
     height: 100%;
-    font-style: 50px;
+    font-size: 38px;
     color: #ffffff;
 }

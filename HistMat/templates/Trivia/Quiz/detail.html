@@ -1,12 +1,62 @@
 {% extends 'base.html' %}
 
+{% load static %}
+{% block css%}
+    <link href="{% static 'css/Trivia/base.css' %}" rel="stylesheet">
+    <link href="{% static 'css/Trivia/quiz.css' %}" rel="stylesheet">
+    <link href="{% static 'css/colors.css' %}" rel="stylesheet">
+    {% if is_own_quiz%}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
+    {% endif %}
+{% endblock %}
+
+{% block js%}
+
+<script>
+    $(document).ready(function(){
+        console.log("Changing quiz detail logo color");
+        var css_colors = ["green","blue","orange","pink","red"];
+        $("#quiz-detail-logo").css("background-color", "var(--quiz-"+css_colors[Math.floor((Math.random() * 5))]+")");
+        console.log("Changed quiz detail logo color");
+    });
+</script>
+
+    {% if is_own_quiz%}
+        <script>
+            var fab = new Vue({
+                el: '#fab-container',
+                data: {
+                    create_url: "{% url 'trivia:quiz_update' quiz.slug%}"
+                },
+                methods: {
+                    fab_action: function (event) {
+                        window.location = this.create_url;
+                    }
+                }
+            })
+        </script>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
 
-<div>
-    <div>{{quiz.name}}</div>
-    <div>{{quiz.description}}</div>
-    <div>{{quiz.creator}}</div>
-    <button id="quiz-play-button">Play</button>
+<div id="quiz-detail-logo" class=" w-100 p-3 d-flex text-align-center">
+    <h1 class="text-white">{{quiz.name}}</h1>
 </div>
+<div class="container-fluid p-5">
+    <p> Creado por {{quiz.creator}} el {{quiz.created}} y {{is_own_quiz}}</p>
+    <div>
+        <p>
+            {{quiz.description}}
+        </p>
+    </div>
+    <a id="quiz-play-button" class="btn btn-primary" href="{% url 'trivia:quiz_play' quiz.slug %}">Play</a>
+</div>
+
+{% if is_own_quiz%}
+    {% include 'widgets/fab.html'%}
+{% endif %}
+
+
 
 {% endblock %}

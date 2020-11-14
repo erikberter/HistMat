@@ -105,7 +105,9 @@ class QuizHomeTest(TestCase):
         self.assertContains(response, "test_quiz_3")
 
     def test_contains_quiz_url(self):
-        pass
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url)
+        self.assertContains(response, self.quiz_1.get_absolute_url())
 
     # TODO Change to popular categories by modifying the categories to add visits
     def test_contains_categories(self):
@@ -157,6 +159,20 @@ class QuizListTest(TestCase):
 
     def test_page_contains_search_bar(self):
         pass
+
+    def test_empty_search_print_empty_message(self):
+        pass
+
+    def test_contains_quiz(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url)
+        self.assertContains(response, self.quiz_1.get_absolute_url())
+        self.assertContains(response, self.quiz_1.name)
+
+    def test_not_contains_quiz_draft(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.url)
+        self.assertNotContains(response, self.quiz_draft_3.name)
 
     def test_returns_correct_quiz_by_search(self):
         pass
@@ -352,6 +368,11 @@ class QuizDetailTest(TestCase):
         cls.mc_question_1_quiz_1_answer_2 = MultiChoiceAnswer.objects.create(answer="test_answer_2", question=cls.mc_question_1_quiz_1)
         cls.textquestion_2_quiz_1 = TextQuestion.objects.create(question="test_question_2",quiz=cls.quiz_1)
         cls.textquestion_2_quiz_2 = TextQuestion.objects.create(question="test_question_3",quiz=cls.quiz_2)
+
+    def test_quiz_get_absolute_returns_200(self):
+        login = self.client.login(username='test_user_1', password='test_pass_1')
+        response = self.client.get(self.quiz_1.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
 
     def test_user_returns_200(self):
         login = self.client.login(username='test_user_1', password='test_pass_1')

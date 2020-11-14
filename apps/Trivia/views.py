@@ -26,7 +26,10 @@ class QuizListView(ListView):
     template_name = 'Trivia/Quiz/list.html'
     model = Quiz
 
-    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['quizzes'] = Quiz.objects.filter(status='publish').all()
+        return context
 
 class QuizCreateView(LoginRequiredMixin, CreateView):
     login_url = '/login/'
@@ -47,7 +50,13 @@ class QuizCreateView(LoginRequiredMixin, CreateView):
 class QuizDetailView(DetailView):
     template_name = 'Trivia/Quiz/detail.html'
     model = Quiz
+    context_object_name = "quiz"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        quiz = self.get_object()
+        context['is_own_quiz'] = (quiz.creator == self.request.user)
+        return context
 
 class QuizUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/login/'

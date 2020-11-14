@@ -90,7 +90,7 @@ class BookUserDetail(models.Model):
         ('dropped', 'Dropped'),
         ('on_hold', 'On Hold'))
     BOOK_STATE_L = [t[0] for t in BOOK_STATE]
-    DEFAULT_BOOK_STATE = BOOK_STATE[0][0]
+    DEFAULT_BOOK_STATE = "want_to_read"
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)

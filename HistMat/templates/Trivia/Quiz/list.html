@@ -1,9 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'Trivia/base.html' %}
 
 {% block content %}
 
 <div id="quiz-logo">Diamat quiz</div>
 
+{% for quiz in quizzes %}
+    {% include 'Trivia/Quiz/_quiz.html' with quiz=quiz %}
+{% endfor %}
 
 
 {% endblock %}

@@ -1,23 +1,35 @@
 {% extends 'Trivia/base.html'%}
 
+{% block trivia_css%}
+    {% if user.is_authenticated%}
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}"> 
+    {% endif %}
+{% endblock %}
+
+
 {% block trivia_base %}
 
-{% if user.is_authenticated%}
+    {% if user.is_authenticated%}
     <div id="my-quiz-section">
-        <div>
-            <h3>My Quizzes</h3>
-
-            <h6><a href="{% url 'trivia:quiz_create' %}">Create Quiz</a></h6>
-            <h6><a href="{% url 'trivia:quiz_list' %}?my_quiz">All quiz</a></h6>
+        <div class="d-flex justify-content-between">
+            <h2 class="float-left">My Quizzes</h2>
+            <a href="{% url 'trivia:quiz_list' %}?my_quiz" class="btn btn-success float-right">All quiz</a>
         </div>
-        <div>
+        
+        <div id="my-quiz-section-list" class="d-flex flex-row flex-wrap quiz-list-section">
             {% for quiz in my_quiz%}
-                <div class="card">
-                    <p>{{quiz.name}}</p>
-                    <p>{{quiz.description}}</p>
-                    <p>{{quiz.creator}}</p>
-                </div>
+                {% include 'Trivia/Quiz/_quiz.html' with quiz=quiz%}
             {% endfor %}
+            <!-- Maybe set to abstract html-->
+            <a class="card-title quiz-card-a" href="{% url 'trivia:quiz_list'%}">
+                <div class="card quiz-card p-3 mx-1">
+                    <h1>All my quiz</h1>
+                    <p>Goto to all</p>
+                </div>
+            </a>
+            
+            
         </div>
     </div>
     {% endif %}
@@ -26,13 +38,9 @@
             <h3>Popular Quizzes</h3>
             <h6><a href="{% url 'trivia:quiz_list'%}?popular">All quiz</a></h6>
         </div>
-        <div>
+        <div class="d-flex flex-row flex-wrap quiz-list-section">
             {% for quiz in popular_quiz%}
-                <div class="card">
-                    <p>{{quiz.name}}</p>
-                    <p>{{quiz.description}}</p>
-                    <p>{{quiz.creator}}</p>
-                </div>
+                {% include 'Trivia/Quiz/_quiz.html' with quiz=quiz%}
             {% endfor %}
         </div>
     </div>
@@ -41,11 +49,40 @@
             <h3>Popular Categories</h3>
             <h6><a href="{% url 'trivia:quiz_list'%}?categories&popular">All Categories</a></h6>
         </div>
-        <div>
+        <div class="quiz-list-section">
             {% for categorie in popular_categories%}
                 <p>Categorie</p>
             {% endfor %}
         </div>
     </div>
+
+
+    <script>
+        $(document).ready(function(){
+            var loop_c = 0;
+            var css_colors = ["green","blue","orange","pink","red"];
+            $(".quiz-list-section div").each(function(){
+                $(this).css("background-color", "var(--quiz-"+css_colors[loop_c]+")");
+                loop_c = (loop_c+1)%5;
+            });
+        });
+    </script>
+
+    {% if user.is_authenticated%}
+    {% include 'widgets/fab.html'%}
+    <script>
+        var fab = new Vue({
+            el: '#fab-container',
+            data: {
+                create_url: "{% url 'trivia:quiz_create'%}"
+            },
+            methods: {
+                fab_action: function (event) {
+                    window.location = this.create_url;
+                }
+            }
+        })
+    </script>
+    {% endif %}
 
 {% endblock %}

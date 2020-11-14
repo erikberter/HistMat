@@ -1,14 +1,31 @@
 {% extends 'base.html' %}
 
+{% load static %}
+{% block css%}
+    <link href="{% static 'css/Trivia/base.css' %}" rel="stylesheet">
+    <link href="{% static 'css/Trivia/quiz.css' %}" rel="stylesheet">
+    <link href="{% static 'css/colors.css' %}" rel="stylesheet">
+    {% block trivia_css%}
+    {% endblock %}
+{% endblock %}
+
+
+
 {% block content %}
 
-<div>
-    <div id="quiz-logo">Diamat quiz</div>
-    <div id="quiz-search">
-        <input type="search" id="quiz-search-bar" placeholder="search">
+<div class="pt-2">
+    <div class="container column">
+        <div id="quiz-logo" class="row d-flex justify-content-center"> 
+            <h1>DiaTrivia</h1>
+        </div>
+        <div id="quiz-search" class="row d-flex justify-content-center active-cyan-4 mb-4">
+            <input type="text" class="form-control" id="quiz-search-bar" placeholder="Search" aria-label="Search">
+        </div>
     </div>
+    <div class="p-5">
     {% block trivia_base %}
     {% endblock %}
+    </div>
 </div>
 
 
