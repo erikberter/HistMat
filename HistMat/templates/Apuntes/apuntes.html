@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content%}
+{% for articulo in articulos%}
+	<div class="card d-flex p-3 flex-row">
+		
+		<div>
+		{% if apunte.imagen %}
+			<a href="{{apunte.get_absolute_url}}">
+			<img src="{{apunte.imagen.url}}" alt="{{apunte.nombre}} cover" style="width:200px;">
+			</a>
+		{% else %}
+			<p> No hay imagen </p>
+		{% endif %}
+		</div>
+		<div>
+		<h2>
+			<a href="{{apunte.get_absolute_url}}">
+			{{ apunte.nombre }}
+			</a>
+		</h2>
+	
+		
+	
+	
+		</div>
+	</div>
+	{% endfor%}
+{% endblock%}

@@ -5,4 +5,4 @@ from .models import Apunte
 def apuntes(request):
     apuntes = Apunte.objects.all()
     context = {'apuntes' : apuntes}
-    return render(request, 'apuntes.html', context)
+    return render(request, 'Apuntes/apuntes.html', context)
