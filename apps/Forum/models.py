@@ -2,7 +2,7 @@ from django.db import models
 from .models import User
 from django.urls import reverse
 
-class Comment(models.Model):
+class post(models.Model):
     userName = models.CharField(max_length=255, default = User.get_full_name())
     body = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
