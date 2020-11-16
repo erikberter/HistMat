@@ -6,13 +6,13 @@
     <br></br>
     <div class="card bg-light my-5">
         <br>
-        <h1 class="mx-4">Añadir comentario al foro</h1>
+        <h1 class="mx-4">Añadir post al foro</h1>
         <hr>
         <div class="card bg-light border-0 mx-5">
     <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button class="btn btn-outline-secondary">Añadir comentario</button>
+                <button class="btn btn-outline-secondary">Añadir post</button>
 
         </div>
     </div>
