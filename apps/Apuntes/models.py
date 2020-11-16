@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from taggit.managers import TaggableManager
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 class Apunte(models.Model):
     nombre = models.CharField(max_length=80)
@@ -21,3 +23,10 @@ class Apunte(models.Model):
         
     def get_absolute_url(self):
         return reverse('apunte_completo', args=[self.pk])
+
+
+class AddApunte(CreateView):
+     model = Apunte
+     template_name = 'add_apuntes.html'
+     fields = '__all__'
+     success_url = reverse_lazy('apunte')
