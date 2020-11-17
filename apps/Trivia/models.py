@@ -10,6 +10,17 @@ from simple_history.models import HistoricalRecords
 from taggit.managers import TaggableManager
 from autoslug import AutoSlugField
 
+import json
+from django.core.serializers.python import Serializer
+
+from django.core.serializers.json import DjangoJSONEncoder
+
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+
 class PublishedQuizManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(visibility='public')
@@ -48,16 +59,34 @@ class Quiz(models.Model):
     visited = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.name
 
     def get_absolute_url(self):
         return reverse('trivia:quiz_detail',args=[self.slug])
     
-    #def get_questions_url(self):
-    #    return reverse('trivia:quiz',args=[self.pk])
+    
 
 
+def questionSelect( questions):
+    data = {}
+    question_dict = []
+    for question in questions:
+        ret_data = question.cast().get_dict()
+        question_dict.append(ret_data.copy())
+    data["questions"] = question_dict
+    
+    print(data)
+    return data
+
+def get_question_type(question):
+    for qtype in QUESTION_TYPES:
+        if isinstance(question.cast(), qtype[0]):
+            return qtype[1]
+    return "none"
 
 class Question(models.Model):
+    question_type = ""
     question = models.CharField(max_length = 255)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
 
@@ -71,6 +100,10 @@ class Question(models.Model):
         """Returns True if the answer is correct"""
         return
     
+    def get_dict(self):
+        data = { "question" : self.question, "question_type" : get_question_type(self)}
+        return data
+
     def get_absolute_url(self):
         return reverse('trivia:question',args=[self.quiz.pk, self.pk])
 
@@ -93,7 +126,6 @@ class Question(models.Model):
         return self
 
 class MultiChoiceQuestion(Question):
-    
     CHOICE_TYPE = (
         ('single', 'Single Answer'),
         ('multi', 'Multiple Answers'),
@@ -105,25 +137,45 @@ class MultiChoiceQuestion(Question):
         answers = MultiChoiceAnswer.objects.filter(question=self)
         if 'answer' not in data:
             return False
-        answers = answers.filter(pk=int(data['answer'])).first()
+        answers = answers.get(pk=int(data['answer']))
         return answers.is_correct
 
+    def get_dict(self):
+        data = super().get_dict()
+        answers_list = []
+        answers = MultiChoiceAnswer.objects.filter(question=self)
+        for answer in answers:
+            answers_list.append(answer.get_dict().copy())
+
+        data["answers"] = answers_list
+
+        return data
+
 class MultiChoiceAnswer(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name="answers", on_delete=models.CASCADE)
     answer = models.CharField(max_length = 255, default="")
     is_correct = models.BooleanField(default=False)
 
+    def get_dict(self):
+        return {'answer' : self.answer, 'is_correct' : self.is_correct}
+
 class TextQuestion(Question):
-    text_answer = models.TextField()
+    answer = models.TextField()
 
     def is_answer_correct(self, data):
         if 'answer' not in data:
             return False
-        return data['answer']==self.text_answer
+        return data['answer']==self.answer
 
-
-
-
+    def get_dict(self):
+        data = super().get_dict()
+        data["answer"] = self.answer
+        return data
 
 # TODO Solve this in a more elegant way
 # I should add here the finished migration file with the corrected solution
+
+QUESTION_TYPES = (
+        (MultiChoiceQuestion, "multichoice"),
+        (TextQuestion , "text"),
+        )

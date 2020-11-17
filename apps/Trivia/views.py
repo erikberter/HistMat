@@ -11,6 +11,9 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django.core import serializers
+
+
 class QuizHomeView(TemplateView):
     template_name = 'Trivia/home.html'
     model = Quiz
@@ -78,9 +81,25 @@ class QuizDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'Trivia/Quiz/confirm_delete.html'
     model = Quiz
 
+import json
+from django.core.serializers import serialize
+
+
 class QuizPlayView(DetailView):
     template_name = 'Trivia/Quiz/play.html'
     model = Quiz
+
+    def get(self, request, *args, **kwargs):
+        if request.is_ajax():
+            quiz = self.get_object()
+            question_dict = {}
+            questions_query = Question.objects.filter(quiz=quiz).all()
+            question_dict = questionSelect(questions_query)
+            question_dict['quiz_name'] = quiz.name
+        
+            return JsonResponse(question_dict)
+        else:
+            return super().get(self, request, *args, **kwargs)
 
 """def question_check(request, quiz_pk, question_number):
     context = {}

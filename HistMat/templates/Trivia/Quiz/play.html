@@ -1,10 +1,36 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{%load static%}
+{% block js%}
+    <script type="module" src="{% static 'js/Trivia/quiz_play.js'%}"></script>
+{% endblock %}
 
-<div>
-    <div>{{quiz.name}}</div>
-    <button id="quiz-play-button">Play</button>
+{% block content %}
+{% csrf_token%}
+
+<div id="quiz-app">
+    <div id="quiz-detail-logo" class=" w-100 p-3 d-flex text-align-center">
+        <h1 >[[quiz.name]]</h1>
+    </div>
+    <p> Vamos por la [[quiz_status.act_question]] de [[quiz.n_question]] preguntas.</p>
+    <div v-for="(question, index) in quiz.questions" v-show="quiz_status.act_question === index">
+        <div>[[question.question]]</div>
+        <div v-if="question.question_type=='text'"> 
+            <input type="text" v-model="quiz_status.q_answer">
+        </div>
+
+        <div v-else> 
+            <p>Seleccionado [[quiz_status.q_answer]]</p>
+            <div v-for="(ans, a_index) in question.answers" >
+                
+                <input type="radio" v-model="quiz_status.q_answer" :value="ans.answer">
+                <label>[[ans.answer]]</label>
+            </div>
+        </div>
+    </div>
+    <button @click="quiz_status.act_question--" v-show="quiz_status.act_question > 0">Previous Question</button>
+    <button @click="quiz_status.act_question++" v-show="quiz_status.act_question < quiz.n_question-1">Next Question</button>
 </div>
+
 
 {% endblock %}
