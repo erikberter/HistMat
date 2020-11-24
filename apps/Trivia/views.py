@@ -59,6 +59,7 @@ class QuizDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         quiz = self.get_object()
         context['is_own_quiz'] = (quiz.creator == self.request.user)
+        context['question_list'] = Question.objects.filter(quiz=quiz)
         return context
 
 class QuizUpdateView(LoginRequiredMixin, UpdateView):

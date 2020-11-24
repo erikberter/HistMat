@@ -85,8 +85,12 @@ def get_question_type(question):
             return qtype[1]
     return "none"
 
+QUESTION_TYPES_TEXT = (
+        ("multichoice", "Multichoice Question"),
+        ("text" , "Text"),
+        )
 class Question(models.Model):
-    question_type = ""
+    question_type = models.CharField(max_length = 25, choices = QUESTION_TYPES_TEXT, default = 'text')
     question = models.CharField(max_length = 255)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
 
