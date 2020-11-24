@@ -8,5 +8,7 @@ app_name = 'users'
 
 urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view() , name='logout'),
-    path('user_detail/', views.user_detail, name='user_detail')
+    path('user_detail/', views.user_detail, name='user_detail'),
+    path('<int:pk>/user_config', views.UserUpdateView.as_view(), name='user_config'),
+    path('achievements/', views.AchievementListView.as_view(), name='achievement_list'),
 ]

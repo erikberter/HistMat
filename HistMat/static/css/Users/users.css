@@ -5,21 +5,40 @@
     height: 150px;
 }
 .star_photo{
-    position: absolute;
+    position: relative;
     padding-left: 5px;
     padding-top: 5px;
     max-width: 70px;
     max-height: 70px;
 }
+
+.sidprofile_photo{
+    padding-top: 20px;
+    max-width: 50px;
+    max-height: 50px;
+
+}
+
+.sidsettings_photo{
+    padding-top: 20px;
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.sidsocial_photo{
+    padding-top: 20px;
+    max-width: 50px;
+    max-height: 50px;
+}
 .level_num{
-    position: absolute;
+    position: relative;
     padding-left: 20px;
     padding-top: 30px;
     width: 60px;
     height: 60px;
 }
 .photo{
-    position: absolute;
+    position: relative;
     padding-left: 30px;
     padding-top: 25px;
     max-width: 200px;
@@ -35,18 +54,38 @@
 }
 
 .nickname{
-    position: absolute;
+    position: relative;
     left: 250px;
     top: 20px;
     padding-left: 5px;
 }
 .profile_name_surname{
-    position: absolute;
+    position: relative;
     top:140px;
-    padding-left: 20px;
+    padding-left: 220px;
 }
 .country{
-    position: absolute;
+    position: relative;
     top:140px;
     left:250px;
+}
+
+.card-horizontal{
+    display: flex;
+    flex: 1 1 auto;
+  }
+
+.achievement_photo{
+    max-height: 80px;
+    max-width: 80px;
+}
+
+.img-square-wrapper{
+    align-self: center;
+}
+.friend_photo{
+    max-height: 80px;
+    max-width: 120px;
+    min-width: 120px;
+    min-height: 80px;
 }

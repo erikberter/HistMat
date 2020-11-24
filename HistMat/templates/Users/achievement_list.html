@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+<h1>Achievements</h1>
+<ul>
+{% for achievement_progress in achievement_progress_list %}
+    <h5>HAY OBJETOS</h5>
+    <li>{{ achievement_progress.achievement.name }} - {{ achievement_progress.actual_progress}}</li>
+{% empty %}
+    <li>No tienes ningun logro todavia.</li>
+    <h5>VACIOO</h5>
+{% endfor %}
+</ul>
