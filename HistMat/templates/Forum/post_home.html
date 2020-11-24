@@ -1,17 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %} Forum {% endblock %}
 
 {% block content %} 
 </br>
-<h2 class="text-white"> Ultimos Posts </h2>
-<div class="d-flex flex-row flex-wrap">
+<h2 class="text-dark"> Forum </h2>
+<div class="d-flex flex-row">
     {% for post in posts %}
-        <div class="card my-2 mx-2 img-fluid bg-transparent border-0" style="width:500px">
-            <img class="card-img-top rounded img-responsive" src="/media/{{post.image}}" alt="Card image" style="width:100%">
-            <div class="card-img-overlay">
-                <a class="text-white" href="{{ post.get_absolute_url}}"> <h3> {{post.title}}</h3> </a>
-            </div>
+        <div class="card my-2 mx-2 img-fluid bg-transparent border-0">
+            <!--<img class="card-img-top rounded img-responsive" src="/media/{{post.image}}" alt="Card image" style="width:100%">-->
+            <a class="text-dark" href="{{ post.get_absolute_url}}"> <h3> {{post.body}}</h3> </a>
         </div>
     {% endfor%}
 </div>
