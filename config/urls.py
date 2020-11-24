@@ -28,4 +28,5 @@ urlpatterns = [
     path('trivia/', include('apps.Trivia.urls', namespace='trivia')),
     path('', include('social_django.urls', namespace='social')),
     path('', include('apps.Apuntes.urls', namespace='apuntes')),
+    path('', include('apps.Forum.urls', namespace='forum')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
