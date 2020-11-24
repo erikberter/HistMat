@@ -29,7 +29,10 @@
                     {{ form.city|as_crispy_field }}
                 </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                <input type="submit" class="btn btn-primary" value="Guardar cambios">
+                <a href="{% url 'users:user_delete' user.pk %}">
+                    <input class="btn btn-primary" value="Eliminar perfil">
+                </a>
             </form>
         </div>
     </div>

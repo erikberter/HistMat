@@ -11,4 +11,5 @@ urlpatterns = [
     path('user_detail/', views.user_detail, name='user_detail'),
     path('<int:pk>/user_config', views.UserUpdateView.as_view(), name='user_config'),
     path('achievements/', views.AchievementListView.as_view(), name='achievement_list'),
+    path('<int:pk>/delete/', views.UserDeleteView.as_view(), name='user_delete'),
 ]

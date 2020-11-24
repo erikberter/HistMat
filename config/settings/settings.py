@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'apps.Layout',
     'apps.Trivia',
     'apps.Apuntes',
+    'apps.Forum',
     'bootstrap4',
     'django_static_jquery_ui',
     'autoslug',

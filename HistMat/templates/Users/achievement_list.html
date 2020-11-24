@@ -1,13 +1,41 @@
 {% extends 'base.html' %}
+{% load static %}
 
+{% block css %}
+<link href="{% static 'css/Users/users.css' %}" rel="stylesheet">
+{% endblock css %}
 
-<h1>Achievements</h1>
-<ul>
-{% for achievement_progress in achievement_progress_list %}
-    <h5>HAY OBJETOS</h5>
-    <li>{{ achievement_progress.achievement.name }} - {{ achievement_progress.actual_progress}}</li>
-{% empty %}
-    <li>No tienes ningun logro todavia.</li>
-    <h5>VACIOO</h5>
-{% endfor %}
-</ul>
+{%block content %}
+    <div class = "col-md-12 mt-4">
+        <div class = "card mb-4">
+            <div class = "card text-center">
+                <div class = "card-header">
+                    <h2 class = "card-title"> Todos los logros </h2>
+                </div>
+            </div>
+            <div class="card-body">
+                {% for achievement_progress in achievement_progress_list %}
+                    <div class = "card mb-2">
+                        <div class="card-horizontal">
+                            <div class="img-square-wrapper">
+                                <img class="achievement_photo" src='/HistMat/media/{{achievement_progress.achievement.achievement_image}}' alt="Card image cap">
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">{{achievement_progress.achievement.name}}     +{{achievement_progress.achievement.xp_cuantity}}XP</h4>
+                                <p class="card-text">{{achievement_progress.achievement.funny_phrase}}</p>
+                                <p class="card-text">{{achievement_progress.achievement.description}}</p>
+                                <div class="progress">
+                                    <div class="progress-bar" style="width:{{achievement_progress.actual_progress}}%">{{achievement_progress.actual_progress}}%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p> No hay Logros</p>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %} 
