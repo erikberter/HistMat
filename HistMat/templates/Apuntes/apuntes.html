@@ -3,31 +3,60 @@
 {% block title %} HistMat | Apuntes {% endblock %}
 
 {% block content%}
-{% for apuntes in apuntes%}
+{% for apunte in apuntes%}
 
 	<div class="card d-flex p-3 flex-row">
 		
+		<h2>
+			<a href="{{apunte.get_absolute_url}}">
+			{{ apunte.nombre }}
+			</a>
+		</h2>
 		
-		<div>
-			{% if apunte.imagen %}
+		<div >
+			{% if apunte.thumbnail %}
 				<a href="{{apunte.get_absolute_url}}">
-					<img src="{{apunte.imagen.url}}" alt="{{apunte.titulo}} cover" style="width:200px;">
+					<img src="{{apunte.thumbnail.url}}" alt="{{apunte.titulo}} cover" style="width:100px;">
 				</a>
 			{% else %}
 				<p> No hay imagen </p>
 			{% endif %}
 			</div>
 			<div>
-			<h2>
-				<a href="{{apunte.get_absolute_url}}">
-				{{ apunte.nombre }}
-				</a>
-			</h2>
-		
+				<h3>
+					{{ apunte.paginas }}
+				</h3>
+
+				<h3>	
+					{{ apunte.autor }}
+				
+				</h3>
+				<h3>
+					{{ apunte.tamaño }}
+				</h3>
+					
+				<h3>
+					{{ apunte.categoria }}
+				</h3>
+					
+				<h3>
+					{{ apunte.tipo }}
+				</h3>
+					
+				<h3>
+					{{ apunte.creado }}
+				</h3>
+					
+				<h3>
+					{{ apunte.editado }}
+				</h3>
+					
+				
 		
 			</div>
-					
+		</div>			
 	</div>
+	
 	{% endfor%}
 
 
