@@ -2,6 +2,29 @@
 
 {% block title %} HistMat | Apuntes {% endblock %}
 
+{% block css%}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
+{% endblock %}
+
+{% block js%}
+<script>
+	var fab = new Vue({
+		el: '#fab-container',
+		data: {
+			//Data
+			create_url: "{% url 'apuntes:add_apuntes' %}"
+		},
+		methods: {
+			fab_action: function (event) {
+				//Action
+				window.location = this.create_url;
+			}
+		}
+	})
+</script>
+{% endblock %}
+
+
 {% block content%}
 {% for apunte in apuntes%}
 
@@ -13,43 +36,43 @@
 			</a>
 		</h2>
 		
-		<div >
+		<div class>
 			{% if apunte.thumbnail %}
 				<a href="{{apunte.get_absolute_url}}">
-					<img src="{{apunte.thumbnail.url}}" alt="{{apunte.titulo}} cover" style="width:100px;">
+					<img src="{{apunte.thumbnail.url}}" alt="{{apunte.titulo}} cover" style="width:200px;">
 				</a>
 			{% else %}
 				<p> No hay imagen </p>
 			{% endif %}
 			</div>
-			<div>
-				<h3>
-					{{ apunte.paginas }}
-				</h3>
+			<div class = "card-body">
+				<h5>
+					Numero de paginas: {{ apunte.paginas }}
+				</h5>
 
-				<h3>	
-					{{ apunte.autor }}
+				<h5>	
+					Usuario: {{ apunte.autor }}
 				
-				</h3>
-				<h3>
-					{{ apunte.tamaño }}
-				</h3>
+				</h5>
+				<h5>
+					Tamaño del archivo: {{ apunte.tamaño }}
+				</h5>
 					
-				<h3>
-					{{ apunte.categoria }}
-				</h3>
+				<h5>
+					Categoria: {{ apunte.categoria }}
+				</h5>
 					
-				<h3>
+				<h5>
 					{{ apunte.tipo }}
-				</h3>
+				</h5>
 					
-				<h3>
+				<h5>
 					{{ apunte.creado }}
-				</h3>
+				</h5>
 					
-				<h3>
+				<h5>
 					{{ apunte.editado }}
-				</h3>
+				</h5>
 					
 				
 		
@@ -58,6 +81,6 @@
 	</div>
 	
 	{% endfor%}
-
+	{% include 'widgets/fab.html'%}
 
 {% endblock%}

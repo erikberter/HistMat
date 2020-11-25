@@ -6,19 +6,22 @@
 {% block content%}
 <div class="card" style="width: 70rem;">
 
-	 <p> {% if apunte.imagen %}
+
+	<div class="card-body">
+		<h5 class="card-title">
+        {{apunte.nombre}}
+		</h5>
+
+	 <p> {% if apunte.documento %}
 			<a href="{{apunte.get_absolute_url}}">
-				<img src="{{apunte.imagen.url}}" class="rounded mx-auto d-block" alt="{{apunte.nombre}} cover" style="width:800px;">
+				<img src="{{apunte.documento.url}}" class="rounded mx-auto d-block" alt="{{apunte.titulo}} cover" style="width:1000px;">
 			</a>
 			{% else %}
 			<p> No hay imagen </p>
 			{% endif %}
 		</p>
 		
-	 <div class="card-body">
-		<h5 class="card-title">
-        {{apunte.nombre}}
-		</h5>
+	 
 		
 		
 	</div>
