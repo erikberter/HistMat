@@ -37,7 +37,6 @@ var vm = new Vue({
         this.quiz.name = response.data.quiz_name;
         console.log("New quiz name is " + this.quiz.name);
         this.quiz.questions = response.data.questions;
-        console.log("Questions are " + this.quiz.questions[0]["answer"]);
         this.quiz.n_question = this.quiz.questions.length ;
         console.log("We received  " + this.quiz.n_question + " questions");
       })

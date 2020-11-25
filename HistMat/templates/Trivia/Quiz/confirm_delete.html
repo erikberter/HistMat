@@ -3,13 +3,13 @@
 {% block content %}
 
 <div class="card">
-    <div>
-        Are you sure you want to delete the {{quiz.name}} quiz?
-    </div>
-    <div class="card-footer row-reverse">
-        <input type="button" class="column" value="Yes">
-        <input type="button" class="column" value="No">
-    </div>
+    
+    <form method="post">
+        {% csrf_token %} 
+        <p>Are you sure you want to delete "{{ quiz }}"?</p> 
+        <input type="submit" value="Confirm"> 
+    </form> 
+    
 
 </div>
 

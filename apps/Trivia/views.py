@@ -58,8 +58,11 @@ class QuizDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         quiz = self.get_object()
+        quiz.visited += 1
+        quiz.save()
         context['is_own_quiz'] = (quiz.creator == self.request.user)
-        context['question_list'] = Question.objects.filter(quiz=quiz)
+        context['question_lista'] = Question.objects.filter(quiz=quiz)
+        print(context['question_lista'])
         return context
 
 class QuizUpdateView(LoginRequiredMixin, UpdateView):
@@ -102,6 +105,7 @@ class QuizPlayView(DetailView):
         else:
             return super().get(self, request, *args, **kwargs)
 
+        
 """def question_check(request, quiz_pk, question_number):
     context = {}
     if request.is_ajax():
@@ -118,3 +122,29 @@ class QuizPlayView(DetailView):
         data['result'] = question.cast().is_answer_correct(data)
         return JsonResponse(data)
     raise Http404"""
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def likeview(request, slug):
+    if request.method == "POST":
+        if request.is_ajax():
+            if "like" in request.POST:
+                quiz = Quiz.objects.get(slug=slug)
+                quiz.likes += 1
+                quiz.save()
+    return JsonResponse({'status':'Success', 'msg': 'save successfully'})
+
+@csrf_exempt
+def question_create(request, slug):
+    if request.method == "POST":
+        quiz = Quiz.objects.get(slug=slug)
+        data = json.loads(request.body.decode('utf-8'))
+        if(data["type"]=="text"):
+            TextQuestion.objects.create(quiz=quiz, question=data["question"], answer=data["answer"], question_type="text")
+        elif(data["type"]=="multi"):
+            question = MultiChoiceQuestion.objects.create(quiz=quiz, question=data["question"], question_type="multichoice")
+            for answer in data["answer"]:
+                MultiChoiceAnswer.objects.create(question=question, answer=answer)
+        else:
+            print("Vamos a madrid")
+    return JsonResponse({'status':'Success', 'msg': 'save successfully'})

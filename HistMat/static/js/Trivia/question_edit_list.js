@@ -5,11 +5,11 @@ Vue.component('modal', {
     delimiters: ['[[', ']]'],
     data: function () {
         return {
-            question_type: "",
             question: {
                 type: "",
                 question: "",
-                answer: ""
+                answer: "",
+                is_multiple_choice: false
             }
         }
     },
@@ -22,7 +22,16 @@ Vue.component('modal', {
             }
         },
         create_option : function(){
-            this.question.answer.push("ola");
+            this.question.answer.push("");
+        },
+        create_question : function(){
+              axios.post(window.location.pathname + 'create_question/', this.question)
+              .then((response) => {
+                console.log(response);
+              }, (error) => {
+                console.log(error);
+                alert("Error trying to add Question");
+              });
         }
     }
   })

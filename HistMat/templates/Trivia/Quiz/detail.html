@@ -58,16 +58,26 @@
     <a id="quiz-play-button" class="btn btn-primary" href="{% url 'trivia:quiz_play' quiz.slug %}">Play</a>
 
     {% if is_own_quiz %}
-    <div id="question_list" class="flex d-flex">
+    <div id="question_list" >
         <button onclick="newQuestionDialog()">New question</button>
         
         <button id="show-modal" @click="showModal = true">Show Modal</button>
+        <div class="flex-column d-flex">
+            {% for question in question_lista %}
+                <p> Existe {{question.question}} : {{question.question_type}}</p>
+                {% if question.question_type == "text"%}
+                    {% include 'Trivia/Quiz/Question/edit_text.html' with question=question%}
+                {% elif question.question_type == "multichoice"%}
+                    {% include 'Trivia/Quiz/Question/edit_multi.html' with question=question%}
+                {% endif %}
+            {% empty%}
+            <p> Vacio?</p>
+            {% endfor %}
+        </div>
+        
         <modal v-if="showModal" @close="showModal = false">
-        {% for question in question_list%}
-            {% if question.question_type == "text"%}
-                {% include 'Trivia/Quiz/Question/edit_text.html' with question=question%}
-            {% endif %}
-        {% endfor %}
+        
+        
     </div>
     {% endif %}
 </div>

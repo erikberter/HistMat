@@ -1,5 +1,7 @@
 {% extends 'Trivia/base.html'%}
 
+{% block title%} HistMat | Trivia Home {% endblock %}
+
 {% block trivia_css%}
     {% if user.is_authenticated%}
         {% load static %}

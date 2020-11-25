@@ -1,6 +1,6 @@
 {% load static %}
 
-<!DOCTYPE html>
+<!DOCTYPE html5>
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
@@ -44,11 +44,12 @@
         });
         </script>
     {% endif %}
+
+    <!-- Navbar  -->
+    {% include '_navbar.html'%}
     
     <div class="content">
-        <!-- Navbar  -->
-        {% include '_navbar.html'%}
-
+        
         <!-- Main Body -->
         <div id="main-content bg-success">
                 {% block content %}

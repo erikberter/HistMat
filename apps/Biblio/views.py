@@ -49,11 +49,11 @@ class MyCatalogView(LoginRequiredMixin, View):
                     raise Http404("Empty")
                 
                 context['shelf_title'] = request.POST.get('book_state')
-                context['book_state'] = slugify(context['shelf_title'], to_lower=True, separator="_")
+                context['book_state'] = slugify(context['shelf_title'], lowercase=True, separator="_")
                 
                 context['books'] = Book.objects.filter(bookuserdetail__user=request.user).filter(bookuserdetail__book_state=context['book_state'])
                 
-                context['book_state'] = slugify(context['shelf_title'])
+                context['book_state'] = slugify(context['shelf_title'], lowercase=True, separator="_")
                 if 'search_book' in request.POST:
                     if request.POST.get('search_book'):
                         context[book_state] = context[book_state].filter(title__contains = request.POST.get('search_book'))

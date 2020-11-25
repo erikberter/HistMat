@@ -23,6 +23,8 @@
                     
                 </div>
                 <span>Eligió: [[question.type]]</span>
+                <span>Multi Answer: [[question.is_multiple_choice]]</span>
+                <input type="checkbox" id="multi_question_type" v-model="question.is_multiple_choice">
                 <div>
                     <div v-if="question.type=='text'">
                         <input type="text" v-model="question.answer">
@@ -31,6 +33,11 @@
                         <ul id="choice_list">
                             <li v-for="i in question.answer.length">
                                 <input type="text" v-model="question.answer[i-1]"> 
+                                <div>
+                                    <input type="radio" v-if="question.is_multiple_choice == False">
+                                    <input type="checkbox" v-if="question.is_multiple_choice == True">
+                                </div>
+                                
                             </li>
                         </ul>
                         <button @click="create_option()">Nueva Opcion</button>
@@ -44,7 +51,7 @@
 
                 <div>
                     <div v-if="question.type===''">
-                        <a id="new_question_submit_disabled" class="btn btn-primary disabled" role="button" aria-disabled="true">Enviar</button>
+                        <a id="new_question_submit_disabled" class="btn btn-primary disabled" role="button" aria-disabled="true">Enviar</a>
                     </div>
                     <div v-else>
                         <button id="new_question_submit" class="btn btn-primary">Enviar</button>
@@ -57,8 +64,11 @@
         <div class="modal-footer">
             <slot name="footer">
             default footer
+            <button class="modal-default-button" @click="create_question()">
+                Create
+            </button>
             <button class="modal-default-button" @click="$emit('close')">
-                OK
+                Close
             </button>
             </slot>
         </div>

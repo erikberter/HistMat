@@ -4,9 +4,21 @@
 
 <div id="quiz-logo">Diamat quiz</div>
 
-{% for quiz in quizzes %}
-    {% include 'Trivia/Quiz/_quiz.html' with quiz=quiz %}
-{% endfor %}
+<div class="quiz-list-section d-flex flex-wrap flex-fill justify-content-center">
+    {% for quiz in quizzes %}
+        {% include 'Trivia/Quiz/_quiz.html' with quiz=quiz %}
+    {% endfor %}
+</div>
 
+    <script>
+        $(document).ready(function(){
+            var loop_c = 0;
+            var css_colors = ["green","blue","orange","pink","red"];
+            $(".quiz-list-section div").each(function(){
+                $(this).css("background-color", "var(--quiz-"+css_colors[loop_c]+")");
+                loop_c = (loop_c+1)%5;
+            });
+        });
+    </script>
 
 {% endblock %}

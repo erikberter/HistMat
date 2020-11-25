@@ -9,7 +9,7 @@
             {% csrf_token %}
             {{ quiz_object |crispy }}
             <input type="submit" class="btn btn-secondary">
-            <a id="btn-delete-quizz" class="btn btn-danger">Delete</a>
+            <a id="btn-delete-quizz" class="btn btn-danger" href="{% url 'trivia:quiz_delete' slug=quiz.slug%}">Delete</a>
         </form>
 
 </div>
