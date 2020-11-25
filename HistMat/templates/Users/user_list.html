@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link href="{% static 'css/Users/users.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+    <div class = "col-md-12 mt-4">
+        <div class = "card mb-4">
+            <div class = "card text-center">
+                <div class = "card-header">
+                    <h2 class = "card-title"> Todos los usuarios </h2>
+                </div>
+            </div>
+            <div class="card-body">
+                {% for profile in user_list %}
+                    <div class = "card mb-2">
+                        <div class="card-horizontal">
+                            <div class="img-square-wrapper">
+                                <img class="achievement_photo" src='/HistMat/media/{{profile.profile_image}}' alt="Card image cap">
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">{{profile.username}}     +{{profile.level}}XP</h4>
+                                <p class="card-text">{{profile.study_center}}</p>
+                                <p class="card-text">{{profile.city}}</p>
+                                <p class="card-text">{{profile.country}}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p> No hay usuarios</p>
+                {% endfor %}
+            </div>
+
+
+            <div class="card-body">
+                {% for user_following in friends %}
+                    <div class = "card mb-2">
+                        <div class="card-horizontal">
+                            <div class="img-square-wrapper">
+                                <a href="">
+                                    <div class = "card text-center mb-4">
+                                        <img class="card-img-top" src='/HistMat/media/{{userFollowing.following_user_id.profile_image}}' alt="Card image cap">
+                                        <h2 class="card-title"> @{{userFollowing.following_user_id.get_username}}</h2>
+                                    </div>  
+                                </a>   
+                            </div>
+                            <div class="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p> No hay usuarios</p>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

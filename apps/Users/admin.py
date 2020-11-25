@@ -1,5 +1,5 @@
 from django.contrib import admin
-from  .models import Achievement, Profile, Achievement_Progress,UserFollowing
+from  .models import Achievement, Profile, Achievement_Progress,UserFollowing, ProfileStats
 
 # Register your models here.
 
@@ -12,3 +12,4 @@ admin.site.register(Achievement)
 admin.site.register(Profile)
 admin.site.register(Achievement_Progress)
 admin.site.register(UserFollowing)
+admin.site.register(ProfileStats)

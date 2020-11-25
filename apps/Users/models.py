@@ -52,14 +52,23 @@ class Profile(AbstractUser):
     xp = models.BigIntegerField(default=0)
     kind_of_user = models.CharField(max_length=40,default="Principiante")
 
-
-
     def get_absolute_url(self):
         return reverse('users:user_detail')
 
     def get_absolute_config_url(self):
         return reverse('users:user_config', kwargs={'pk': self.pk})
 
+
+class ProfileStats(models.Model):
+    user = models.ForeignKey('profile', on_delete=models.CASCADE, related_name='user_stats', default=1)
+    like_counter = models.IntegerField(default=0)
+    view_counter = models.IntegerField(default=0)
+    book_upload_counter = models.IntegerField(default=0)
+    book_readed_counter = models.IntegerField(default=0)
+    following_counter = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.user.username + ' STATS '
 
 
 class UserFollowing(models.Model):

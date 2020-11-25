@@ -10,7 +10,7 @@ from .forms import ProfileForm
 # Create your views here.
 def user_detail(request):
     user = request.user
-    progresses = Achievement_Progress.objects.filter(user = user.pk).order_by('-actual_progress')[:2]
+    progresses = Achievement_Progress.objects.filter(user = user.pk).filter(actual_progress__lte = 99).order_by('-actual_progress')[:2]
     friends = UserFollowing.objects.filter(user_id = user.pk)[:5]
     context = {
         'user':user,
@@ -38,9 +38,24 @@ class AchievementListView(ListView):
     template_name = "Users/achievement_list.html"
     context_object_name = 'achievement_progress_list'
     model = Achievement_Progress
-    paginated_by = 10
 
     def get_queryset(self):  
         user = self.request.user
         return Achievement_Progress.objects.filter(user=user.pk)
  
+class UserListView(ListView):
+    template_name = "Users/user_list.html"
+    context_object_name = 'user_list'
+    model = Profile
+
+    def get_context_data(self,**kwargs):
+        context = super(UserListView, self).get_context_data(**kwargs)
+        context['friends'] = UserFollowing.objects.filter(user_id = self.request.user.pk)
+        return context
+
+    def get_queryset(self):
+        friends =  UserFollowing.objects.filter(user_id = self.request.user.pk)
+        return Profile.objects.all().exclude(id__in = t)
+
+
+    
