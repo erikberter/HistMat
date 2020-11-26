@@ -80,11 +80,6 @@ function send_book_state_request(elem){
     $(elem).prop('checked',true);
 }
 
-function delete_book_state_loaded_books(elem){
-    $('#container-'+elem.id).remove();
-    $(elem).prop('checked',false);
-}
-
 function load_checked_filters(){
     $(".cb_filter_selector").each(function() {
         if(this.checked){
@@ -117,6 +112,7 @@ $(document).ready(function() {
     /**
      * **Summary**. On change event for the book_shelf checkboxes in the filter section. 
      */
+     /**
     $(".cb_filter_selector").change(function(e) {
         e.preventDefault();
         if(this.checked) send_book_state_request(this);
@@ -124,7 +120,7 @@ $(document).ready(function() {
         
         refreshSortable();
     });
-
+**/
     /**
      * **Summary**. KeyPress event listener for the enter key on the search bar.
      */
@@ -150,4 +146,42 @@ $(document).ready(function() {
         
       });
       
+});
+
+axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
+
+var fab = new Vue({
+    el: '#catalog-app',
+    delimiters: ['[[', ']]'],
+    data: {
+        book_lists : {
+
+        }
+    },
+    methods: {
+        fab_action: function (event) {
+            window.location = this.create_url;
+        },
+        load_books : function (book_state){
+            axios.post(window.location.pathname, {
+                book_state : book_state
+            })
+            .then(response => {
+                this.book_lists[response.data.book_state] = {};
+                this.book_lists[response.data.book_state].books = response.data.books;
+
+                console.log("New book state " + response.data.book_state);
+                console.log("books  " + this.book_lists[response.data.book_state].books.length);
+
+                $('#container-'+response.data.book_state).remove();
+                $('#book-to-add').append(result);
+                
+                refreshSortable();
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+    }
 })

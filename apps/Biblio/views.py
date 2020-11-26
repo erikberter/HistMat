@@ -1,18 +1,21 @@
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.http import  HttpResponseRedirect, Http404, JsonResponse
+
 from django.db.models import Avg, Q
 
-from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView
-from django.views import View
+from django.http import  HttpResponseRedirect, Http404, JsonResponse
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, get_object_or_404
 
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
-from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+
+from django.views import View
+from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.list import ListView
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
 
 from .models import Book, Author, BookUserDetail
 from .forms import BookCreateForm
@@ -21,57 +24,99 @@ import json
 
 from slugify import slugify
 
-BOOK_PER_PAGE = 13
+
+#########################################
+#           Views Configuration         #
+#########################################
 
 
+
+#########################################
+#                 Views                 #
+#########################################
 
 
 class CatalogView(ListView):
-    paginate_by = 20
     model = Book
     context_object_name = 'books'
+
     template_name = 'Biblio/catalog.html'
+    paginate_by = 20
 
-    def get_queryset(self):
-          return Book.public.all()
-
+    queryset = Book.public.all()
 
 
 class MyCatalogView(LoginRequiredMixin, View):
     template_name = 'Biblio/mycatalog.html'
 
     def post(self, request, *args, **kwargs):
-        if request.is_ajax():
-            
-            context ={}
-            if 'book_state' in request.POST:
-                if not request.POST.get('book_state'):
-                    raise Http404("Empty")
-                
-                context['shelf_title'] = request.POST.get('book_state')
-                context['book_state'] = slugify(context['shelf_title'].lower(), separator="_")
-                
-                context['books'] = Book.objects.filter(bookuserdetail__user=request.user).filter(bookuserdetail__book_state=context['book_state'])
-                
-                context['book_state'] = slugify(context['shelf_title'].lower(), separator="_")
-                if 'search_book' in request.POST:
-                    if request.POST.get('search_book'):
-                        context[book_state] = context[book_state].filter(title__contains = request.POST.get('search_book'))
-                if 'book_order' in request.POST:
-                    order = request.POST.get('book_order')
-                    if order=="order-last-added":
-                        context['books'] = context['books'].order_by("bookuserdetail__updated")
-                        
-                    elif order == "order-first-added":
-                        context['books'] = context['books'].order_by("-bookuserdetail__updated")
-                        
-                print(context)
-                return render(request, 'Biblio/_book_shelf_list.html', context)
-            else:
-                raise Http404("Book Self not found") 
+        data = json.loads(request.body.decode('utf-8'))
+        print(data)
+        if not data:
+            raise Http404("Empty")
 
+        print("AQIO3")
+
+        data['shelf_title'] = data.get('book_state')
+        data['book_state'] = slugify(data['shelf_title'].lower(), separator="_")
+        print("AQ2IO")
+        # TODO simplificar con related_name
+        books = Book.objects.filter(bookuserdetail__user=request.user).filter(bookuserdetail__book_state=data['book_state'])
+        books_list = []
+        for book in books:
+            books_list += [book.get_dto()]
+
+        data['books'] = books_list
+        print(data)
+        print("AQ4IO")
+        return JsonResponse(data)
     def get(self, request):
         return render(request, 'Biblio/mycatalog.html')
+
+
+"""
+context['shelf_title'] = request.POST.get('book_state')
+context['book_state'] = slugify(context['shelf_title'].lower(), separator="_")
+
+context['books'] = Book.objects.filter(bookuserdetail__user=request.user).filter(bookuserdetail__book_state=context['book_state'])
+
+context['book_state'] = slugify(context['shelf_title'].lower(), separator="_")
+if 'search_book' in request.POST:
+    if request.POST.get('search_book'):
+        context[book_state] = context[book_state].filter(title__contains = request.POST.get('search_book'))
+if 'book_order' in request.POST:
+    order = request.POST.get('book_order')
+    if order=="order-last-added":
+        context['books'] = context['books'].order_by("bookuserdetail__updated")
+        
+    elif order == "order-first-added":
+        context['books'] = context['books'].order_by("-bookuserdetail__updated")
+        """
+
+class BookCreateView(LoginRequiredMixin, CreateView):
+    template_name = 'Biblio/forms/book_create.html'
+    form_class = BookCreateForm
+
+    def form_valid(self, form):
+        book = form.save()
+        book.creator = self.request.user
+        book_du = BookUserDetail.objects.create(book=book, user=self.request.user)
+        book_du.save()
+        book.save()
+        return HttpResponseRedirect(book.get_absolute_url())
+
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super(BookCreateView, self).get_form_kwargs(*args, **kwargs)
+        kwargs['user'] = self.request.user
+        return kwargs
+
+
+
+class BookUpdateView(LoginRequiredMixin, UpdateView):
+    model = Book
+    fields = ['title', 'description', 'author', 'npages', 'book_file', 'cover', 'visibility']
+    template_name = 'Biblio/forms/book_update.html'
+
 
 @require_POST
 def book_state_change(request, slug):
@@ -147,29 +192,6 @@ def book_detail(request, slug):
     context['rating'] = context['book'].users.aggregate(total = Avg('bookuserdetail__rating'))
     return render(request, 'Biblio/book_detail.html', context)
 
-class BookCreateView(LoginRequiredMixin, CreateView):
-    template_name = 'Biblio/forms/book_create.html'
-    form_class = BookCreateForm
-
-    def form_valid(self, form):
-        book = form.save()
-        book.creator = self.request.user
-        book_du = BookUserDetail.objects.create(book=book, user=self.request.user)
-        book_du.save()
-        book.save()
-        return HttpResponseRedirect(book.get_absolute_url())
-
-    def get_form_kwargs(self, *args, **kwargs):
-        kwargs = super(BookCreateView, self).get_form_kwargs(*args, **kwargs)
-        kwargs['user'] = self.request.user
-        return kwargs
-
-
-
-class BookUpdateView(LoginRequiredMixin, UpdateView):
-    model = Book
-    fields = ['title', 'description', 'author', 'npages', 'book_file', 'cover', 'visibility']
-    template_name = 'Biblio/forms/book_update.html'
 
 
 

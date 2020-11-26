@@ -42,23 +42,21 @@
 {% endblock %}
 
 {% block content%}
-{% include 'widgets/fab.html'%}
+
 <div class="p-0 m-0 bg-dark">
     
-    <div class="wrapper d-flex align-items-stretch" id="wrapper"> 
+    <div id="catalog-app" class="wrapper d-flex align-items-stretch" id="wrapper"> 
         <div>
             {% include 'Biblio/_filter_sidebar.html'%}
         </div>
-        <div class="p-5 w-100">
-            
+
+        <div id="catalog-content" class="p-5 w-100">
             <div id="book-to-add">
-                
-                    
             </div>
         </div>
         
     </div>
 </div>
 
-
+{% include 'widgets/fab.html'%}
 {% endblock %}

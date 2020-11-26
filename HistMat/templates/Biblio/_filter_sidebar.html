@@ -21,12 +21,14 @@
         <div class="btn-group-vertical btn-group-toggle" data-toggle="buttons">
           
           <label for="cb-want_to_read" class="btn btn-secondary"> 
-          <input type="checkbox" class="cb_filter_selector" id="cb-want_to_read">
-          Want to Read</label>
+            <input type="checkbox" class="cb_filter_selector" id="cb-want_to_read" @click="load_books('Want to Read')">
+            Want to Read
+          </label>
           
           <label for="cb-reading" class="btn btn-secondary">
-          <input type="checkbox" class="cb_filter_selector" id="cb-reading">
-          Reading</label>
+            <input type="checkbox" class="cb_filter_selector" id="cb-reading">
+            Reading
+          </label>
           
           <label for="cb-read" class="btn btn-secondary"> 
             <input type="checkbox" class="cb_filter_selector" id="cb-read">
@@ -49,12 +51,6 @@
             <input type="radio" id="first-added" name="filter-order" value="order-first-added">
             <label  for="first-added">First Added</label> 
             
-            <!-- 
-
-              TODO
-
-            <input type="radio" id="last-visited" name="filter-order" value="order-last-visited">
-            <label for="last-visited">Last Visited</label> -->
         </div>
       </form>
     </div>
