@@ -1,4 +1,4 @@
-<form action="?" method="POST">
+<form class="w-100" action="?" method="POST">
     {% csrf_token %}
     {% load book_access %}
     {% get_book_state user book as book_user_related%}

@@ -13,18 +13,44 @@ HistMat | {{book.title}}
     <script src="{% static 'js/Biblio/general.js' %}"> </script>
     <script src="{% static 'js/Biblio/widgets.js' %}"> </script>
     <script src="{% static 'js/Biblio/book_detail.js' %}"> </script>
+
+    {% if user.is_authenticated %}
+    <script>
+        var fab = new Vue({
+            el: '#fab-container',
+            data: {
+                update_url: "{% url 'biblio:book_update' book.slug%}"
+            },
+            methods: {
+                fab_action: function (event) {
+                    window.location = this.update_url;
+                }
+            }
+        })
+    </script>
+    {% endif %}
 {% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/rating.css' %}">    
+    {% if user.is_authenticated %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
+    {% endif %}
+{% endblock %}
 
 {% block content %}
 <div class="p-5">
     <div class="card container-fluid bg-light shadow p-5">
         <div class="row">
             <!-- Left Sector -->
-            <div class="col-3">
+            <div class="col">
                 <div class="row">
                     {%if book.cover%}
-                     <img src="{{book.cover.url}}" alt="{{book.title}} cover">
+                        <img src="{{book.cover.url}}" class="img-fluid" alt="{{book.title}} cover">
+
+                     {% else %}
+                     {% load static %}
+                        <img src="/HistMat/media/no_image.jpg" alt="{{book.title}} cover" class="img-fluid">
                     {%endif%}
                 </div>
                 <div class="row pt-2">
@@ -33,11 +59,12 @@ HistMat | {{book.title}}
                     {% else %}
                         <a class="btn w-100 btn-success disabled" > Book File </a>
                     {% endif %}
+                    
                 </div>
             </div>
 
             <!-- Middle Sector -->
-            <div class="col-7">
+            <div class="col-6">
                 <h1>{{book.title}}</h1>
                 <p> Escrito por {{book.author}}</p>
                 <p> {{book.description}}</p>
@@ -47,46 +74,54 @@ HistMat | {{book.title}}
                 </div>
             </div>
             <!-- Right Sector -->
-            <div class="col-2">
-                <div class="row">
-                    {% if book.creator == request.user%}
-                        <a class="btn btn-primary w-100" href = "{% url 'biblio:book_update' slug=book.slug %}">Update Book</a>
-                    {% endif %}
-                </div>
+            <div class="col">
                 <div class="row">
                     {% include 'Biblio/widgets/shelf_dropdown_p.html' with book=book %}
                 </div>
-                <div class="row">
-                    {% if user.is_authenticated %}
-                        {%load book_access%}
-                        {% is_book_in_user user book as book_user_related %}
+                <div class="row d-flex flex-column card p-3">
+                    <div>
+                        {% if user.is_authenticated %}
+                            {%load book_access%}
+                            {% is_book_in_user user book as book_user_related %}
 
-                        {% if book_user_related %}
-                        <form method="POST" action="?">
-                            {%csrf_token%}
-                            <input type="radio" id="male" name="rating_v" value="1">
-                            <label for="male">1</label><br>
-                            <input type="radio" id="female" name="rating_v" value="2">
-                            <label for="female">2</label><br>
-                            <input type="radio" id="other" name="rating_v" value="3">
-                            <label for="other">3</label>
-                            <input type="submit" value="Enviar">
-                        </form>
+                            {% if book_user_related %}
+                            <form method="POST" id="star-rating" action="?">
+                                {%csrf_token%}
+                                <div class="rating"> 
+                                    <!-- https://stackoverflow.com/questions/1107737/numeric-for-loop-in-django-templates -->
+                                    {% for i in '54321'|make_list %}
+                                        <!-- https://bbbootstrap.com/snippets/star-rating-pure-css-19646372 -->
+                                        <input type="radio" name="rating_v" value="{{ i }}" id="rating-{{ i }}">
+                                        <label for="rating-{{ i }}">☆</label> 
+                                    {% endfor %}
+                                </div>
+                            </form>
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
                     <!-- Rating -->
-                    El libro tiene una puntuación de {{ rating.total }}.
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <span >El libro tiene una puntuación de {{ rating.total }}.</span>
+                    </div>
+                    
                 </div>
-                <div class="row">
+                <div class="row card p-3 mt-2">
                     {% if user.is_authenticated %}
                         {%load book_access%}
                         {% is_book_in_user user book as book_user_related %}
 
                         {% if book_user_related %}
                             {% is_book_act_page_in_user user book as act_book_page %}
-                            <p> Vas por la página: </p>
+                            <div class="d-flex justify-content-center">
+                                <p> Actual page </p>
+                            </div>
+                            
                             <input id="set-act-page" type="input" b_slug = "{{book.slug}}" placeholder="{{act_book_page}}">
+                        {% else %}
+                            <p>You should consider adding this book to be able to track your progess!</p>
                         {% endif %}
+                    {% else %}
+                        <p>To add and track books you should register!</p>
                     {% endif %}
                 </div>
             </div>
@@ -96,4 +131,9 @@ HistMat | {{book.title}}
         </div>
     </div>    
 </div>
+
+{% if book.creator == request.user %}
+    {% include 'widgets/fab.html' with icon="fa-cog"%}
+{% endif %}
+
 {% endblock %}

@@ -20,9 +20,9 @@
     {% if page_obj.has_next %}
         <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
     {% endif %}
-    <div class="d-flex justify-content-center loading" style="display:none;">
-        <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
+    <div class="d-flex justify-content-center" style="display:none;">
+        <div id="loading-icon" class="spinner-border" role="status">
+            <span id="spd" class="sr-only">Loading...</span>
         </div>
     </div>
 </div>
@@ -32,10 +32,10 @@
         var infinite = new Waypoint.Infinite({
             element: $('.infinite-container')[0],
             onBeforePageLoad: function () {
-                $('.loading').show();
+                $('#loading-icon' ).show();
             },
             onAfterPageLoad: function ($items) {
-                $('.loading').hide();
+                $('#loading-icon' ).css("display","none");
             }
             });
     });

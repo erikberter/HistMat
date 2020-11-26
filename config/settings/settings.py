@@ -168,12 +168,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, '../' + PROJECT_NAME +'/assets')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "../" + PROJECT_NAME +"/static"),
 )
-
 MEDIA_ROOT = os.path.join(BASE_DIR,'../' + PROJECT_NAME +'/media') 
 MEDIA_URL = '/' + PROJECT_NAME +'/media/' 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
 
 
 # User handling

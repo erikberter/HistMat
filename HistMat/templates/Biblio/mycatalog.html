@@ -10,6 +10,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">    
     <link rel="stylesheet" type="text/css" href="{% static 'css/simple-sidebar.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/search_bar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Biblio/catalog.css' %}">
+    <link type="text/css" href="{% static 'css/external/cptn03.css' %}" rel="stylesheet">
+    
 {% endblock %}
 
 {% block js%}
@@ -40,20 +43,16 @@
 
 {% block content%}
 {% include 'widgets/fab.html'%}
-<div class="p-0 m-0">
+<div class="p-0 m-0 bg-dark">
     
     <div class="wrapper d-flex align-items-stretch" id="wrapper"> 
         <div>
             {% include 'Biblio/_filter_sidebar.html'%}
         </div>
         <div class="p-5 w-100">
-            <div>
-                <div>
-                    <button class="btn btn-primary py-2" id="menu-toggle">Filter Menu</button>
-                    <a href="{% url 'biblio:book_create'%}"><div class="btn btn-success"> Create Book</div></a>
-                    <div id="book-to-add">
-
-                    </div>
+            
+            <div id="book-to-add">
+                
                     
             </div>
         </div>

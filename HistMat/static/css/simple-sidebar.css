@@ -4,6 +4,15 @@
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-simple-sidebar/blob/master/LICENSE)
  */
 
+ #menu-toggle{
+   position: absolute;
+  margin-left: 30rem;
+ }
+ #menu-toggle.toggle{
+  position: absolute;
+  margin-left: 0;
+ }
+
  #wrapper {
     overflow-x: hidden;
  }

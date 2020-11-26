@@ -1,5 +1,5 @@
-<div id="container-cb-{{ book_state }}">
-    <h1 id="catalog_book_title">{{shelf_title}}</h1>
+<div id="container-cb-{{ book_state }}" class="bg-light p-2 m-1 rounded">
+    <h1 id="catalog_book_title" class="text-light">{{shelf_title}}</h1>
     <div id="catalog_book_window" class="container-fluid">
         {% include 'Biblio/_books.html' with books=books id_name="sortable-"|add:book_state shelf_name=book_state %}
     </div>

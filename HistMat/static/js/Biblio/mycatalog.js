@@ -29,6 +29,7 @@ function send_book_lookup_ajax(){
         },
         success: function(result) {
             $('#book-to-add').append(result);
+            console.log(result);
             refreshSortable();
         },
         error: function(result) {
@@ -62,9 +63,8 @@ function refreshSortable(){
         connectWith: ".connectedSortable",
         dropOnEmpty: true,
         receive: function( event, ui ) {
-            let book_state = $(this).attr('shelf_name');
-            let book_slug = ui.item.attr('b_slug');
-            
+            let book_state = $(this).attr('shelf_name').trim();
+            let book_slug = ui.item.attr('b_slug').trim();
             send_book_state_change_ajax(book_state, book_slug);
         }
     }).disableSelection();
@@ -75,7 +75,7 @@ function refreshSortable(){
 */
 
 function send_book_state_request(elem){
-    mycatalog_data["book_state"] = $("label[for=" + elem.id+"]").text();
+    mycatalog_data["book_state"] = $("label[for=" + elem.id+"]").text().trim();
     send_book_lookup_ajax();
     $(elem).prop('checked',true);
 }
@@ -119,7 +119,6 @@ $(document).ready(function() {
      */
     $(".cb_filter_selector").change(function(e) {
         e.preventDefault();
-        
         if(this.checked) send_book_state_request(this);
         else delete_book_state_loaded_books(this);
         
@@ -142,6 +141,13 @@ $(document).ready(function() {
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
+        
+        if($("#menu-toggle i.fa-angle-double-left").length>0)
+            $("#menu-toggle i").removeClass('fa-angle-double-left').addClass("fa-angle-double-right");
+        else
+            $("#menu-toggle i").removeClass('fa-angle-double-right').addClass("fa-angle-double-left");
+            
+        
       });
       
 })
