@@ -7,15 +7,14 @@
     <br></br>
     <div class="card bg-light">
         <div class="card img-fluid bg-transparent">
-            <img class="card-img-top rounded img-responsive" src="/media/{{post.image}}" alt="Card image">
-            <div class="card-img-overlay">
+            <div class="card">
                 <a class="text-white"> <h1> {{post.body}}</h1> </a>
             </div>
+            <img class="card-img-top rounded img-responsive" src="/media/{{post.image}}" alt="Card image">
+            
         </div>
         <div class="card bg-light mx-5 border-0">
-            <br></br>
-            <p> {{post.body|linebreaks}}</p>
-            <hr>
+            
             <h2>Comentarios</h2>
             </br>
             {% if not post.comments.all %}
