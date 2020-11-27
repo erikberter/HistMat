@@ -26,7 +26,6 @@ class Achievement(models.Model):
     description = models.TextField(default="")
     funny_phrase = models.CharField(max_length=40,default="")
     xp_cuantity = models.BigIntegerField(default=0)
-    #actual_progress = models.IntegerField(default=0)
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(default=timezone.now)
 
@@ -41,13 +40,19 @@ class Achievement_Progress(models.Model):
 
 
 class Profile(AbstractUser):
-    #achievements = models.ManyToManyField(Achievement, related_name='achievements')
-    #achievement_progress = models.ManyToOneRel(Achievement_Progress, related_name='progresses', on_delete=models.CASCADE,field_name="achievement", to="achievement")
+    #-----------------PERDONAL DATA------------------------------
     profile_image = models.ImageField(upload_to='model/img/users/', blank=True, null=True)
     study_center = models.CharField(max_length=40, default = "")
     country = models.CharField(max_length=40, default = "")
     city = models.CharField(max_length=40, default = "")
     born_date = models.DateField(default=timezone.now)
+    #--------------------SOCIAL------------------------------
+    website = models.CharField(max_length=40, default = "")
+    github = models.CharField(max_length=40, default = "")
+    instagram = models.CharField(max_length=40, default = "")
+    twitter = models.CharField(max_length=40, default = "")
+    facebook = models.CharField(max_length=40, default = "")
+    #--------------------LEVEL------------------------------
     level = models.IntegerField(default=1)
     xp = models.BigIntegerField(default=0)
     kind_of_user = models.CharField(max_length=40,default="Principiante")

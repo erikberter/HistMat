@@ -55,7 +55,7 @@ class UserListView(ListView):
 
     def get_queryset(self):
         friends =  UserFollowing.objects.filter(user_id = self.request.user.pk)
-        return Profile.objects.all().exclude(id__in = t)
+        return Profile.objects.exclude(id__in = friends)
 
 
     
