@@ -1,17 +1,69 @@
 {% extends 'base.html' %}
+{% include 'widgets/fab.html'%}
 {% load static %}
 
-{% block title %} Forum {% endblock %}
+{% block title %} HistMat | Forum {% endblock %}
+
+{% block forum %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}"> 
+{% endblock %}
+
+{% block js%}
+<script>
+	var fab = new Vue({
+		el: '#fab-container',
+		data: {
+			//Data
+			create_url: "{% url 'apuntes:add_apuntes' %}"
+		},
+		methods: {
+			fab_action: function (event) {
+				//Action
+				window.location = this.create_url;
+			}
+		}
+	})
+</script>
+{% endblock %}
 
 {% block content %} 
-</br>
-<h2 class="text-dark"> Forum </h2>
-<div class="d-flex flex-row">
-    {% for post in posts %}
-        <div class="card my-2 mx-2 img-fluid bg-transparent border-0">
-            <!--<img class="card-img-top rounded img-responsive" src="/media/{{post.image}}" alt="Card image" style="width:100%">-->
-            <a class="text-dark" href="{{ post.get_absolute_url}}"> <h3> {{post.body}}</h3> </a>
+<br>
+	{% for post in posts %}
+    <div class="row justify-content-md-center align-items-center">
+        <div class="card d-flex p-3">
+		    <p> Posted by {{ post.user }} . {{ post.date }} </p>
+		    <h4>
+			    <a href="{{post.get_absolute_url}}">
+			        {{ post.body }}
+			    </a>
+		    </h4>
+		
+		    <div class>
+			    {% if post.image %}
+				    <a href="{{post.get_absolute_url}}">
+					    <img src="{{post.image.url}}" width="500" height="500">
+				    </a>
+                {% else %}
+                    </br>
+				    <p> No hay imagen </p>
+                {% endif %}
+            </div>	
+            <div class = "col">
+                <span class="float-right">
+                    <p class="font-weight-bold">
+						<a href="{{post.increaseLikes}}">
+							<img src="/HistMat/static/img/upvote.png" width="20">
+						</a>
+						{{ post.likes }}
+						<a href="{{post.decreaseLikes}}">
+							<img src="/HistMat/static/img/downvote.png" width="23">
+						</a>
+                        
+                    </p>
+                </span>
+            </div>
         </div>
+	</div>
+    </br>
     {% endfor%}
-</div>
 {% endblock %}
