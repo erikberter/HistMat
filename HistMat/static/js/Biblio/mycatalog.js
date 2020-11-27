@@ -82,10 +82,9 @@ function send_book_state_request(elem){
 
 function load_checked_filters(){
     $(".cb_filter_selector").each(function() {
-        if(this.checked){
-            delete_book_state_loaded_books(this);
+        if(this.checked)
             send_book_state_request(this);
-        }else delete_book_state_loaded_books(this);
+        
         
         refreshSortable();
     });
@@ -135,6 +134,7 @@ $(document).ready(function() {
      * **Summary**. On click listener for the filter menu toggle button.
      */
     $("#menu-toggle").click(function(e) {
+        console.log('Pulsando boton toogle');
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
         
@@ -151,13 +151,28 @@ $(document).ready(function() {
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
 
+
+// VUE COMPONENTS
+
+
+Vue.component('modal_book_list', {
+    template: '#modal_book_list',
+    delimiters: ['[[', ']]'],
+    props: ['book_state','shelf_title','books']
+});
+
+Vue.component('book_item', {
+    template: '#modal_book',
+    delimiters: ['[[', ']]'],
+    props: ['book_slug','book_title','book_author', 'book_cover_url', 'book_file_url', 'book_detail_url']
+});
+
+
 var fab = new Vue({
     el: '#catalog-app',
     delimiters: ['[[', ']]'],
     data: {
-        book_lists : {
-
-        }
+        book_lists : []
     },
     methods: {
         fab_action: function (event) {
@@ -168,14 +183,13 @@ var fab = new Vue({
                 book_state : book_state
             })
             .then(response => {
-                this.book_lists[response.data.book_state] = {};
-                this.book_lists[response.data.book_state].books = response.data.books;
+                this.book_lists.push(response.data);
 
                 console.log("New book state " + response.data.book_state);
-                console.log("books  " + this.book_lists[response.data.book_state].books.length);
+                console.log("books  " + this.book_lists[0].books.length);
 
                 $('#container-'+response.data.book_state).remove();
-                $('#book-to-add').append(result);
+                $('#book-to-add').append(response);
                 
                 refreshSortable();
             })

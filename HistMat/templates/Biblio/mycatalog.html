@@ -36,7 +36,15 @@
             }
         })
     </script>
-
+    <script type="text/x-template" id="modal_book_item_template">
+        {% include "Biblio/_book.html" %}
+    </script>
+    <script type="text/x-template" id="modal_book_list">
+        {% include "Biblio/_book_shelf_list.html" %}
+    </script>
+    <script type="text/x-template" id="modal_book">
+        {% include "Biblio/_book.html" %}
+    </script>
     
 
 {% endblock %}
@@ -45,16 +53,22 @@
 
 <div class="p-0 m-0 bg-dark">
     
-    <div id="catalog-app" class="wrapper d-flex align-items-stretch" id="wrapper"> 
-        <div>
+    <div id="catalog-app" > 
+        <div id="wrapper" class="d-flex align-items-stretch">
             {% include 'Biblio/_filter_sidebar.html'%}
-        </div>
-
-        <div id="catalog-content" class="p-5 w-100">
-            <div id="book-to-add">
-            </div>
-        </div>
         
+
+            <div id="catalog-content" class="p-5 w-100">
+                <div id="book-to-add" >
+                    <modal_book_list 
+                    v-for="book_list in book_lists"
+                    v-bind:book_state='book_list.book_state'
+                    v-bind:shelf_title='book_list.shelf_title'
+                    v-bind:books='book_list.books'
+                    ></modal_book_list>
+                </div>
+            </div>
+    </div>
     </div>
 </div>
 

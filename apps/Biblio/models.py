@@ -106,6 +106,9 @@ class Book(models.Model):
         data["description"] = self.description
         data["author"] = self.author.__str__()
         data["created"] = self.created
+        data["slug"] = self.slug
+
+        data["detail_url"] = self.get_absolute_url()
 
         if self.book_file:
             data["file_url"] = self.book_file.url

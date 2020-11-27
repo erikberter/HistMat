@@ -34,7 +34,7 @@ Vue.component('modal', {
               });
         }
     }
-  })
+  });
 
 var fab = new Vue({
     el: '#question_list',

@@ -1,10 +1,20 @@
 
-<transition name="modal">
-    <div id="container-cb-{{ book_state }}" class="bg-light p-2 m-1 rounded">
-        <h1 id="catalog_book_title" class="text-light">{{shelf_title}}</h1>
-        <div id="catalog_book_window" class="container-fluid">
-            {% include 'Biblio/_books.html' with books=books id_name="sortable-"|add:book_state shelf_name=book_state %}
-        </div>
+<transition name="modal_book_list" id="modal_book_list">
+    <div v-bind:id="'container-cb-'+book_state" class="bg-light p-2 m-1 rounded">
+        <h1 id="catalog_book_title" class="text-secondary">[[shelf_title]]</h1>
+        <ul v-bind:id="'sortable-'+book_state" v-bind:shelf_name="book_state" class="d-flex flex-row flex-wrap scroll-element connectedSortable border bg-secondary p-2" >
+            <book_item
+                v-for="book in books"
+                v-bind:book_slug='book.slug'
+                v-bind:book_cover_url = 'book.cover_url'
+                v-bind:book_title = 'book.title'
+                v-bind:book_file_url = 'book.file_url'
+                v-bind:book_detail_url = 'book.detail_url'
+                v-bind:book_author = 'book.author'
+            ></book_item>
+            <!--{ include 'Biblio/_books.html' with books=books id_name="sortable-"|add:book_state shelf_name=book_state %}
+                -->
+            </ul>
     
     </div>
 </transition>
