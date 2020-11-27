@@ -16,25 +16,28 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('forum:post_detail', args=[self.pk])
     
-    def increaseLikes(self, likes):
-        self.likes = ++likes
+    def increaseLikes(self):
+        self.likes = self.likes + 1
         return reverse('forum:post_home')
 
-    def decreaseLikes(self, likes):
-        self.likes = --self.likes 
+    def decreaseLikes(self):
+        self.likes = self.likes - 1
         return reverse('forum:post_home')
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, related_name="forum_comments", on_delete=models.CASCADE)
-    userName = models.CharField(max_length=255)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, default=None)
     body = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
     likes = models.PositiveIntegerField()
 
     def __str__(self):
-        return self.userName
+        return self.body
     
     def increaseLikes(self):
-        ++self.likes 
+        self.likes = self.likes + 1
+        return reverse('forum:post_detail')
 
     def decreaseLikes(self):
-        --self.likes
+        self.likes = self.likes - 1
+        return reverse('forum:post_detail')
