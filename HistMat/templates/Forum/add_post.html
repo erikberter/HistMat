@@ -4,11 +4,11 @@
 
 {% block content %}
     <br></br>
-    <div class="card border-0 my-5">
+    <div class="card bg-light border-0 my-5">
         <br>
         <h1 class="mx-4">Añadir post al foro</h1>
         <hr>
-        <div class="card border-0 mx-5">
+        <div class="card bg-light border-0 mx-5">
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}

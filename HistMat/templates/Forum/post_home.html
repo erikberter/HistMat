@@ -14,7 +14,7 @@
 		el: '#fab-container',
 		data: {
 			//Data
-			create_url: "{% url 'post:add_post' %}"
+			create_url: "{% url 'apuntes:add_apuntes' %}"
 		},
 		methods: {
 			fab_action: function (event) {
@@ -47,8 +47,7 @@
                     </br>
 				    <p> No hay imagen </p>
                 {% endif %}
-			</div>
-		<br>	
+            </div>	
             <div class = "col">
                 <span class="float-right">
                     <p class="font-weight-bold">

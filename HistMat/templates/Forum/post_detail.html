@@ -5,11 +5,17 @@
 
 {% block content%}
     <br></br>
-    <div class="row justify-content-md-center align-items-center">
-        <div class="card d-flex p-3">
-            <a class="text-white"> <h4> {{post.body}}</h4> </a>
-            <img src="{{post.image.url}}">
-            <h5>Comentarios</h5>
+    <div class="card bg-light">
+        <div class="card img-fluid bg-transparent">
+            <div class="card">
+                <a class="text-white"> <h1> {{post.body}}</h1> </a>
+            </div>
+            <img class="card-img-top rounded img-responsive" src="/media/{{post.image}}" alt="Card image">
+            
+        </div>
+        <div class="card bg-light mx-5 border-0">
+            
+            <h2>Comentarios</h2>
             </br>
             {% if not post.comments.all %}
                 Todavía no hay ningún comentario... 
@@ -20,21 +26,12 @@
                 <a href="{% url 'add_comment' post.pk %}">Añadir comentario</a>
                 </br>
                 {% for comment in post.comments.all %}
-                    <p class="font-weight-bold"> {{ comment.user }} - {{ comment.date }} </p> 
+                    <strong>   
+                        {{ comment.name }} -
+                        {{ comment.date }}
+                    </strong> 
+                    
                     {{ comment.body }}
-                    <div class = "col">
-                        <span class="float-right">
-                            <p class="font-weight-bold">
-                                <a href="{{comment.increaseLikes}}">
-                                    <img src="/HistMat/static/img/upvote.png" width="20">
-                                </a>
-                                {{ comment.likes }}
-                                <a href="{{comment.decreaseLikes}}">
-                                    <img src="/HistMat/static/img/downvote.png" width="23">
-                                </a>
-                            </p>
-                        </span>
-                    </div>
                     <br></br>
                 {% endfor %}
             {% endif %}
