@@ -2,11 +2,14 @@
 
 {% block title %} HistMat | Apuntes {% endblock %}
 
+{% load static %}
+
 {% block css%}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
 {% endblock %}
 
 {% block js%}
+
 <script>
 	var fab = new Vue({
 		el: '#fab-container',

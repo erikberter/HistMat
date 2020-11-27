@@ -3,6 +3,7 @@ from .models import Apunte
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ApunteCreateForm
+from django.http import  HttpResponseRedirect
 # Create your views here.
 
 def apuntes(request):
@@ -21,7 +22,7 @@ class ApunteCreateView(LoginRequiredMixin, CreateView):
     form_class = ApunteCreateForm
 
     def form_valid(self, form):
-        apunte = apunte.save()
+        apunte = form.save()
         apunte.autor = self.request.user
         
         return HttpResponseRedirect(apunte.get_absolute_url())
