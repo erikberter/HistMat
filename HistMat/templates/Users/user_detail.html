@@ -160,7 +160,9 @@
                       <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
                       </path>
                     </svg>Website</h6>
-                  <span class="text-secondary">{{user.website}}</span>
+                  <a href="https://{{user.website}}/">
+                    <span class="text-secondary">{{user.website}}</span>
+                  </a>
                 </li>
               {% endif %}
               
@@ -222,6 +224,24 @@
             {% endif %}
           </ul>
         </div>
+        
+        <!-------------------AMIGOS---------------------------->
+        <div class="card mt-3">
+          <div class="row">
+            {% for userFollowing in friends %}
+            <div class = "col-md-2 mt-4">
+                <div class="h-100 d-inline-block">
+                  <a href="/user/{{userFollowing.following_user_id.pk}}/explore/">
+                    <img src='/HistMat/media/{{userFollowing.following_user_id.profile_image}}' alt="friend" class="rounded-circle" width="75" height="58">
+                  </a>   
+                </div>
+            </div>
+            {% empty %}
+              <p> No sigues a ningun usuario</p>
+            {% endfor %}
+          </div>   
+        </div>
+      
       </div>
 
 
@@ -282,53 +302,28 @@
               <div class="card-body">
                 <h6 class="d-flex align-items-center mb-3">Logros cercanos</h6>
                   {% for achievement_progress in progresses %}
-                      <div class = "card mb-2">
-                          <div class="card-horizontal">
-                              <div class="img-square-wrapper">
-                                  <img class="achievement_photo" src='/HistMat/media/{{achievement_progress.achievement.achievement_image}}' alt="Card image cap">
-                              </div>
-                              <div class="card-body">
-                                  <h4 class="card-title">{{achievement_progress.achievement.name}}</h4>
-                                  <p class="card-text">{{achievement_progress.achievement.funny_phrase}}</p>
-                                  <div class="progress mb-3" style="height: 12px">
-                                      <div class="progress-bar" style="width:{{achievement_progress.actual_progress}}%">{{achievement_progress.actual_progress}}%</div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
+                    <div class = "card mb-2">
+                        <div class="card-horizontal">
+                            <div class="img-square-wrapper">
+                                <img class="achievement_photo" src='/HistMat/media/{{achievement_progress.achievement.achievement_image}}' alt="Card image cap">
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title">{{achievement_progress.achievement.name}}</h4>
+                                <p class="card-text">{{achievement_progress.achievement.funny_phrase}}</p>
+                                <div class="progress mb-3" style="height: 12px">
+                                    <div class="progress-bar" style="width:{{achievement_progress.actual_progress}}%">{{achievement_progress.actual_progress}}%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                   {% empty %}
-                      <p> No hay Logros</p>
+                    <p> No hay Logros</p>
                   {% endfor %}
                   <div class= "d-flex flex-column align-items-center text-center">
                     <a href='../achievements/'>
                       <button type="button" class="btn btn-primary ">Ir a logros</button>
                     </a>
                   </div>
-                <!--small>Web Design</small>
-                <div class="progress mb-3" style="height: 5px">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <small>Website Markup</small>
-                <div class="progress mb-3" style="height: 5px">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <small>One Page</small>
-                <div class="progress mb-3" style="height: 5px">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <small>Mobile Template</small>
-                <div class="progress mb-3" style="height: 5px">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <small>Backend API</small>
-                <div class="progress mb-3" style="height: 5px">
-                  <div class="progress-bar bg-primary" role="progressbar" style="width: 66%" aria-valuenow="66"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div-->
               </div>
             </div>
           </div>

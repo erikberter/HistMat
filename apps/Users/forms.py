@@ -8,7 +8,7 @@ class ProfileForm(forms.ModelForm):
     
     class Meta:
         model = Profile
-        fields = ('profile_image','study_center', 'country', 'city','born_date')
+        fields = ('profile_image','study_center', 'country', 'city','born_date', 'website', 'github', 'instagram', 'twitter', 'facebook')
         
 
     
