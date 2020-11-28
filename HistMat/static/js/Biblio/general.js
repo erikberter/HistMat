@@ -7,7 +7,7 @@
 function send_book_state_change_ajax(book_state, book_slug){
     $.ajax({
         type: "POST",
-        url: '/biblio/catalog/'+book_slug+'/state_change',
+        url: '/biblio/book_detail/'+book_slug+'/state_change',
         dataType:'json',
         data: { 
             book_state : book_state,
@@ -31,7 +31,7 @@ function send_book_state_change_ajax(book_state, book_slug){
 function send_act_page_change_ajax(act_page, book_slug){
     $.ajax({
         type: "POST",
-        url: '/biblio/catalog/'+book_slug+'/page_change',
+        url: '/biblio/book_detail/'+book_slug+'/page_change',
         dataType:'json',
         data: { 
             act_page : act_page,

@@ -7,16 +7,25 @@
 {% block js%}    
     <script src='https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/shortcuts/infinite.min.js'></script>
+    <script src="{% static 'js/Biblio/mycatalog.js' %}"> </script>
 {% endblock %}
 
 
+{% block css%}
+<link type="text/css" href="{% static 'css/external/cptn03.css' %}" rel="stylesheet">
 
+{% endblock %}
 
 {%block content%}
 <div class="container">
-    <div class="row infinite-container">
-        {% include 'Biblio/_books_no_ul.html' with books=books%}
+    <div class="p-3 d-flex justify-content-center">
+        <h1>Public Catalog</h1>
+        
     </div>
+    <hr>
+    <ul class="row infinite-container d-flex justify-content-between p-1">
+        {% include 'Biblio/_books_no_ul.html' with books=books%}
+    </ul>
     {% if page_obj.has_next %}
         <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
     {% endif %}

@@ -13,11 +13,12 @@ urlpatterns = [
     path('book_update/<slug:slug>', views.BookUpdateView.as_view(), name='book_update'),
     #path('book_delete/<slug:slug>', views.BookDeleteView.as_view(), name='book_delete'),
 
-    path('book_detail/<slug:slug>', views.book_detail, name='book_detail'),
+    path('book_detail/<slug:slug>', views.BookDetailView.as_view(), name='book_detail'),
 
 
-    path('catalog/<slug:slug>/state_change', views.book_state_change, name='book_state_change'),
-    path('catalog/<slug:slug>/page_change', views.book_page_change, name='book_page_change'),
+    path('book_detail/<slug:slug>/state_change', views.book_state_change, name='book_state_change'),
+    path('book_detail/<slug:slug>/page_change', views.book_page_change, name='book_page_change'),
+    path('book_detail/<slug:slug>/rate', views.book_rate, name='book_rate'),
 ]
 
 if settings.DEBUG:

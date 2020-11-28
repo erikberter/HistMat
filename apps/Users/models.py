@@ -47,11 +47,11 @@ class Profile(AbstractUser):
     city = models.CharField(max_length=40, default = "")
     born_date = models.DateField(default=timezone.now)
     #--------------------SOCIAL------------------------------
-    website = models.CharField(max_length=40, default = "")
-    github = models.CharField(max_length=40, default = "")
-    instagram = models.CharField(max_length=40, default = "")
-    twitter = models.CharField(max_length=40, default = "")
-    facebook = models.CharField(max_length=40, default = "")
+    website = models.CharField(max_length=40, default = "", null=True, blank=True)
+    github = models.CharField(max_length=40, default = "",  null=True, blank=True)
+    instagram = models.CharField(max_length=40, default = "",  null=True, blank=True)
+    twitter = models.CharField(max_length=40, default = "", null=True, blank=True)
+    facebook = models.CharField(max_length=40, default = "",  null=True, blank=True)
     #--------------------LEVEL------------------------------
     level = models.IntegerField(default=1)
     xp = models.BigIntegerField(default=0)

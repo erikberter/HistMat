@@ -2,7 +2,7 @@
 
 
 {%block title%}
-HistMat | {{book.title}}
+    HistMat | {{book.title}}
 {% endblock %}
 
 {% load static %}
@@ -14,7 +14,7 @@ HistMat | {{book.title}}
     <script src="{% static 'js/Biblio/widgets.js' %}"> </script>
     <script src="{% static 'js/Biblio/book_detail.js' %}"> </script>
 
-    {% if user.is_authenticated %}
+    {% if has_book%}
     <script>
         var fab = new Vue({
             el: '#fab-container',
@@ -33,12 +33,13 @@ HistMat | {{book.title}}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/rating.css' %}">    
-    {% if user.is_authenticated %}
+    {% if has_book %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
     {% endif %}
 {% endblock %}
 
 {% block content %}
+<input id="book_slug" type="hidden" value="{{book.slug}}">
 <div class="p-5">
     <div class="card container-fluid bg-light shadow p-5">
         <div class="row">
@@ -75,17 +76,19 @@ HistMat | {{book.title}}
             </div>
             <!-- Right Sector -->
             <div class="col">
+                <!-- Book State Dropdown-->
                 <div class="row">
-                    {% include 'Biblio/widgets/shelf_dropdown_p.html' with book=book %}
+                    <select name="book_state" id="book_state_dropdown" b_state="{{book_state}}" class="btn btn-secondary dropdown-toggle w-100" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <option value="None">Add to shelf</option>
+                        <option value="Want to Read">Want to Read</option>
+                        <option value="Reading">Reading</option>
+                        <option value="Read">Read</option>
+                    </select>
                 </div>
                 <div class="row d-flex flex-column card p-3">
                     <div>
-                        {% if user.is_authenticated %}
-                            {%load book_access%}
-                            {% is_book_in_user user book as book_user_related %}
-
-                            {% if book_user_related %}
-                            <form method="POST" id="star-rating" action="?">
+                        {% if has_book %}
+                            <form method="POST" id="star-rating" action="{{ request.path }}/rate">
                                 {%csrf_token%}
                                 <div class="rating"> 
                                     <!-- https://stackoverflow.com/questions/1107737/numeric-for-loop-in-django-templates -->
@@ -96,27 +99,25 @@ HistMat | {{book.title}}
                                     {% endfor %}
                                 </div>
                             </form>
-                            {% endif %}
                         {% endif %}
                     <!-- Rating -->
                     </div>
                     <div class="d-flex justify-content-center">
-                        <span >El libro tiene una puntuación de {{ rating.total }}.</span>
+                        {% if rating.total%}
+                            <span >El libro tiene una puntuación de {{ rating.total }}.</span>
+                        {% else %}
+                            <span>Este libro nunca se ha valorado</span>
+                        {% endif %}
                     </div>
                     
                 </div>
                 <div class="row card p-3 mt-2">
-                    {% if user.is_authenticated %}
-                        {%load book_access%}
-                        {% is_book_in_user user book as book_user_related %}
-
-                        {% if book_user_related %}
-                            {% is_book_act_page_in_user user book as act_book_page %}
+                    {% if  user.is_authenticated %}
+                        {% if has_book %}
                             <div class="d-flex justify-content-center">
                                 <p> Actual page </p>
                             </div>
-                            
-                            <input id="set-act-page" type="input" b_slug = "{{book.slug}}" placeholder="{{act_book_page}}">
+                            <input id="set-act-page" type="input" b_slug = "{{book.slug}}" placeholder="{{act_page}}">
                         {% else %}
                             <p>You should consider adding this book to be able to track your progess!</p>
                         {% endif %}

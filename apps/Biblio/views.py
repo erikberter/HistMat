@@ -11,14 +11,15 @@ from django.shortcuts import render, get_object_or_404
 from django.utils.decorators import method_decorator
 
 from django.views import View
-from django.views.generic.edit import CreateView, UpdateView
-from django.views.generic.list import ListView
+from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 
 from .models import Book, Author, BookUserDetail
 from .forms import BookCreateForm
+from .utils import *
 
 import json
 
@@ -29,6 +30,7 @@ from slugify import slugify
 #           Views Configuration         #
 #########################################
 
+CORRECT_JSON_DICT = {'status':'Success', 'msg': 'save successfully'}
 
 
 #########################################
@@ -49,49 +51,25 @@ class CatalogView(ListView):
 class MyCatalogView(LoginRequiredMixin, View):
     template_name = 'Biblio/mycatalog.html'
 
+    def get(self, request):
+        return render(request, self.template_name)
+
     def post(self, request, *args, **kwargs):
         data = json.loads(request.body.decode('utf-8'))
         print(data)
         if not data:
             raise Http404("Empty")
 
-        print("AQIO3")
-
         data['shelf_title'] = data.get('book_state')
         data['book_state'] = slugify(data['shelf_title'].lower(), separator="_")
-        print("AQ2IO")
+
         # TODO simplificar con related_name
         books = Book.objects.filter(bookuserdetail__user=request.user).filter(bookuserdetail__book_state=data['book_state'])
-        books_list = []
-        for book in books:
-            books_list += [book.get_dto()]
-
-        data['books'] = books_list
-        print(data)
-        print("AQ4IO")
-        return JsonResponse(data)
-    def get(self, request):
-        return render(request, 'Biblio/mycatalog.html')
-
-
-"""
-context['shelf_title'] = request.POST.get('book_state')
-context['book_state'] = slugify(context['shelf_title'].lower(), separator="_")
-
-context['books'] = Book.objects.filter(bookuserdetail__user=request.user).filter(bookuserdetail__book_state=context['book_state'])
-
-context['book_state'] = slugify(context['shelf_title'].lower(), separator="_")
-if 'search_book' in request.POST:
-    if request.POST.get('search_book'):
-        context[book_state] = context[book_state].filter(title__contains = request.POST.get('search_book'))
-if 'book_order' in request.POST:
-    order = request.POST.get('book_order')
-    if order=="order-last-added":
-        context['books'] = context['books'].order_by("bookuserdetail__updated")
         
-    elif order == "order-first-added":
-        context['books'] = context['books'].order_by("-bookuserdetail__updated")
-        """
+        data['books'] = [book.get_dto() for book in books]
+
+        return JsonResponse(data)
+
 
 class BookCreateView(LoginRequiredMixin, CreateView):
     template_name = 'Biblio/forms/book_create.html'
@@ -112,6 +90,29 @@ class BookCreateView(LoginRequiredMixin, CreateView):
 
 
 
+class BookDetailView(DetailView):
+    model = Book
+    template_name = "Biblio/book_detail.html"
+    context_object_name = "book"
+
+    def get_queryset(self):
+        books = Book.public.all()
+        if self.request.user.is_authenticated:
+            books = books | Book.objects.filter(bookuserdetail__user = self.request.user)
+
+        return books
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['book_state'] = get_book_state(self.request.user, self.get_object())
+        data['rating'] = self.get_object().users.aggregate(total = Avg('bookuserdetail__rating'))
+        data['has_book'] =  is_book_in_user(self.request.user, self.get_object())
+        if data['has_book']:
+            data['act_page'] = get_user_act_page(self.request.user, self.get_object())
+            print("ATUAL PALGE " + str(data['act_page']))
+        return data
+
+
 class BookUpdateView(LoginRequiredMixin, UpdateView):
     model = Book
     fields = ['title', 'description', 'author', 'npages', 'book_file', 'cover', 'visibility']
@@ -120,82 +121,50 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
 
 @require_POST
 def book_state_change(request, slug):
-    context={}
+    book = Book.objects.get(slug=slug)
     if request.is_ajax():
-        book = Book.objects.get(slug=slug)
         
-        book_ud_c = BookUserDetail.objects.filter(book=book).filter(user = request.user).count()
-
-        if book_ud_c == 0:
-            book_ud = BookUserDetail.objects.create(user = request.user, book=book)
-        else:
-            book_ud = BookUserDetail.objects.filter(book=book).get(user = request.user) 
-            
-        book_ud.book_state = request.POST.get('book_state')
+        new_book_state = slugify(request.POST.get('book_state').lower(), separator="_")
+        if not new_book_state:
+            raise Http404("No valid book state")
+        
+        book_ud, created = BookUserDetail.objects.get_or_create(
+                book = book,
+                user = request.user
+            )
+        
+        book_ud.book_state = new_book_state
         book_ud.save()
-        return JsonResponse({'status':'Success', 'msg': 'save successfully'})
+
+        return JsonResponse(CORRECT_JSON_DICT)
         
 @require_POST
 def book_page_change(request, slug):
-    context={}
     if request.is_ajax():
+        new_act_page = request.POST.get('act_page')
+        if not new_act_page:
+            raise Http404("Invalid Actual Page")
+
         book = Book.objects.get(slug=slug)
         
-        book_ud_c = BookUserDetail.objects.filter(book=book).filter(user = request.user).count()
+        book_ud = get_object_or_404(BookUserDetail,
+                book=book,
+                user = request.user
+            )
 
-        if book_ud_c == 0:
-            raise Http404("Book not found")
-        else:
-            book_ud = BookUserDetail.objects.filter(book=book).get(user = request.user) 
-            
-        book_ud.act_page = request.POST.get('act_page')
+        book_ud.act_page = new_act_page
         book_ud.save()
-        return JsonResponse({'status':'Success', 'msg': 'save successfully'})
+        return JsonResponse(CORRECT_JSON_DICT)
 
 
-def book_detail(request, slug):
-    context = {}
-
-    if not request.user.is_authenticated:
-        context['book'] = get_object_or_404(Book, slug=slug, visibility="public")
-    else:
-        context['book'] = Book.objects.filter(slug=slug).filter(
-            Q(bookuserdetail__user = request.user) | Q(visibility="public")
-        ).distinct().first()
-
-    if context['book'] == None:
-        raise Http404("Book not found")
-
-    if request.method == 'POST':
-        if "book_state" in request.POST:
-            
-            book_ud_c = BookUserDetail.objects.filter(book=context['book']).filter(user = request.user).distinct().count()
-            
-            if book_ud_c == 0:
-                book_ud = BookUserDetail.objects.create(user = request.user, book=context['book'])
-            else:
-                book_ud = BookUserDetail.objects.filter(book=context['book']).distinct().get(user = request.user)
-                
-            book_state_t = slugify(request.POST.get('book_state'))
-
-            if book_state_t == "none":
-                book_ud.delete()
-            else:
-                book_ud.book_state = slugify(request.POST.get('book_state'), separator='_')
-                book_ud.save()
-                
-        if "rating_v" in request.POST:
-            budetail = BookUserDetail.objects.filter(book=context['book']).distinct().get(user = request.user)
-            budetail.rating = int(request.POST.get("rating_v"))
-            budetail.save()
-
-    context['rating'] = context['book'].users.aggregate(total = Avg('bookuserdetail__rating'))
-    return render(request, 'Biblio/book_detail.html', context)
-
-
-
-
-
+@require_POST
+def book_rate(request, slug):
+    book = get_object_or_404(Book, slug=slug)
+    if "rating_v" in request.POST:
+        budetail = BookUserDetail.objects.filter(book=book).distinct().get(user = request.user)
+        budetail.rating = int(request.POST.get("rating_v"))
+        budetail.save()
+    return HttpResponseRedirect(book.get_absolute_url())
 
 from config.settings.settings import DEBUG
 

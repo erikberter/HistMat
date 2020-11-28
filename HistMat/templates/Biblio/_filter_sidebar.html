@@ -1,7 +1,7 @@
 <div class="bg-white border-right" id="sidebar-wrapper">
   <button class="btn btn-success py-2" id="menu-toggle"><i class="fa fa-angle-double-right"></i></button>
     <!-- TODO make default settings by cookies-->
-    <h3 class="font-weight-bold text-center">catalog Options </h3>
+    <h3 class="font-weight-bold text-center">Catalog Filter </h3>
 
     
 
@@ -26,12 +26,12 @@
           </label>
           
           <label for="cb-reading" class="btn btn-secondary">
-            <input type="checkbox" class="cb_filter_selector" id="cb-reading">
+            <input type="checkbox" class="cb_filter_selector" id="cb-reading"  @click="load_books('Reading')">
             Reading
           </label>
           
           <label for="cb-read" class="btn btn-secondary"> 
-            <input type="checkbox" class="cb_filter_selector" id="cb-read">
+            <input type="checkbox" class="cb_filter_selector" id="cb-read"  @click="load_books('Read')">
             Read
           </label>
           

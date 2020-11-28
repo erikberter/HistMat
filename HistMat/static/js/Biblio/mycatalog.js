@@ -58,7 +58,7 @@ function refreshSortable(){
     ); 
     
     var selected_id_string =  selected.join();
-
+        console.log(selected_id_string);
     $(selected_id_string).sortable({
         connectWith: ".connectedSortable",
         dropOnEmpty: true,
@@ -190,8 +190,10 @@ var fab = new Vue({
 
                 $('#container-'+response.data.book_state).remove();
                 $('#book-to-add').append(response);
+                Vue.nextTick(function () {
+                    refreshSortable();
+                  });
                 
-                refreshSortable();
             })
             .catch(error => {
                 console.log(error)
