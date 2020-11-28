@@ -23,7 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('biblio/', include('apps.Biblio.urls', namespace='post')),
-    path('', include('apps.Users.urls', namespace='users')),
+    path('user/', include('apps.Users.urls', namespace='users')),
     path('', include('apps.Layout.urls', namespace='layout')),
     path('trivia/', include('apps.Trivia.urls', namespace='trivia')),
     path('', include('social_django.urls', namespace='social')),

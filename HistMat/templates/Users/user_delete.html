@@ -2,9 +2,14 @@
 
 
 {% block content%}
-<form method="post">
-    {% csrf_token %}
-    <p>Estas seguro de que quieres eliminar "{{ object }}"?</p>
-    <input class="btn btn-primary" type="submit" value="Confirm">
-</form>
+<p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</p>
+<div class="d-flex flex-column align-items-center text-center">
+    <div class="tenor-gif-embed" data-postid="14013811" data-share-method="host" data-width="30%" data-aspect-ratio="1.0"><a href="https://tenor.com/view/lots-of-tears-crying-hard-crying-crybaby-peach-gif-14013811">Lots Of Tears Crying Hard GIF</a> from <a href="https://tenor.com/search/lotsoftears-gifs">Lotsoftears GIFs</a></div><script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    <form method="post">
+        {% csrf_token %}
+        <p>Estas seguro de que quieres eliminar tu cuenta "{{ object }}"? Esta accion es irreversible y perderas todo el progreso de tu cuenta</p>
+        <input class="btn btn-danger" type="submit" value="Si, estoy seguro">
+    </form>
+</div>
+
 {% endblock %}
