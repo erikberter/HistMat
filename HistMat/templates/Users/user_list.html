@@ -10,52 +10,59 @@
         <div class = "card mb-4">
             <div class = "card text-center">
                 <div class = "card-header">
-                    <h2 class = "card-title"> Todos los usuarios </h2>
+                    <h2 class = "card-title"> Todos los Amigos </h2>
                 </div>
             </div>
             <div class="card-body">
                 {% for profile in user_list %}
                     <div class = "card mb-2">
                         <div class="card-horizontal">
+                            <p>&emsp;</p>
                             <div class="img-square-wrapper">
-                                <img class="achievement_photo" src='/HistMat/media/{{profile.profile_image}}' alt="Card image cap">
+                                <img src='/HistMat/media/{{profile.profile_image}}' alt="Admin" class="rounded-circle" width="150">
                             </div>
+                            <p>&emsp;&emsp;&emsp;&emsp;&emsp;</p>
                             <div class="card-body">
-                                <h4 class="card-title">{{profile.username}}     +{{profile.level}}XP</h4>
-                                <p class="card-text">{{profile.study_center}}</p>
-                                <p class="card-text">{{profile.city}}</p>
-                                <p class="card-text">{{profile.country}}</p>
+                                <div class="row">
+                                    <div class= "col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                              <h6 class="mb-0">Nombre de usuario / Nivel</h6>
+                                            </div>
+                                            <div class="col-sm-8 text-secondary">
+                                              {{profile.username}} / {{profile.level}}
+                                            </div>
+                                        </div>  
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                              <h6 class="mb-0">Centro de estudios</h6>
+                                            </div>
+                                            <div class="col-sm-8 text-secondary">
+                                              {{profile.study_center}}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                              <h6 class="mb-0">Pais / Ciudad</h6>
+                                            </div>
+                                            <div class="col-sm-8 text-secondary">
+                                                {{profile.country}} / {{profile.city}}
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <div class= "col-sm-3">
+                                            <a href="{% url 'users:user_detail' profile.pk %}">
+                                                <button type="button" class="btn btn-primary">Visitar perfil</button>
+                                            </a>  
+                                    </div>
+                                </div>       
                             </div>
                         </div>
                     </div>
                 {% empty %}
-                    <p> No hay usuarios</p>
+                    <p> Todavia no sigues a ningun usuario</p>
                 {% endfor %}
             </div>
-
-
-            <div class="card-body">
-                {% for user_following in friends %}
-                    <div class = "card mb-2">
-                        <div class="card-horizontal">
-                            <div class="img-square-wrapper">
-                                <a href="">
-                                    <div class = "card text-center mb-4">
-                                        <img class="card-img-top" src='/HistMat/media/{{userFollowing.following_user_id.profile_image}}' alt="Card image cap">
-                                        <h2 class="card-title"> @{{userFollowing.following_user_id.get_username}}</h2>
-                                    </div>  
-                                </a>   
-                            </div>
-                            <div class="card-body">
-
-                            </div>
-                        </div>
-                    </div>
-                {% empty %}
-                    <p> No hay usuarios</p>
-                {% endfor %}
-            </div>
-
         </div>
     </div>
 

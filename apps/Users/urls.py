@@ -13,8 +13,4 @@ urlpatterns = [
     path('achievements/', views.AchievementListView.as_view(), name='achievement_list'),
     path('<int:pk>/delete/', views.UserDeleteView.as_view(), name='user_delete'),
     path('users/', views.UserListView.as_view(), name='user_list'),
-    path('<int:pk>/explore/', views.user_explore, name='user_explore'),
-
-
-
 ]

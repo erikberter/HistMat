@@ -23,21 +23,15 @@ def user_detail(request, pk):
         context['is_own_account'] = True
     else:
         context['is_own_account'] = False
+    
+    if not progresses.exists():
+        for achievement in Achievement.objects.all():
+            achievement_progress = Achievement_Progress.objects.create_achievement_progress(user, achievement, 0)
+            achievement_progress.save()
+
     return render(request, "Users/user_detail.html", context)
 
-def user_explore(request, pk):
-    user = Profile.objects.filter(pk = pk)
-    progresses = Achievement_Progress.objects.filter(user = pk).filter(actual_progress__lte = 99).order_by('-actual_progress')[:2]
-    friends = request.user.following_users.all()[:5]
-    context = {
-        'user':user,
-        'progresses':progresses,
-        'friends': friends,
-    }
-    return render(request, "Users/user_explore.html", context)
-
-
-
+        
 class UserUpdateView(UpdateView): 
     form_class = ProfileForm
     model = Profile
@@ -70,12 +64,12 @@ class UserListView(ListView):
 
     def get_context_data(self,**kwargs):
         context = super(UserListView, self).get_context_data(**kwargs)
-        context['friends'] = request.user.following_users.all()
+        context['friends'] = self.request.user.following_users.all()
         return context
 
     def get_queryset(self):
-        friends =  request.user.following_users.all()
-        return Profile.objects.exclude(id__in = friends)
+        friends =  self.request.user.following_users.all()
+        return friends
 
 
 

@@ -29,14 +29,21 @@ class Achievement(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(default=timezone.now)
 
+class Achievement_ProgressManager(models.Manager):
+    def create_achievement_progress(self, userPk, achievementPk, actualProgress):
+        achievement_progress = self.create(user=userPk, achievement = achievementPk, actual_progress = actualProgress)
+        return achievement_progress
 
 class Achievement_Progress(models.Model):
     user = models.ForeignKey('profile', on_delete=models.CASCADE, related_name='user', default=1)
     achievement = models.ForeignKey('achievement', on_delete=models.CASCADE, related_name='achievement', default=1)
     actual_progress = models.IntegerField(default=0)
+    objects = Achievement_ProgressManager()
 
     def __str__(self):
         return self.user.username + ' HA COMPLETADO EL ' + str(self.actual_progress) + '% DE LA TAREA ' + self.achievement.name
+
+
 
 
 class Profile(AbstractUser):

@@ -27,7 +27,7 @@
                 <p class="text-secondary mb-1">LVL {{user_detail.level}} - {{user_detail.kind_of_user}}</p>
                 <p class="text-muted font-size-sm">Se unio a HistMat el {{user_detail.date_joined}}</p>
                 {% if is_own_account %}
-                  <a href="">
+                  <a href="{{ user.get_absolute_config_url }}">
                     <button class="btn btn-primary">Editar Perfil</button>
                   </a>
                 {% endif %}
@@ -116,21 +116,37 @@
         
         <!-------------------AMIGOS---------------------------->
         <div class="card mt-3">
-          <div class="row">
-            {% for userFollowing in friends %}
-            <div class = "col-md-2 mt-4">
-                <div class="h-100 d-inline-block">
-                  <a href="{% url 'users:user_detail' userFollowing.pk %}">
-                    <img src='/HistMat/media/{{userFollowing.profile_image}}' alt="friend" class="rounded-circle" width="75" height="58">
-                  </a>   
+          <div class="d-flex flex-column align-items-center text-center mb-2">
+            <form action="">
+              <div class="p-1 bg-light rounded rounded-pill shadow-sm mt-3">
+                <div class="input-group">
+                  <input type="search" placeholder="Buscar un usuario" aria-describedby="button-addon1" class="form-control border-0 bg-light">
+                  <div class="input-group-append">
+                    <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+                  </div>
                 </div>
-            </div>
-            {% empty %}
-              <p> No sigues a ningun usuario</p>
-            {% endfor %}
-          </div>   
+              </div>
+            </form>
+          </div>
+          <div class="d-flex flex-column align-items-center text-center mb-2">
+            <div class="row">
+              {% for userFollowing in friends %}
+              <div class = "col-md-2 ml-2 mt-1 mb-3">
+                <a href="{% url 'users:user_detail' userFollowing.pk %}">
+                  <img src='/HistMat/media/{{userFollowing.profile_image}}' alt="friend" class="rounded-circle" width="75" height="58">
+                </a>   
+              </div>
+              {% empty %}
+                <p> No sigues a ningun usuario</p>
+              {% endfor %}
+            </div> 
+          </div>
+          <div class="d-flex flex-column align-items-center text-center mb-4">
+            <a href="{% url 'users:user_list' %}">
+              <button class="btn btn-primary">Ver lista amigos</button>
+            </a>
+          </div>
         </div>
-      
       </div>
 
 
@@ -209,11 +225,11 @@
                     <p> No hay Logros</p>
                   {% endfor %}
                   <div class= "d-flex flex-column align-items-center text-center">
-                  {% if is_own_account %}
-                    <a href='../achievements/'>
-                      <button type="button" class="btn btn-primary ">Ir a logros</button>
-                    </a>
-                  {% endif %}
+                    {% if is_own_account %}
+                      <a href="{% url 'users:achievement_list' %}">
+                        <button type="button" class="btn btn-primary ">Ir a logros</button>
+                      </a>
+                    {% endif %}
                   </div>
               </div>
             </div>
