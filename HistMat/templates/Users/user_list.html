@@ -10,7 +10,11 @@
         <div class = "card mb-4">
             <div class = "card text-center">
                 <div class = "card-header">
-                    <h2 class = "card-title"> Todos los Amigos </h2>
+                    {% if is_searching %}
+                        <h2 class = "card-title"> Busqueda de Usuarios </h2>
+                    {% else %}
+                        <h2 class = "card-title"> Todos los amigos</h2>
+                    {% endif %}
                 </div>
             </div>
             <div class="card-body">
@@ -19,7 +23,15 @@
                         <div class="card-horizontal">
                             <p>&emsp;</p>
                             <div class="img-square-wrapper">
-                                <img src='/HistMat/media/{{profile.profile_image}}' alt="Admin" class="rounded-circle" width="150">
+                                {% if profile.profile_image %}
+                                    <img src='/HistMat/media/{{profile.profile_image}}' alt="Admin" class="rounded-circle" width="95" height="95">
+                                {% else %}
+                                    <div class="row">
+                                        <p>&emsp;&#160;&#160;&#160;</p>
+                                        <i class="fa fa-user" class="user_thumbnail rounded-circle" style="font-size:80px";></i>
+                                        <p>&emsp;&#160;&#160;&#160;</p>
+                                    </div>
+                                {% endif %}
                             </div>
                             <p>&emsp;&emsp;&emsp;&emsp;&emsp;</p>
                             <div class="card-body">

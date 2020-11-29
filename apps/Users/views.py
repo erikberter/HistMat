@@ -8,7 +8,6 @@ from django.views.generic.list import ListView
 from .forms import ProfileForm
 from braces.views import UserPassesTestMixin
 from django.db.models import Q
-
 from django.http import  HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -68,9 +67,10 @@ class UserListView(ListView):
     context_object_name = 'user_list'
     model = Profile
 
+
     def get_context_data(self,**kwargs):
         context = super(UserListView, self).get_context_data(**kwargs)
-        
+        context['is_searching'] = False
         return context
 
     def get_queryset(self):
@@ -80,20 +80,18 @@ class UserListView(ListView):
 @csrf_exempt
 @require_POST
 def search_view(request):
-    query = request.POST.get('search')
-    print(query)
-    
+    query = request.POST.get('search')    
     context = {}
     context['user_list'] = Profile.objects.filter(username__contains=query)
-    print("ola")
+    context['is_searching'] = True
+
     return render(request, "Users/user_list.html", context)
 
 def seguir(request, pk):
     user = Profile.objects.get(pk = int(pk))
     a = request.user.following_users.all()
-    print(a)
     b = a.filter(username = user.username)
-    print(b)
+
     if  b.count()>0:
         request.user.following_users.remove(user)
     else:

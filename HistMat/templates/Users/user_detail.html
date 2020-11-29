@@ -22,7 +22,7 @@
           <div class="card-body">
             <div class="d-flex flex-column align-items-center text-center">
               {% if user_detail.profile_image %}
-                <img src='/HistMat/media/{{user_detail.profile_image}}' alt="Admin" class="rounded-circle" width="150">
+                <img src='/HistMat/media/{{user_detail.profile_image}}' alt="Admin" class="rounded-circle" width="125" height="125">
               {% else %}
                 <i class="fa fa-user" class="user_thumbnail rounded-circle" style="font-size:100px";></i>
               {% endif %}
@@ -36,11 +36,11 @@
                     </a>
                 {% else %}
                   {% if sigole %}
-                    <a href="{% url 'users:seguir' user_detail.pk%}">
+                    <a class="btn btn-danger" href="{% url 'users:seguir' user_detail.pk%}">
                       No Seguir
                     </a>
                     {% else %}
-                      <a href="{% url 'users:seguir' user_detail.pk%}">
+                      <a class="btn btn-primary" href="{% url 'users:seguir' user_detail.pk%}">
                         Seguir
                       </a>
                     {% endif %}
@@ -52,8 +52,8 @@
         <!------------------SOCIAL----------------------->
         <div class="card mt-3">
           <ul class="list-group list-group-flush">
-            {% if user_detail.website != "" and user_detail.github != "" and user_detail.twitter != "" and user_detail.instagram != "" and user_detail.facebook != "" %}
-              {% if user_detail.website != ""%}
+            {% if user_detail.website != None or user_detail.github != None or user_detail.twitter != None or user_detail.instagram != None or user_detail.facebook != None %}
+              {% if user_detail.website != None%}
                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                   <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -69,7 +69,7 @@
                 </li>
               {% endif %}
               
-              {% if user_detail.github != ""%}
+              {% if user_detail.github != None%}
                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                   <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -82,7 +82,7 @@
                 </li>
               {% endif %}
 
-              {% if user_detail.twitter != ""%}
+              {% if user_detail.twitter != None%}
                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                   <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -95,7 +95,7 @@
                 </li>
               {% endif %}
 
-              {% if user_detail.instagram != ""%}
+              {% if user_detail.instagram != None%}
                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                   <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -108,7 +108,7 @@
                 </li>
               {% endif %}
 
-              {% if user_detail.facebook != ""%}
+              {% if user_detail.facebook != None%}
                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                   <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -121,7 +121,11 @@
             {% else %}
               <div class="card mt-3">
                 <div class="card-body">
-                  <p>Todavia no has añadido ninguna web o red social, si deseas hacerlo accede a la configuracion de tu perfil</p>
+                  {% if is_own_account %}
+                    <p>Todavia no has añadido ninguna web o red social, si deseas hacerlo accede a la configuracion de tu perfil</p>
+                  {% else %}
+                    <p>Este usuario no ha añadido ninguna web o red social</p>
+                  {% endif %}
                 </div>
               </div>
             {% endif %}
@@ -145,7 +149,7 @@
 
 
           </div>
-          <div class="d-flex flex-column align-items-center text-center mb-2">
+          <div class="d-flex flex-column text-center mb-2">
             <div class="row">
               {% for userFollowing in friends %}
               <div class = "col-md-2 ml-2 mt-1 mb-3">
@@ -153,12 +157,19 @@
                   {% if userFollowing.profile_image %}
                     <img src='/HistMat/media/{{userFollowing.profile_image}}' alt="friend" class="rounded-circle" width="75" height="58">
                   {% else %}
-                    <i class="fa fa-user" class="user_thumbnail rounded-circle" style="font-size:35px";></i>
+                    <div class="row">
+                      <p>&emsp;&#160;&#160;</p>
+                      <i class="fa fa-user" class="user_thumbnail rounded-circle" style="font-size:60px";></i>
+                    </div>
                   {% endif %}
                 </a>   
               </div>
               {% empty %}
-                <p> No sigues a ningun usuario</p>
+                {% if is_own_account %}
+                  <p> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; No sigues a ningun usuario</p>
+                {% else %}
+                  <p> &emsp;&emsp;&emsp;&emsp;&emsp; Este usuario no tiene ningun amigo añadido</p>
+                {% endif %}
               {% endfor %}
             </div> 
           </div>
