@@ -2,6 +2,9 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
+{% block title %} User Update {% endblock title %}
+
+
 {% block css %}
 <link href="{% static 'css/Users/users2.css' %}" rel="stylesheet">
 {% endblock css %}
@@ -67,8 +70,8 @@
                             <div class="row">
                                 <input type="submit" class="btn btn-primary" value="Guardar cambios">
                                 <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</p>
-                                <a href="{% url 'users:user_delete' user.pk %}">
-                                    <input class="btn btn-danger" value="Eliminar perfil">
+                                <a class="btn btn-danger" href="{% url 'users:user_delete' user.pk %}">
+                                    Eliminar Perfil
                                 </a>
                             </div>     
                         </div>
