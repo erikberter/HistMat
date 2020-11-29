@@ -25,53 +25,58 @@
 		}
 	})
 </script>
+
+<script>
+	$(document).ready(function(){
+		$(".like-button").click(function(){
+			let pk  = $(this).attr('pk');
+			$.ajax({
+				type: "POST",
+				url: "post_detail/" + pk + "/upvote",
+				dataType:'json',
+				data: {},
+				success: function(result){
+					$(".like-count-" + pk).text(parseInt($(".like-count-" + pk).text())+1);
+				},
+				error: function(result) {
+					alert('error');
+				}
+			});
+		});
+	});
+</script>
 {% endblock %}
 
 {% block content %} 
-<br>
-
-	{% for post in posts %}
-	<div class="container">
-    	<div class="row justify-content-md-center align-items-center">
-        	<div class="card d-flex p-3">
-		    	<p> Posted by {{ post.user }} . {{ post.date }} </p>
-		    	<h4>
-			    	<a href="{{post.get_absolute_url}}">
-			        	{{ post.body }}
-			    	</a>
-		    	</h4>
-		
-		    	<div>
-			    	{% if post.image %}
-				    	<a href="{{post.get_absolute_url}}">
-					    	<img class="rounded" src="{{post.image.url}}" width="750">
-				    	</a>
-                	{% else %}
-                    	</br>
-						<p class="font-weight-bold"> No image </p>
-						<img src="/HistMat/static/img/blanco.jpg" width="750" height="1">
-                	{% endif %}
-            	</div>	
-        		<div class="col">
-					<br>
-                	<span class="float-right">
-                    	<p class="font-weight-bold">
-							<a href="{% url 'forum:post_upvote' pk=post.pk %}">
-								<img src="/HistMat/static/img/upvote.png" width="20">
+<div class="container">
+	<div class="row justify-content-md-center align-items-center">
+		{% for post in posts %}
+			<div class="card d-flex p-3 my-2">
+					<p> Posted by {{ post.user }} . {{ post.date }} </p>
+					<h3>
+						<a class="font-weight-bold" href="{{post.get_absolute_url}}">
+							{{ post.body }}
+						</a>
+					</h3>
+					<div>
+						{% if post.image %}
+							<a href="{{post.get_absolute_url}}">
+								<img class="rounded" src="{{post.image.url}}" width="750">
 							</a>
-							{{ post.likes }}
-							<a href="{% url 'forum:post_downvote' pk=post.pk %}">
-								<img src="/HistMat/static/img/downvote.png" width="23">
-							</a>
-                    	</p>
-                	</span>
-            	</div>
-        	</div>
-		</div>
+						{% else %}
+							<p class="font-weight-bold my-3"> No image </p>
+							<img src="/HistMat/static/img/blanco.jpg" width="750" height="1">
+						{% endif %}
+					</div>	
+					<div class="col">
+						<i class="fa fa-thumbs-up like-button mt-2" pk='{{post.pk}}'></i> 
+						<span class="like-count-{{post.pk}} font-weight-bold">{{ post.likes }}</span> 
+					</div>
+				</div>
+			
+		{% endfor%}
 	</div>
-
-    </br>
-	{% endfor%}
-	{% include 'widgets/fab.html'%}
+</div>
+{% include 'widgets/fab.html'%}
 
 {% endblock %}
