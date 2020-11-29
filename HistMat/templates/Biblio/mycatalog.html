@@ -51,15 +51,16 @@
 
 {% block content%}
 
-<div class="p-0 m-0 bg-dark">
+<div class="p-0 m-0">
     
     <div id="catalog-app" > 
-        <div id="wrapper" class="row d-flex flex-row flex-nowrap px-3">
+        <div id="wrapper" class="d-flex flex-row flex-nowrap">
             {% include 'Biblio/_filter_sidebar.html'%}
             
             <div id="catalog-content" class="p-4">
                 <div id="book-to-add" class="d-flex flex-wrap">
                     <modal_book_list 
+                    class="shadow m-2"
                     v-for="book_list in book_lists"
                     v-bind:book_state='book_list.book_state'
                     v-bind:shelf_title='book_list.shelf_title'

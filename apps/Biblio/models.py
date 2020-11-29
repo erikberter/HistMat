@@ -73,7 +73,7 @@ class Book(models.Model):
 
     visibility  = models.CharField(max_length = 35, choices = VISIBILITY_CHOICES, default = 'private')
 
-    #tags = TaggableManager()
+    tags = TaggableManager()
 
     objects = models.Manager()
     public = PublicBookManager()
@@ -110,6 +110,10 @@ class Book(models.Model):
 
         data["detail_url"] = self.get_absolute_url()
 
+        data["tags"] = []
+        for tag in self.tags.all():
+            data["tags"].append(tag.name)
+        
         if self.book_file:
             data["file_url"] = self.book_file.url
         else:
@@ -120,7 +124,7 @@ class Book(models.Model):
             data["cover_url"] = self.cover.url
         else:
             data["cover_url"] = ""
-
+        
         return data
 
 

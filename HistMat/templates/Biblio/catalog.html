@@ -13,24 +13,23 @@
 
 {% block css%}
 <link type="text/css" href="{% static 'css/external/cptn03.css' %}" rel="stylesheet">
-
+<link type="text/css" href="{% static 'css/Biblio/catalog.css' %}" rel="stylesheet">
 {% endblock %}
 
 {%block content%}
-<div class="container">
+<div class="container bg-light shadow">
     <div class="p-3 d-flex justify-content-center">
         <h1>Public Catalog</h1>
-        
     </div>
     <hr>
-    <ul class="row infinite-container d-flex justify-content-between p-1">
+    <ul class="row infinite-container d-flex justify-content-between px-2">
         {% include 'Biblio/_books_no_ul.html' with books=books%}
     </ul>
     {% if page_obj.has_next %}
         <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
     {% endif %}
     <div class="d-flex justify-content-center" style="display:none;">
-        <div id="loading-icon" class="spinner-border" role="status">
+        <div id="loading-icon" class="spinner-border" role="status" style="display:none;">
             <span id="spd" class="sr-only">Loading...</span>
         </div>
     </div>

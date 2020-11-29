@@ -57,14 +57,18 @@
     visibility: visible;
   }
   
-  .file-button {
+  .thumb-button {
     transition: 0.4s;
   }
-  .file-button.valid:hover {
+  .thumb-button.valid.search:hover {
     color: cyan!important;
     border-color: cyan!important;
   }
-  .file-button.invalid:hover {
+  .thumb-button.invalid.file:hover {
     color: red!important;
     border-color: red!important;
+  }
+  .thumb-button.valid.file:hover {
+    color: greenyellow!important;
+    border-color: greenyellow!important;
   }

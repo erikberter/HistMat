@@ -20,10 +20,16 @@
         {% endif %}
     </button>
     <div class="dropdown-menu dropdown-menu-right my-0" aria-labelledby="dropdownMenuLink">
-        <a class="dropdown-item" href="{{ user.get_absolute_url }}">Perfil</a>
+        <a class="dropdown-item px-3" href="{{ user.get_absolute_url }}">
+            <span><i class="fa fa-user"></i> Perfil</span>
+        </a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="{{ user.get_absolute_config_url }}"> Configuracion </a>
+        <a class="dropdown-item px-3" href=" {{ user.get_absolute_config_url }} ">
+            <span><i class="fa fa-cog"></i> Configuracion </span>
+        </a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="{% url 'users:logout' %}"> Logout</a>
+        <a class="dropdown-item px-3" href="{% url 'users:logout' %}">
+            <span><i class="fa fa-sign-out"></i> Logout </span>
+        </a>
     </div>
 </div>

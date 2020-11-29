@@ -5,12 +5,15 @@
         <img src="/HistMat/media/no_image.jpg" v-else v-bind:alt="book_title+' has no cover image'" class="img-fluid">
         
         <div class = "details jumbotron d-flex align-items-center">
-            <div class="container">
-                <a v-if="book_file_url != ''" class="btn btn-primary align-middle text-white bg-transparent bold file-button valid" v-bind:href="book_file_url" style="border: white 3px solid;">
-                    <span style="font-size:large;">File</span>
+            <div class="container p-1 d-flex flex-column">
+                <a v-if="book_file_url != ''" class="btn btn-primary align-middle text-white bg-transparent bold thumb-button file valid" v-bind:href="book_file_url" style="border: white 3px solid;">
+                    <span style="font-size:large;"><i class="fa fa-file-pdf"></i> File</span>
                 </a> 
-                <a v-else class="btn btn-primary align-middle text-white bg-transparent bold file-button invalid" href="#" style="border: white 3px solid;">
-                    <span style="font-size:large;">No File</span>
+                <a v-else class="btn btn-primary align-middle text-white bg-transparent bold thumb-button file invalid" href="#" style="border: white 3px solid;">
+                    <span style="font-size:large;"><i class="fa fa-file-exclamation"></i> No File</span>
+                </a>
+                <a class="btn btn-primary align-middle text-white bg-transparent bold thumb-button search valid mt-1" v-bind:href="book_detail_url" style="border: white 3px solid;">
+                    <span><i class="fa fa-search"></i> Detalles</span>
                 </a>
                 
             </div>
@@ -29,7 +32,12 @@
         
     </div>
     <div class="extended-details p-1 ">
-        <span>More info</span>
+        <div class="d-flex flex-row">
+            <span>Tags:</span>
+            <div class="d-flex flex-row flex-wrap">
+                <span class="badge badge-danger m-1" v-if="index<2" v-for="(tag, index) in book_tags">[[tag]]</span>
+            </div>
+        </div>
     </div>
 </li >
 </transition-group>

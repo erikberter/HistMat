@@ -149,7 +149,7 @@ Vue.component('modal_book_list', {
 Vue.component('book_item', {
     template: '#modal_book',
     delimiters: ['[[', ']]'],
-    props: ['book_slug','book_title','book_author', 'book_cover_url', 'book_file_url', 'book_detail_url']
+    props: ['book_slug','book_title','book_author', 'book_cover_url', 'book_file_url', 'book_detail_url', 'book_tags']
 });
 
 

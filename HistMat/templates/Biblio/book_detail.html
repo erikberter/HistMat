@@ -56,9 +56,13 @@
                 </div>
                 <div class="row pt-2">
                     {% if book.book_file%}
-                        <a class="btn w-100 btn-success" href="{{book.book_file.url}}"> Book File </a>
+                        <a class="btn w-100 btn-success" href="{{book.book_file.url}}">
+                             <span> <i class="fa fa-file-pdf"></i> Book File</span>
+                        </a>
                     {% else %}
-                        <a class="btn w-100 btn-success disabled" > Book File </a>
+                        <a class="btn w-100 btn-success disabled" > 
+                            <span> <i class="fa fa-empty-set"></i> Book File </span> 
+                        </a>
                     {% endif %}
                     
                 </div>
@@ -70,8 +74,18 @@
                 <p> Escrito por {{book.author}}</p>
                 <p> {{book.description}}</p>
 
-                <div class="card">
-                    <p> {{book.npages}} paginas</p>
+                <div class="card p-3">
+                    <span>Paginas: {{book.npages}} </span>
+                    <div class="d-flex flex-row">
+                        <span>Tags:</span>
+                        <div class="d-flex flex-row flex-wrap">
+                            {% for tag in book.tags.all %}
+                                <span class="badge badge-danger m-1">{{tag}}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    
                 </div>
             </div>
             <!-- Right Sector -->
@@ -115,7 +129,7 @@
                     {% if  user.is_authenticated %}
                         {% if has_book %}
                             <div class="d-flex justify-content-center">
-                                <p> Actual page </p>
+                                <p> Página actual</p>
                             </div>
                             <input id="set-act-page" type="input" b_slug = "{{book.slug}}" placeholder="{{act_page}}">
                         {% else %}

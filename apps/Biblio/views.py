@@ -119,7 +119,7 @@ class BookDetailView(DetailView):
 
 class BookUpdateView(UserPassesTestMixin, UpdateView):
     model = Book
-    fields = ['title', 'description', 'author', 'npages', 'book_file', 'cover', 'visibility']
+    fields = ['title', 'description', 'author', 'npages', 'book_file', 'cover', 'visibility', 'tags']
     template_name = 'Biblio/forms/book_update.html'
 
     def test_func(self, user):
@@ -159,6 +159,9 @@ def book_state_change(request, slug):
 
         return JsonResponse(CORRECT_JSON_DICT)
         
+
+
+
 @require_POST
 def book_page_change(request, slug):
     if request.is_ajax():
