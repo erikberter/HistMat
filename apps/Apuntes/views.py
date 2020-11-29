@@ -25,7 +25,7 @@ def apuntes_remove(request, pk):
 def apuntes_remove(request, pk):
     apunte = get_object_or_404(Apunte, pk=pk)
     apunte.delete()
-    return redirect('apunte:apuntes')
+    return redirect('apuntes:apuntes')
  
 class ApunteCreateView(LoginRequiredMixin, CreateView):
     template_name = 'Apuntes/forms/add_apuntes.html'
