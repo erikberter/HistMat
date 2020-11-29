@@ -8,6 +8,10 @@ body {
     flex-direction: column;
 }
 
+#main-content{
+    background-color: #ddddee;
+}
+
 .content {
     flex: 1 0 auto;
 }

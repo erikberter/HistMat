@@ -15,10 +15,8 @@
 
 <script>
     $(document).ready(function(){
-        console.log("Changing quiz detail logo color");
         var css_colors = ["green","blue","orange","pink","red"];
         $("#quiz-detail-logo").css("background-color", "var(--quiz-"+css_colors[Math.floor((Math.random() * 5))]+")");
-        console.log("Changed quiz detail logo color");
     });
 </script>
 

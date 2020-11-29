@@ -57,13 +57,12 @@
     <!-- Navbar  -->
     {% include '_navbar.html'%}
     
-    <div class="content">
+    <div id="main-content" class="content">
         
-        <!-- Main Body -->
-        <div id="main-content bg-success">
-                {% block content %}
-                {% endblock %}
-        </div>
+       
+        {% block content %}
+        {% endblock %}
+        
     </div>
 
     <!-- Footer section -->
