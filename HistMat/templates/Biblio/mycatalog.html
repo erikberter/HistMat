@@ -54,10 +54,10 @@
 <div class="p-0 m-0 bg-dark">
     
     <div id="catalog-app" > 
-        <div id="wrapper" class="row d-flex flex-row flex-nowrap">
+        <div id="wrapper" class="row d-flex flex-row flex-nowrap px-3">
             {% include 'Biblio/_filter_sidebar.html'%}
             
-            <div id="catalog-content" class="p-5">
+            <div id="catalog-content" class="p-4">
                 <div id="book-to-add" class="d-flex flex-wrap">
                     <modal_book_list 
                     v-for="book_list in book_lists"

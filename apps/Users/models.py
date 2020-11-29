@@ -42,9 +42,9 @@ class Achievement_Progress(models.Model):
 class Profile(AbstractUser):
     #-----------------PERDONAL DATA------------------------------
     profile_image = models.ImageField(upload_to='model/img/users/', blank=True, null=True)
-    study_center = models.CharField(max_length=40, default = "")
-    country = models.CharField(max_length=40, default = "")
-    city = models.CharField(max_length=40, default = "")
+    study_center = models.CharField(max_length=40, default = "", blank=True)
+    country = models.CharField(max_length=40, default = "", blank=True)
+    city = models.CharField(max_length=40, default = "", blank=True)
     born_date = models.DateField(default=timezone.now)
     #--------------------SOCIAL------------------------------
     website = models.CharField(max_length=40, default = "", null=True, blank=True)
@@ -56,6 +56,8 @@ class Profile(AbstractUser):
     level = models.IntegerField(default=1)
     xp = models.BigIntegerField(default=0)
     kind_of_user = models.CharField(max_length=40,default="Principiante")
+
+    following = models.ManyToManyField('profile', related_name='following_users')
 
     def get_absolute_url(self):
         return reverse('users:user_detail')
@@ -74,14 +76,6 @@ class ProfileStats(models.Model):
 
     def __str__(self):
         return self.user.username + ' STATS '
-
-
-class UserFollowing(models.Model):
-    user_id = models.ForeignKey('profile', on_delete=models.CASCADE, related_name="following")
-    following_user_id = models.ForeignKey('profile', on_delete=models.CASCADE, related_name="followers")
-
-    def __str__(self):
-        return self.user_id.username + ' --> SIGUE A --> ' + self.following_user_id.username
 
 
 
