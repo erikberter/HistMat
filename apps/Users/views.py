@@ -6,19 +6,23 @@ from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from .forms import ProfileForm
+from braces.views import UserPassesTestMixin
 
 
 # Create your views here.
-def user_detail(request):
-    user = request.user
+def user_detail(request, pk):
+    user = Profile.objects.get(pk = pk)
     progresses = Achievement_Progress.objects.filter(user = user.pk).filter(actual_progress__lte = 99).order_by('-actual_progress')[:2]
-    friends = request.user.following_users.all()[:5]
-    print(friends)
+    friends = user.following_users.all()[:5]
     context = {
-        'user':user,
+        'user_detail':user,
         'progresses':progresses,
         'friends': friends,
     }
+    if request.user == user:
+        context['is_own_account'] = True
+    else:
+        context['is_own_account'] = False
     return render(request, "Users/user_detail.html", context)
 
 def user_explore(request, pk):

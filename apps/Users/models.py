@@ -60,7 +60,7 @@ class Profile(AbstractUser):
     following = models.ManyToManyField('profile', related_name='following_users')
 
     def get_absolute_url(self):
-        return reverse('users:user_detail')
+        return reverse('users:user_detail', kwargs={'pk': self.pk})
 
     def get_absolute_config_url(self):
         return reverse('users:user_config', kwargs={'pk': self.pk})
