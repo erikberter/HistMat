@@ -16,7 +16,7 @@ def apuntes_detail(request, pk):
     apunte = get_object_or_404(Apunte, pk = pk)
     return render(request, 'Apuntes/apuntes_detail.html', {'apunte':apunte})
 
-
+ 
 class ApunteCreateView(LoginRequiredMixin, CreateView):
     template_name = 'Apuntes/forms/add_apuntes.html'
     form_class = ApunteCreateForm
