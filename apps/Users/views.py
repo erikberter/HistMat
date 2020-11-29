@@ -7,12 +7,13 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from .forms import ProfileForm
 from braces.views import UserPassesTestMixin
+from django.db.models import Q
 
 
 # Create your views here.
 def user_detail(request, pk):
     user = Profile.objects.get(pk = pk)
-    progresses = Achievement_Progress.objects.filter(user = user.pk).filter(actual_progress__lte = 99).order_by('-actual_progress')[:2]
+    progresses = Achievement_Progress.objects.filter(user = user.pk).filter(actual_progress__lte = 99).order_by('-actual_progress')[:3]
     friends = user.following_users.all()[:5]
     context = {
         'user_detail':user,
@@ -70,6 +71,20 @@ class UserListView(ListView):
     def get_queryset(self):
         friends =  self.request.user.following_users.all()
         return friends
+
+class UserSearchView(ListView):
+    template_name = "Users/user_list.html"
+    context_object_name = 'user_list'
+    model = Profile
+    
+    def get_queryset(self):
+        query = self.request.GET.get('search')
+        if query:
+            profile_result = Profile.objects.filter(Q(username__contains=query) |  Q(name__contains= query) |  Q(username__contains= query))
+            result = profile_result
+        else:
+            result = None
+        return result
 
 
 
