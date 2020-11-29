@@ -25,6 +25,9 @@ import json
 
 from slugify import slugify
 
+from django.urls import reverse_lazy
+
+from braces.views import UserPassesTestMixin
 
 #########################################
 #           Views Configuration         #
@@ -64,7 +67,7 @@ class MyCatalogView(LoginRequiredMixin, View):
         data['book_state'] = slugify(data['shelf_title'].lower(), separator="_")
 
         # TODO simplificar con related_name
-        books = Book.objects.filter(bookuserdetail__user=request.user).filter(bookuserdetail__book_state=data['book_state'])
+        books = Book.objects.filter(bookuserdetail__user=request.user).filter(bookuserdetail__book_state=data['book_state']).distinct()
         
         data['books'] = [book.get_dto() for book in books]
 
@@ -95,12 +98,14 @@ class BookDetailView(DetailView):
     template_name = "Biblio/book_detail.html"
     context_object_name = "book"
 
+    
+
     def get_queryset(self):
         books = Book.public.all()
         if self.request.user.is_authenticated:
             books = books | Book.objects.filter(bookuserdetail__user = self.request.user)
 
-        return books
+        return books.distinct()
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -109,14 +114,27 @@ class BookDetailView(DetailView):
         data['has_book'] =  is_book_in_user(self.request.user, self.get_object())
         if data['has_book']:
             data['act_page'] = get_user_act_page(self.request.user, self.get_object())
-            print("ATUAL PALGE " + str(data['act_page']))
         return data
 
 
-class BookUpdateView(LoginRequiredMixin, UpdateView):
+class BookUpdateView(UserPassesTestMixin, UpdateView):
     model = Book
     fields = ['title', 'description', 'author', 'npages', 'book_file', 'cover', 'visibility']
     template_name = 'Biblio/forms/book_update.html'
+
+    def test_func(self, user):
+        return user == self.get_object().creator
+
+class BookDeleteView(UserPassesTestMixin, DeleteView):
+    model = Book
+    context_object_name = "book"
+    template_name = 'Biblio/forms/book_delete.html'
+    login_url = '/login/'
+    success_url = reverse_lazy('biblio:mycatalog')
+
+    def test_func(self, user):
+        return user == self.get_object().creator
+
 
 
 @require_POST
@@ -128,10 +146,13 @@ def book_state_change(request, slug):
         if not new_book_state:
             raise Http404("No valid book state")
         
-        book_ud, created = BookUserDetail.objects.get_or_create(
-                book = book,
-                user = request.user
-            )
+        book_ud_c = BookUserDetail.objects.filter(
+                book = book).filter(user = request.user).count()
+        if(book_ud_c == 0):
+            book_ud = BookUserDetail.objects.create(book=book, user = request.user)
+        else:
+            book_ud = BookUserDetail.objects.filter(
+                book = book).filter(user = request.user).first()
         
         book_ud.book_state = new_book_state
         book_ud.save()

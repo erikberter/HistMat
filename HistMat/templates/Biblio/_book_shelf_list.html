@@ -4,6 +4,7 @@
         <div v-model="books" group="books" v-bind:id="'sortable-'+book_state" v-bind:shelf_name="book_state" class="d-flex flex-row flex-wrap scroll-element connectedSortable border bg-secondary p-2" >
             <book_item
                 v-for="book in books"
+                v-if = "book.title.includes(search_query)"
                 v-bind:book_slug='book.slug'
                 v-bind:book_cover_url = 'book.cover_url'
                 v-bind:book_title = 'book.title'

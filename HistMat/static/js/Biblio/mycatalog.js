@@ -143,7 +143,7 @@ axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
 Vue.component('modal_book_list', {
     template: '#modal_book_list',
     delimiters: ['[[', ']]'],
-    props: ['book_state','shelf_title','books']
+    props: ['book_state','shelf_title','books', 'search_query']
 });
 
 Vue.component('book_item', {
@@ -158,7 +158,8 @@ var fab = new Vue({
     delimiters: ['[[', ']]'],
     data: {
         book_lists : [],
-        active_book_states : []
+        active_book_states : [],
+        search_query : ""
     },
     methods: {
         fab_action: function (event) {

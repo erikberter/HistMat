@@ -79,10 +79,10 @@
                 <!-- Book State Dropdown-->
                 <div class="row">
                     <select name="book_state" id="book_state_dropdown" b_state="{{book_state}}" class="btn btn-secondary dropdown-toggle w-100" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <option value="None">Add to shelf</option>
-                        <option value="Want to Read">Want to Read</option>
-                        <option value="Reading">Reading</option>
-                        <option value="Read">Read</option>
+                        <option value="None" {% if book_state == 'None'%} selected {% endif %}>Add to shelf</option>
+                        <option value="Want to Read" {% if book_state == 'Want to Read'%} selected {% endif %}>Want to Read</option>
+                        <option value="Reading" {% if book_state == 'Reading'%} selected {% endif %}>Reading</option>
+                        <option value="Read" {% if book_state == 'Read'%} selected {% endif %}>Read</option>
                     </select>
                 </div>
                 <div class="row d-flex flex-column card p-3">

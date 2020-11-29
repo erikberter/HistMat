@@ -2,10 +2,12 @@
 
 {% block content %}
 {% load crispy_forms_tags %}
-<form method="post">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <input type="submit" value="Update">
-</form>
-
+<div class="p-5">
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="Update">
+        <a href="{% url 'biblio:book_delete' book.slug%}" class="btn btn-danger">Borrar</a>
+    </form>
+</div>
 {% endblock %}
