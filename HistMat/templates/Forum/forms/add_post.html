@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block title %} Añadir post foro {% endblock %}
 
 {% block content %}
 <br>
-    <div class="card border-0 my-1">
-        <h1 class="mx-4">Add post at forum</h1>
+    <div class="card border-0 mx-4">
+        <h2 class="mx-4 font-weight-bold">Add post at forum</h2>
         <br>
-        <div class="card  border-0 mx-5">
+        <div class="card border-0 mx-5">
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form|crispy }}
                 <button class="btn btn-outline-secondary">Add post</button>
             </form>
         </div>

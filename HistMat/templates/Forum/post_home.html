@@ -31,40 +31,43 @@
 <br>
 
 	{% for post in posts %}
-    <div class="row justify-content-md-center align-items-center">
-        <div class="card d-flex p-3">
-		    <p> Posted by {{ post.user }} . {{ post.date }} </p>
-		    <h4>
-			    <a href="{{post.get_absolute_url}}">
-			        {{ post.body }}
-			    </a>
-		    </h4>
+	<div class="container">
+    	<div class="row justify-content-md-center align-items-center">
+        	<div class="card d-flex p-3">
+		    	<p> Posted by {{ post.user }} . {{ post.date }} </p>
+		    	<h4>
+			    	<a href="{{post.get_absolute_url}}">
+			        	{{ post.body }}
+			    	</a>
+		    	</h4>
 		
-		    <div class>
-			    {% if post.image %}
-				    <a href="{{post.get_absolute_url}}">
-					    <img class="rounded" src="{{post.image.url}}" width="600" height="600">
-				    </a>
-                {% else %}
-                    </br>
-					<p class="font-weight-bold"> No image </p>
-					<img src="/HistMat/static/img/blanco.jpg" width="600" height="1">
-                {% endif %}
-            </div>	
-            <div class="col">
-                <span class="float-right">
-                    <p class="font-weight-bold">
-						<a href="{% url 'forum:postUpvote' pk=post.pk %}">
-							<img src="/HistMat/static/img/upvote.png" width="20">
-						</a>
-						{{ post.likes }}
-						<a href="{% url 'forum:postDownvote' pk=post.pk %}">
-							<img src="/HistMat/static/img/downvote.png" width="23">
-						</a>
-                    </p>
-                </span>
-            </div>
-        </div>
+		    	<div>
+			    	{% if post.image %}
+				    	<a href="{{post.get_absolute_url}}">
+					    	<img class="rounded" src="{{post.image.url}}" width="750">
+				    	</a>
+                	{% else %}
+                    	</br>
+						<p class="font-weight-bold"> No image </p>
+						<img src="/HistMat/static/img/blanco.jpg" width="750" height="1">
+                	{% endif %}
+            	</div>	
+        		<div class="col">
+					<br>
+                	<span class="float-right">
+                    	<p class="font-weight-bold">
+							<a href="{% url 'forum:post_upvote' pk=post.pk %}">
+								<img src="/HistMat/static/img/upvote.png" width="20">
+							</a>
+							{{ post.likes }}
+							<a href="{% url 'forum:post_downvote' pk=post.pk %}">
+								<img src="/HistMat/static/img/downvote.png" width="23">
+							</a>
+                    	</p>
+                	</span>
+            	</div>
+        	</div>
+		</div>
 	</div>
 
     </br>

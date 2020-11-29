@@ -1,52 +1,46 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
-from .models import Post, Comment
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponseRedirect
+from .models import Post, Comment
+from .forms import PostForm
 
 def post_home(request):
     posts = Post.objects.all()
     context = {'posts' : posts}
     return render(request, 'Forum/post_home.html', context)
 
-def post_detail(request, pk, self):
+def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post = self.get_object()
 
     return render(request, 'Forum/post_detail.html', {'post':post})
 
 class AddPostView(CreateView):
-    login_url = '/login/'
-    redirect_field_name = 'redirect_to'
     model = Post
     template_name = 'Forum/forms/add_post.html'
+    form_class = PostForm
+
+    def form_valid(self, form):
+        post = form.save()
+        post.user = self.request.user
+        post.save()
+        return HttpResponseRedirect(post.get_absolute_url())
 
     success_url = reverse_lazy('post_home')
 
-    fields = ["body", "image"]
-
-    def form_valid(self, form):
-        obj = form.save(commit=False)
-        obj.creator = self.request.user
-        obj.save()        
-        return HttpResponseRedirect(self.success_url)
-
 class AddCommentView(CreateView):
-    login_url = '/login/'
-    redirect_field_name = 'redirect_to'
     model = Comment
     template_name = 'Forum/forms/add_comment.html'
-
-    success_url = reverse_lazy('post_detail')
-
-    fields = ["body"]
+    form_class = PostForm
 
     def form_valid(self, form):
-        obj = form.save(commit=False)
-        obj.creator = self.request.user
-        obj.save()        
-        return HttpResponseRedirect(self.success_url)
+        post = form.save()
+        post.user = self.request.user
+        post.save()
+        return HttpResponseRedirect(post.get_absolute_url())
+
+    success_url = reverse_lazy('post_detail')
 
 from django.views.decorators.csrf import csrf_exempt
 
