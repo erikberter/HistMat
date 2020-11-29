@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Apunte
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,6 +16,16 @@ def apuntes_detail(request, pk):
     apunte = get_object_or_404(Apunte, pk = pk)
     return render(request, 'Apuntes/apuntes_detail.html', {'apunte':apunte})
 
+def apuntes_remove(request, pk):
+    apunte = get_object_or_404(Apunte, pk=pk)
+    apunte.delete()
+    return redirect('apuntes:apuntes')
+
+
+def apuntes_remove(request, pk):
+    apunte = get_object_or_404(Apunte, pk=pk)
+    apunte.delete()
+    return redirect('apunte:apuntes')
  
 class ApunteCreateView(LoginRequiredMixin, CreateView):
     template_name = 'Apuntes/forms/add_apuntes.html'
