@@ -43,7 +43,10 @@ class UserUpdateView(UpdateView):
     model = Profile
     form = ProfileForm()
     template_name_suffix = '_update_form'
-    success_url ='/user/user_detail/'
+    success_url ='user_detail'
+
+    def test_func(self, user):
+        return user == self.get_object().profile
 
 
 class UserDeleteView(DeleteView):
