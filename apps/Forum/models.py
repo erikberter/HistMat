@@ -20,7 +20,6 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, related_name="forum_comments", on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, default=None)
     body = models.TextField()
-    date = models.DateTimeField(auto_now_add=True)
     likes = models.PositiveIntegerField(default=0)
 
     def __str__(self):

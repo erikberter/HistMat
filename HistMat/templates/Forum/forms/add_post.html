@@ -3,12 +3,11 @@
 {% block title %} Añadir post foro {% endblock %}
 
 {% block content %}
-<br>
-    <div class="card border-0 mx-4">
+    <div class="card border-0 my-3 mx-4">
         <h2 class="mx-4 font-weight-bold">Add post at forum</h2>
         <br>
         <div class="card border-0 mx-5">
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <button class="btn btn-outline-secondary">Add post</button>

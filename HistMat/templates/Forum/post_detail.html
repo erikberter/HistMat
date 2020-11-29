@@ -4,13 +4,12 @@
 {% block title%} HistMat | Forum | {{ post.body }} {%endblock%}
 
 {% block content%}
-    <br>
     <div class="container">
     	<div class="row justify-content-md-center align-items-center">
-        	<div class="card d-flex p-3">
+        	<div class="card d-flex p-3 my-3">
                 <div class="card border-0 mx-3">
                     <p> Posted by {{ post.user }} . {{ post.date }} </p>
-                    <h1> {{post.body}}</h1> 
+                    <h3 class="font-weight-bold"> {{post.body}}</h3> 
                     {% if post.image %}
 				        <img class="rounded" src="{{post.image.url}}" width="900">
                     {% else %}
@@ -18,31 +17,26 @@
                         <img src="/HistMat/static/img/blanco.jpg" width="900" height="1">
 				        <p class="font-weight-bold"> No image </p>
                     {% endif %}
-                    <br>
-                
-                    <h2>Comentarios</h2>
+                    <h3 class="font-weight-bold my-3">Comentarios</h3>
+                    <div>
+                        {% load crispy_forms_tags %}
+                        <form method="POST" action="{% url 'forum:post_detail' post.pk %}add_comment">
+                            {% csrf_token %}
+                            {{comment_form|crispy}}
+                            <input type="submit" class="btn btn-primary">
+                        </form>
+                    </div>
                     </br>
                     {% if not post.comments.all %}
-                        Todavía no hay ningún comentario... 
-                        <br></br>
-                        <a href="{% url 'forum:add_comment' post.pk %}">Añadir comentario</a>
-                        <br></br>
+                        Todavía no hay ningún comentario...
                     {% else %}
-                        <a href="{% url 'forum:add_comment' post.pk %}">Añadir comentario</a>
-                        </br>
                         {% for comment in post.comments.all %}
-                            <strong>   
-                                {{ comment.user }} -
-                                {{ comment.date }}
-                            </strong> 
-                        
+                            <strong> {{ comment.user }} </strong> 
                             {{ comment.body }}
-                            <br></br>
                         {% endfor %}
                     {% endif %}
                 </div>
             </div>
         </div>
     </div>
-    <br></br>
 {% endblock %}
