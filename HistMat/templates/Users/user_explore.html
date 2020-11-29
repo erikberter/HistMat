@@ -115,8 +115,8 @@
             {% for userFollowing in friends %}
             <div class = "col-md-2 mt-4">
                 <div class="h-100 d-inline-block">
-                  <a href="{% url 'users:user_explore' userFollowing.following_user_id.pk %}">
-                    <img src='/HistMat/media/{{userFollowing.following_user_id.profile_image}}' alt="friend" class="rounded-circle" width="75" height="58">
+                  <a href="{% url 'users:user_explore' userFollowing.pk %}">
+                    <img src='/HistMat/media/{{userFollowing.profile_image}}' alt="friend" class="rounded-circle" width="75" height="58">
                   </a>   
                 </div>
             </div>

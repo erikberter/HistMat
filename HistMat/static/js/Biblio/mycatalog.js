@@ -29,7 +29,6 @@ function send_book_lookup_ajax(){
         },
         success: function(result) {
             $('#book-to-add').append(result);
-            console.log(result);
             refreshSortable();
         },
         error: function(result) {
@@ -58,10 +57,16 @@ function refreshSortable(){
     ); 
     
     var selected_id_string =  selected.join();
-        console.log(selected_id_string);
     $(selected_id_string).sortable({
         connectWith: ".connectedSortable",
         dropOnEmpty: true,
+        start: function() {
+            memo = $(this).css('transition');
+            $(this).css('transition', 'none');
+          },
+          stop: function() {
+            $(this).css('transition', memo);
+          },
         receive: function( event, ui ) {
             let book_state = $(this).attr('shelf_name').trim();
             let book_slug = ui.item.attr('b_slug').trim();
@@ -85,7 +90,6 @@ function load_checked_filters(){
         if(this.checked)
             send_book_state_request(this);
         
-        
         refreshSortable();
     });
 }
@@ -101,25 +105,7 @@ $(document).ready(function() {
      *  **Summary**. On window load, check for default checked checkboxes.
      */
     load_checked_filters();
-
-    $("input[type=radio][name=filter-order]").change(function(e){
-        e.preventDefault();
-        mycatalog_data["book_order"] = $(this).val();
-        load_checked_filters();
-    })
-
-    /**
-     * **Summary**. On change event for the book_shelf checkboxes in the filter section. 
-     */
-     /**
-    $(".cb_filter_selector").change(function(e) {
-        e.preventDefault();
-        if(this.checked) send_book_state_request(this);
-        else delete_book_state_loaded_books(this);
-        
-        refreshSortable();
-    });
-**/
+    
     /**
      * **Summary**. KeyPress event listener for the enter key on the search bar.
      */
@@ -134,7 +120,6 @@ $(document).ready(function() {
      * **Summary**. On click listener for the filter menu toggle button.
      */
     $("#menu-toggle").click(function(e) {
-        console.log('Pulsando boton toogle');
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
         
@@ -172,32 +157,60 @@ var fab = new Vue({
     el: '#catalog-app',
     delimiters: ['[[', ']]'],
     data: {
-        book_lists : []
+        book_lists : [],
+        active_book_states : []
     },
     methods: {
         fab_action: function (event) {
             window.location = this.create_url;
         },
         load_books : function (book_state){
-            axios.post(window.location.pathname, {
-                book_state : book_state
-            })
-            .then(response => {
-                this.book_lists.push(response.data);
+            if(this.active_book_states.includes(book_state)){
+                for(var i = 0; i < this.active_book_states.length; i++){
+                    if(book_state == this.active_book_states[i]){
+                        this.active_book_states.splice(i,1);
+                        this.book_lists.splice(i,1);
+                    }
+                }
+                return;
+            }else{
+                axios.post(window.location.pathname, {
+                    book_state : book_state
+                })
+                .then(response => {
+                    this.book_lists.push(response.data);
+                    this.active_book_states.push(book_state);
+                    console.log("New book state " + response.data.book_state);
+                    console.log("books  " + this.book_lists[0].books.length);
 
-                console.log("New book state " + response.data.book_state);
-                console.log("books  " + this.book_lists[0].books.length);
-
-                $('#container-'+response.data.book_state).remove();
-                $('#book-to-add').append(response);
-                Vue.nextTick(function () {
-                    refreshSortable();
-                  });
-                
-            })
-            .catch(error => {
-                console.log(error)
-            })
+                    $('#container-'+response.data.book_state).remove();
+                    $('#book-to-add').append(response);
+                    Vue.nextTick(function () {
+                        refreshSortable();
+                    });
+                })
+                .catch(error => {
+                    console.log(error)
+                });
+            }
+        },
+        order_books : function(order_function){
+            switch(order_function){
+                case "last-added": 
+                    for(var i = 0; i < this.book_lists.length; i++)
+                        this.book_lists[i].books.sort(function(a,b){
+                            return new Date(b.created) - new Date(a.created);
+                        });
+                    break;
+                case "first-added":
+                    for(var i = 0; i < this.book_lists.length; i++)
+                        this.book_lists[i].books.sort(function(a,b){
+                            return new Date(a.created) - new Date(b.created) ;
+                        });
+                    break;
+                default:
+                    console.error('Not valid order');
+            }
         }
     }
 })

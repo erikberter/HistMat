@@ -100,7 +100,7 @@ class Book(models.Model):
             Data Transfer Object assembler function.
             Returns a dictionary with the data for the webpage. 
         """
-        data = dict()
+        data = {}
 
         data["title"] = self.title
         data["description"] = self.description
@@ -163,7 +163,7 @@ class BookUserDetail(models.Model):
             Data Transfer Object assembler function.
             Returns a dictionary with the data for the webpage. 
         """
-        data = dict()
+        data = {}
 
         data["rating"] = self.rating
         data["book_state"] = self.book_state

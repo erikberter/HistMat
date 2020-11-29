@@ -5,12 +5,14 @@
  */
 
  #menu-toggle{
-   position: absolute;
   margin-left: 30rem;
+  position: relative;
+  z-index:999;
  }
  #menu-toggle.toggle{
-  position: absolute;
   margin-left: 0;
+  position: relative;
+  z-index:999;
  }
 
  #wrapper {

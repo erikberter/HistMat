@@ -1,7 +1,7 @@
 <div class="bg-white border-right" id="sidebar-wrapper">
   <button class="btn btn-success py-2" id="menu-toggle"><i class="fa fa-angle-double-right"></i></button>
     <!-- TODO make default settings by cookies-->
-    <h3 class="font-weight-bold text-center">Catalog Filter </h3>
+    <h3 class="font-weight-bold text-center mt-3">Catalog Filter </h3>
 
     
 
@@ -18,19 +18,19 @@
       <h4 class="px-3"> State Filter </h4>
       
       <div id="book-state-cb" class="d-flex flex-column p-2">
-        <div class="btn-group-vertical btn-group-toggle" data-toggle="buttons">
+        <div id="book-state-toggle-buttons" class="btn-group-vertical btn-group-toggle" data-toggle="buttons">
           
-          <label for="cb-want_to_read" class="btn btn-secondary"> 
+          <label for="cb-want_to_read" class="btn btn-secondary" :class="{'bg-primary':active_book_states.includes('Want to Read')}"> 
             <input type="checkbox" class="cb_filter_selector" id="cb-want_to_read" @click="load_books('Want to Read')">
             Want to Read
           </label>
           
-          <label for="cb-reading" class="btn btn-secondary">
+          <label for="cb-reading" class="btn btn-secondary" :class="{'bg-primary':active_book_states.includes('Reading')}">
             <input type="checkbox" class="cb_filter_selector" id="cb-reading"  @click="load_books('Reading')">
             Reading
           </label>
           
-          <label for="cb-read" class="btn btn-secondary"> 
+          <label for="cb-read" class="btn btn-secondary" :class="{'bg-primary':active_book_states.includes('Read')}"> 
             <input type="checkbox" class="cb_filter_selector" id="cb-read"  @click="load_books('Read')">
             Read
           </label>
@@ -40,16 +40,20 @@
     </div>
      <hr>
     <div>
-      <h4 class="px-3"> catalog Order </h4>
+      <h4 class="px-3"> Catalog Order </h4>
       <form action="?">
-        <div class="btn-group d-flex flex-column">
+        <div class="btn-group d-flex flex-column p-3">
             
-            <input type="radio" id="last-added" name="filter-order" value="order-last-added">
-            <label for="last-added">Last Added</label>
-
             
-            <input type="radio" id="first-added" name="filter-order" value="order-first-added">
-            <label  for="first-added">First Added</label> 
+            <label for="last-added">
+              <input type="radio" id="last-added" name="filter-order" value="order-last-added" @click="order_books('last-added')">
+              Last Added
+            </label>
+            <label  for="first-added">
+              <input type="radio" id="first-added" name="filter-order" value="order-first-added" @click="order_books('first-added')">
+              First Added
+            </label> 
+            
             
         </div>
       </form>

@@ -1,4 +1,5 @@
-<div class="item card m-2 draggable infinite-item real-frame col-xs-6" v-bind:b_slug="book_slug" style="max-width:200px;"> 
+
+<li class="item card m-2 draggable infinite-item real-frame col-xs-6 shadow moving-element" v-bind:b_slug="book_slug" style="max-width:200px;"> 
     <div class="frame">
         <img v-bind:src="book_cover_url" v-if="book_cover_url != ''" v-bind:alt="book_title+'cover'" class="img-fluid">
         <img src="/HistMat/media/no_image.jpg" v-else v-bind:alt="book_title+' has no cover image'" class="img-fluid">
@@ -30,4 +31,5 @@
     <div class="extended-details p-1 ">
         <span>More info</span>
     </div>
-</div >
+</li >
+</transition-group>
