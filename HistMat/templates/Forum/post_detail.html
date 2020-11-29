@@ -8,7 +8,8 @@
     	<div class="row justify-content-md-center align-items-center">
         	<div class="card d-flex p-3 my-3">
                 <div class="card border-0 mx-3">
-                    <p> Posted by {{ post.user }} . {{ post.date }} </p>
+                    <p> Posted by 
+                        <a href="{{post.user.get_absolute_url}}"> {{ post.user }}</a> . {{ post.date }} </p>
                     <h3 class="font-weight-bold"> {{post.body}}</h3> 
                     {% if post.image %}
 				        <img class="rounded" src="{{post.image.url}}" width="900">
@@ -23,18 +24,22 @@
                         <form method="POST" action="{% url 'forum:post_detail' post.pk %}add_comment">
                             {% csrf_token %}
                             {{comment_form|crispy}}
-                            <input type="submit" class="btn btn-primary">
+                            {% if user.is_authenticated %}
+                                <input type="submit" class="btn btn-primary">
+                            {% else %}
+                                <a href="#" class="btn btn-primary disabled"> Enviar consulta</a>
+                            {% endif%}
                         </form>
                     </div>
                     </br>
-                    {% if not post.comments.all %}
-                        Todavía no hay ningún comentario...
-                    {% else %}
-                        {% for comment in post.comments.all %}
-                            <strong> {{ comment.user }} </strong> 
+                        {% for comment in post.forum_comments.all %}
+                        <hr>
+                            <strong> <a href="{{comment.user.get_absolute_url}}"> {{ comment.user }}</a> </strong>
                             {{ comment.body }}
+                            
+                        {% empty %}
+                         <p>No hay comentarios todavia...</p>
                         {% endfor %}
-                    {% endif %}
                 </div>
             </div>
         </div>

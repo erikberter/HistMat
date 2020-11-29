@@ -46,7 +46,9 @@
             <span>Tags:</span>
             <div class="d-flex flex-row flex-wrap">
                 {% for tag in book.tags.all|slice:"0:2" %}
-                    <span class="badge badge-danger m-1">{{tag}}</span>
+                    <span class="badge badge-success m-1">{{tag}}</span>
+                {% empty %}
+                    <span class="badge badge-danger m-1">Ninguna</span>
                 {% endfor %}
             </div>
         </div>

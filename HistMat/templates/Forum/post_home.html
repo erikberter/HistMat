@@ -52,7 +52,7 @@
 	<div class="row justify-content-md-center align-items-center">
 		{% for post in posts %}
 			<div class="card d-flex p-3 my-2">
-					<p> Posted by {{ post.user }} . {{ post.date }} </p>
+					<p> Posted by <a href="{{post.user.get_absolute_url}}"> {{ post.user }}</a> . {{ post.date }} </p>
 					<h3>
 						<a class="font-weight-bold" href="{{post.get_absolute_url}}">
 							{{ post.body }}
@@ -77,6 +77,8 @@
 		{% endfor%}
 	</div>
 </div>
-{% include 'widgets/fab.html'%}
+{% if user.is_authenticated %}
+	{% include 'widgets/fab.html'%}
+{% endif%}
 
 {% endblock %}

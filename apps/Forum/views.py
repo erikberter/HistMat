@@ -32,6 +32,7 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'Forum/post_detail.html'
     context_object_name = "post"
+
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['comment_form'] = CommentForm

@@ -114,6 +114,7 @@ class BookDetailView(DetailView):
         data['has_book'] =  is_book_in_user(self.request.user, self.get_object())
         if data['has_book']:
             data['act_page'] = get_user_act_page(self.request.user, self.get_object())
+            data['own_rating'] = str(get_user_rating(self.request.user, self.get_object()))
         return data
 
 

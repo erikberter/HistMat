@@ -34,3 +34,6 @@ def is_book_in_user(user, book):
 
 def get_user_act_page(user, book):
     return BookUserDetail.objects.filter(book=book).distinct().filter(user = user).first().act_page
+
+def get_user_rating(user, book):
+    return BookUserDetail.objects.filter(book=book).distinct().filter(user = user).first().rating

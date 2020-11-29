@@ -29,61 +29,55 @@
 
 
 {% block content%}
-{% for apunte in apuntes%}
+<div class="container mt-3">
+	{% for apunte in apuntes%}
 
-	<div class="card d-flex p-3 flex-row">
-		
-		<h2>
-			<a href="{{apunte.get_absolute_url}}">
-			{{ apunte.nombre }}
-			</a>
-		</h2>
-		
-		<div class>
-			{% if apunte.thumbnail %}
+	<div class="card d-flex p-3 my-2 flex-row shadow">
+		<div class="row no-gutters">
+			<div class="col-md-4">
 				<a href="{{apunte.get_absolute_url}}">
-					<img src="{{apunte.thumbnail.url}}" alt="{{apunte.titulo}} cover" style="width:200px;">
+					{% if apunte.thumbnail %}
+						<img src="{{apunte.thumbnail.url}}" alt="{{apunte.nombre}} cover" style="width:200px;">
+					{% else %}
+						{% load static %}
+						<img src="/HistMat/media/no_image.jpg" alt="{{book.title}} cover" style="width:200px;">
+					{% endif %}
 				</a>
-			{% else %}
-				<p> No hay imagen </p>
-			{% endif %}
 			</div>
-			<div class = "card-body">
-				<h5>
-					Numero de paginas: {{ apunte.paginas }}
-				</h5>
-
-				<h5>	
-					Usuario: {{ apunte.autor }}
-				
-				</h5>
-				<h5>
+		</div>
+		<div class="col-md-8">
+			<div class="card-body">
+				<a href="{{apunte.get_absolute_url}}">
+					<h5 class="card-title">
+						{{ apunte.nombre }}
+					</h5>
+				</a>
+				<p class="card-text">
+					Creado por <a href ="{{apunte.autor.get_absolute_url}}"> 
+						{{ apunte.autor }}
+					</a>, {{ apunte.creado }}
+				</p>
+				<p class="card-text">
 					Tamaño del archivo: {{ apunte.tamaño }}
-				</h5>
-					
-				<h5>
-					Categoria: {{ apunte.categoria }}
-				</h5>
-					
-				<h5>
-					{{ apunte.tipo }}
-				</h5>
-					
-				<h5>
-					{{ apunte.creado }}
-				</h5>
-					
-				<h5>
-					{{ apunte.editado }}
-				</h5>
-					
-				
-				
+				</p>
+				<p class="card-text">
+					Numero de paginas: {{ apunte.paginas }}
+				</p>
+				<p class="card-text">
+					Tipo de archivo: {{ apunte.tipo }}
+				</p>
+				<span>Categorias: {% for category in apunte.categoria.all %}
+						<span class="badge badge-success m-1">{{category}}</span>
+					 {% empty %}
+					 	<span class="badge badge-danger m-1">Ninguna</span>
+					 {% endfor%}</span>
 			</div>
-		</div>			
+		</div>		
 	</div>
 	
 	{% endfor%}
+</div>
+
 	{% include 'widgets/fab.html'%}
 
 {% endblock%}

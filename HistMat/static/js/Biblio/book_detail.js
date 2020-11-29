@@ -19,9 +19,27 @@ $(document).ready(function(e){
     $("#set-act-page").keypress(function(e){
         if(e.which == 13){
             let act_page = $(this).val();
-            send_act_page_change_ajax(act_page, $(this).attr('b_slug'));
-            $("#set-act-page").attr("placeholder", act_page);
-            $("#set-act-page").val("");
+            if(!$.isNumeric(act_page)){
+                $( "#set-act-page" ).effect( "shake" , { direction: "up", times: 4, distance: 5});
+                return;
+            }else if(parseInt(act_page) > parseInt($("#npage").text())){
+                $( "#set-act-page" ).effect( "shake" , { direction: "up", times: 4, distance: 5});
+                return;
+            }
+
+            var result = send_act_page_change_ajax(act_page, window.location.pathname);
+            if(result){
+                $("#").text();
+                $("#act-page").fadeOut(300, function() {
+                    $(this).text(act_page).fadeIn(300);
+                 });
+                $(this).val("");
+                $(this).effect("highlight", {color: '#aaffaa' }, 1200);
+            }else{
+                alert("Error on the server side. Please reload and try again later.");
+            }
+            
+            
         }
     });
 
