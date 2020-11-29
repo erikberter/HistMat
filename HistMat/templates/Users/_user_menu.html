@@ -7,9 +7,17 @@
       aria-haspopup="true" aria-expanded="false">
       <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle z-depth-0"
         alt="avatar image"> </a>-->
-    <button type="button" class="btn btn-secondary dropdown-toggle" 
+        <a href="{{ser.get_absolute_url}}">
+            {{user.username}} 
+        </a>
+    <button type="button" class="btn btn-default" 
         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink">
-        Profile 
+        
+        {% if user.profile_image%}
+            <img src="{{user.profile_image.url}}" class="user_thumbnail rounded-circle" ></img>
+        {% else %}
+            <i class="fa fa-user" class="user_thumbnail rounded-circle"></i>
+        {% endif %}
     </button>
     <div class="dropdown-menu dropdown-menu-right my-0" aria-labelledby="dropdownMenuLink">
         <a class="dropdown-item" href="{{ user.get_absolute_url }}">Perfil</a>
