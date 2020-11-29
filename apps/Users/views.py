@@ -36,7 +36,7 @@ def user_detail(request, pk):
     return render(request, "Users/user_detail.html", context)
 
         
-class UserUpdateView(UpdateView): 
+class UserUpdateView(UserPassesTestMixin, UpdateView): 
     form_class = ProfileForm
     model = Profile
     form = ProfileForm()
@@ -44,13 +44,16 @@ class UserUpdateView(UpdateView):
     success_url ='user_detail'
 
     def test_func(self, user):
-        return user == self.get_object().profile
+        return user == self.get_object()
 
 
-class UserDeleteView(DeleteView):
+class UserDeleteView(UserPassesTestMixin, DeleteView):
     model = Profile
     template_name = "Users/user_delete.html"
     success_url = "/"
+
+    def test_func(self, user):
+        return user == self.get_object()
 
 class AchievementListView(ListView):
     template_name = "Users/achievement_list.html"
