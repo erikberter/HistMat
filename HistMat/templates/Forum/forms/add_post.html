@@ -3,16 +3,15 @@
 {% block title %} Añadir post foro {% endblock %}
 
 {% block content %}
-    <br></br>
-    <div class="card bg-light border-0 my-5">
+<br>
+    <div class="card border-0 my-1">
+        <h1 class="mx-4">Add post at forum</h1>
         <br>
-        <h1 class="mx-4">Añadir post al foro</h1>
-        <hr>
-        <div class="card bg-light border-0 mx-5">
+        <div class="card  border-0 mx-5">
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button class="btn btn-outline-secondary">Añadir post</button>
+                <button class="btn btn-outline-secondary">Add post</button>
             </form>
         </div>
     </div>
