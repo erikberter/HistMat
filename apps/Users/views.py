@@ -10,6 +10,9 @@ from braces.views import UserPassesTestMixin
 from django.db.models import Q
 
 
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
 # Create your views here.
 def user_detail(request, pk):
     user = Profile.objects.get(pk = pk)
@@ -65,29 +68,20 @@ class UserListView(ListView):
 
     def get_context_data(self,**kwargs):
         context = super(UserListView, self).get_context_data(**kwargs)
-        context['friends'] = self.request.user.following_users.all()
+        
         return context
 
     def get_queryset(self):
         friends =  self.request.user.following_users.all()
         return friends
 
-class UserSearchView(ListView):
-    template_name = "Users/user_list.html"
-    context_object_name = 'user_list'
-    model = Profile
+@csrf_exempt
+@require_POST
+def search_view(request):
+    query = request.POST.get('search')
+    print(query)
     
-    def get_queryset(self):
-        query = self.request.GET.get('search')
-        if query:
-            profile_result = Profile.objects.filter(Q(username__contains=query) |  Q(name__contains= query) |  Q(username__contains= query))
-            result = profile_result
-        else:
-            result = None
-        return result
-
-
-
-
-
-    
+    context = {}
+    context['user_list'] = Profile.objects.filter(username__contains=query)
+    print("ola")
+    return render(request, "Users/user_list.html", context)

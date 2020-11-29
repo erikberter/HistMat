@@ -30,12 +30,7 @@ def get_book_state(user, book):
     return BookUserDetail.BOOK_STATE[state][1]
 
 def is_book_in_user(user, book):
-    try:
-        book_ud_c = BookUserDetail.objects.filter(book=book).filter(user = user)
-    except:
-        return False
-    return book_ud_c.count() > 0
+    return BookUserDetail.objects.filter(book=book).filter(user = user).count() > 0
 
 def get_user_act_page(user, book):
-    book_ud_c = BookUserDetail.objects.filter(book=book).distinct().filter(user = user).first().act_page
-    return book_ud_c 
+    return BookUserDetail.objects.filter(book=book).distinct().filter(user = user).first().act_page
