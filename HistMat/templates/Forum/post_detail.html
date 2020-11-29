@@ -4,37 +4,44 @@
 {% block title%} HistMat | Forum | {{ post.body }} {%endblock%}
 
 {% block content%}
-    <br></br>
-    <div class="card bg-light">
-        <div class="card img-fluid bg-transparent">
-            <div class="card">
-                <a class="text-white"> <h1> {{post.body}}</h1> </a>
+    <br>
+    <div class="container">
+    	<div class="row justify-content-md-center align-items-center">
+        	<div class="card d-flex p-3">
+                <div class="card border-0 mx-3">
+                    <p> Posted by {{ post.user }} . {{ post.date }} </p>
+                    <h1> {{post.body}}</h1> 
+                    {% if post.image %}
+				        <img class="rounded" src="{{post.image.url}}" width="900">
+                    {% else %}
+                        </br>
+                        <img src="/HistMat/static/img/blanco.jpg" width="900" height="1">
+				        <p class="font-weight-bold"> No image </p>
+                    {% endif %}
+                    <br>
+                
+                    <h2>Comentarios</h2>
+                    </br>
+                    {% if not post.comments.all %}
+                        Todavía no hay ningún comentario... 
+                        <br></br>
+                        <a href="{% url 'forum:add_comment' post.pk %}">Añadir comentario</a>
+                        <br></br>
+                    {% else %}
+                        <a href="{% url 'forum:add_comment' post.pk %}">Añadir comentario</a>
+                        </br>
+                        {% for comment in post.comments.all %}
+                            <strong>   
+                                {{ comment.user }} -
+                                {{ comment.date }}
+                            </strong> 
+                        
+                            {{ comment.body }}
+                            <br></br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </div>
-            <img src="{{post.image.url}}">
-            
-        </div>
-        <div class="card bg-light mx-5 border-0">
-            
-            <h2>Comentarios</h2>
-            </br>
-            {% if not post.comments.all %}
-                Todavía no hay ningún comentario... 
-                <br></br>
-                <a href="{% url 'forum_add_comment' post.pk %}">Añadir comentario</a>
-                <br></br>
-            {% else %}
-                <a href="{% url 'forum_add_comment' post.pk %}">Añadir comentario</a>
-                </br>
-                {% for comment in post.comments.all %}
-                    <strong>   
-                        {{ comment.user }} -
-                        {{ comment.date }}
-                    </strong> 
-                    
-                    {{ comment.body }}
-                    <br></br>
-                {% endfor %}
-            {% endif %}
         </div>
     </div>
     <br></br>
