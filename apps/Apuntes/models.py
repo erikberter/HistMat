@@ -26,8 +26,3 @@ class Apunte(models.Model):
         return reverse('apuntes:apuntes_detail', args=[self.pk])
 
 
-#class AddApunte(CreateView):
-    # model = Apunte
-    # template_name = 'add_apuntes.html'
-    # fields = '__all__'
-    # success_url = reverse_lazy('apuntes')  

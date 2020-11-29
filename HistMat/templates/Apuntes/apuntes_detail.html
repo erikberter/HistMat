@@ -11,15 +11,12 @@
 		<h5 class="card-title">
         {{apunte.nombre}}
 		</h5>
-
-	 <p> {% if apunte.documento %}
-			<a href="{{apunte.get_absolute_url}}">
-				<img src="{{apunte.documento.url}}" class="rounded mx-auto d-block" alt="{{apunte.titulo}} cover" style="width:1000px;">
-			</a>
-			{% else %}
-			<p> No hay imagen </p>
-			{% endif %}
-		</p>
+		<a class="btn btn-default" href="{% url 'apuntes:apuntes_remove' pk=apunte.pk %}"><i class="fa fa-trash"></i></a>
+		{% if apunte.documento%}
+		<a class="btn w-100 btn-success" href="{{apunte.documento.url}}"> PDF </a>
+		{% else %}
+		<a class="btn w-100 btn-success disabled" > PDF </a>
+		{% endif %}
 		
 	 
 		

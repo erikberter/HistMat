@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 
-{% block title%} {{ post.body }} {%endblock%}
+{% block title%} HistMat | Forum | {{ post.body }} {%endblock%}
 
 {% block content%}
     <br></br>
@@ -10,7 +10,7 @@
             <div class="card">
                 <a class="text-white"> <h1> {{post.body}}</h1> </a>
             </div>
-            <img class="card-img-top rounded img-responsive" src="/media/{{post.image}}" alt="Card image">
+            <img src="{{post.image.url}}">
             
         </div>
         <div class="card bg-light mx-5 border-0">
@@ -20,14 +20,14 @@
             {% if not post.comments.all %}
                 Todavía no hay ningún comentario... 
                 <br></br>
-                <a href="{% url 'add_comment' post.pk %}">Añadir comentario</a>
+                <a href="{% url 'forum_add_comment' post.pk %}">Añadir comentario</a>
                 <br></br>
             {% else %}
-                <a href="{% url 'add_comment' post.pk %}">Añadir comentario</a>
+                <a href="{% url 'forum_add_comment' post.pk %}">Añadir comentario</a>
                 </br>
                 {% for comment in post.comments.all %}
                     <strong>   
-                        {{ comment.name }} -
+                        {{ comment.user }} -
                         {{ comment.date }}
                     </strong> 
                     
