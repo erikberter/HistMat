@@ -70,6 +70,7 @@ function refreshSortable(){
         receive: function( event, ui ) {
             let book_state = $(this).attr('shelf_name').trim();
             let book_slug = ui.item.attr('b_slug').trim();
+            console.log(book_slug);
             send_book_state_change_ajax(book_state, book_slug);
         }
     }).disableSelection();

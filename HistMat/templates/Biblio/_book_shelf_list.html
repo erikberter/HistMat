@@ -4,7 +4,7 @@
             <h1 id="catalog_book_title" class="text-dark font-weight-bold" style="font-size:48px;">[[shelf_title]]</h1>
         </div>
         
-        <div v-model="books" group="books" v-bind:id="'sortable-'+book_state" v-bind:shelf_name="book_state" class="d-flex flex-row flex-wrap scroll-element connectedSortable border bg-secondary p-2 inner-shadow" >
+        <ul v-model="books" group="books" v-bind:id="'sortable-'+book_state" v-bind:shelf_name="book_state" class="d-flex flex-row flex-wrap scroll-element connectedSortable border bg-secondary p-2 inner-shadow" >
             <book_item 
                 class="shadow"
                 v-for="book in books"
@@ -18,6 +18,6 @@
                 v-bind:book_author = 'book.author'
                 v-bind:book_tags = 'book.tags'
             ></book_item>
-        </div>
+        </ul>
     </div>
 </transition>

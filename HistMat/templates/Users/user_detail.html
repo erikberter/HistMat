@@ -31,9 +31,19 @@
                 <p class="text-secondary mb-1">LVL {{user_detail.level}} - {{user_detail.kind_of_user}}</p>
                 <p class="text-muted font-size-sm">Se unio a HistMat el {{user_detail.date_joined}}</p>
                 {% if is_own_account %}
-                  <a href="{{ user.get_absolute_config_url }}">
-                    <button class="btn btn-primary">Editar Perfil</button>
-                  </a>
+                    <a class="btn btn-primary" href="{{ user.get_absolute_config_url }}">
+                      Editar Perfil
+                    </a>
+                {% else %}
+                  {% if sigole %}
+                    <a href="{% url 'users:seguir' user_detail.pk%}">
+                      No Seguir
+                    </a>
+                    {% else %}
+                      <a href="{% url 'users:seguir' user_detail.pk%}">
+                        Seguir
+                      </a>
+                    {% endif %}
                 {% endif %}
               </div>
             </div>

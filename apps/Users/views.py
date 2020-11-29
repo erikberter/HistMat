@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.utils import timezone
 from .models import Profile, Achievement_Progress, Achievement
@@ -9,7 +9,7 @@ from .forms import ProfileForm
 from braces.views import UserPassesTestMixin
 from django.db.models import Q
 
-
+from django.http import  HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
@@ -23,10 +23,9 @@ def user_detail(request, pk):
         'progresses':progresses,
         'friends': friends,
     }
-    if request.user == user:
-        context['is_own_account'] = True
-    else:
-        context['is_own_account'] = False
+    context['is_own_account'] = request.user == user
+    if not context['is_own_account']:
+        context['sigole'] = (user in request.user.following_users.all())
     
     if not progresses.exists():
         for achievement in Achievement.objects.all():
@@ -88,3 +87,16 @@ def search_view(request):
     context['user_list'] = Profile.objects.filter(username__contains=query)
     print("ola")
     return render(request, "Users/user_list.html", context)
+
+def seguir(request, pk):
+    user = Profile.objects.get(pk = int(pk))
+    a = request.user.following_users.all()
+    print(a)
+    b = a.filter(username = user.username)
+    print(b)
+    if  b.count()>0:
+        request.user.following_users.remove(user)
+    else:
+        request.user.following_users.add(user)
+
+    return redirect('users:user_detail', request.user.pk)
