@@ -29,7 +29,7 @@ def user_explore(request, pk):
         'progresses':progresses,
         'friends': friends,
     }
-    return render(request, "Users/user_detail.html", context)
+    return render(request, "Users/user_explore.html", context)
 
 
 

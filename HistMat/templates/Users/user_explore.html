@@ -11,119 +11,6 @@
 {% block js %}
 {% endblock js %}
 
-<!--
-<div class = "container-fluid">
-    <div class= "row">-->
-
-<!---------------- PROFILE INFO ---------------------
-        <div class = "col-md-8 mt-4">
-            <div class = "card mb-4">
-                <div class = "card text-center">
-                    <div class = "card-header">
-                        <h1 class = "card-title"> {{user.get_username}} </h1>
-                        <strong> Rol: {{user.kind_of_user}}</strong>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class = "profile_container">
-                        <div class = "profile_photo">
-                            <img class = "photo" src='/HistMat/media/{{user.profile_image}}' alt= profile_image>
-                        </div>
-                        <div class = "level_star"> 
-                            <img class = "star_photo" src= "{% static 'img/star.png'%}">
-                            <div class ="level_num">
-                                <p> {{user.level}} </p>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    
-                    <div class= "profile_name_surname">
-                        <p> Nombre y Apellidos: {{user.get_full_name}} </p>
-                    </div>
-                    <div class = "country">
-                        <p> Pais: {{user.country}} </p>
-                    </div>
-                    <div class = "study_center">
-                        <p> Centro de estudios: {{user.study_center}}</p>
-                    </div>
-                    <div class = "profile_xp">
-                        <p> XP: {{user.xp}}</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    ->
-    
-    -------------- ACHIEVEMENTS ---------------------      
-        <div class = "col-md-4 mt-4">
-            <div class = "card mb-4">
-                <div class = "card text-center">
-                    <div class = "card-header">
-                        <h2 class = "card-title"> Logros cercanos</h2>
-                    </div>
-                </div>
-                <div class="card-body">
-                    {% for achievement_progress in progresses %}
-                        <div class = "card mb-2">
-                            <div class="card-horizontal">
-                                <div class="img-square-wrapper">
-                                    <img class="achievement_photo" src='/HistMat/media/{{achievement_progress.achievement.achievement_image}}' alt="Card image cap">
-                                </div>
-                                <div class="card-body">
-                                    <h4 class="card-title">{{achievement_progress.achievement.name}}</h4>
-                                    <p class="card-text">{{achievement_progress.achievement.funny_phrase}}</p>
-                                    <div class="progress">
-                                        <div class="progress-bar" style="width:{{achievement_progress.actual_progress}}%">{{achievement_progress.actual_progress}}%</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% empty %}
-                        <p> No hay Logros</p>
-                    {% endfor %}
-                    <a href='../achievements/'>
-                        <button type="button" class="btn btn-primary btn-lg btn-block">IR A LOGROS</button>
-                    </a>
-                </div>
-
-            </div>
-        </div>
-        
-    </div>
-    ->  
-
-    -------------- FRIENDS ---------------------
-    <div class = "card mb-4">
-        <div class = "card-deck">
-            {% for userFollowing in friends %}
-                <div class = "col-md-2 mt-4">
-                    <div class="h-100 d-inline-block">
-                        <a href="">
-                            <div class = "card text-center mb-4">
-                                <img class="card-img-top" src='/HistMat/media/{{userFollowing.following_user_id.profile_image}}' alt="Card image cap">
-                                <h2 class="card-title"> @{{userFollowing.following_user_id.get_username}}</h2>
-                            </div>  
-                        </a>   
-                    </div>
-                </div>
-            {% empty %}
-                <p> No sigues a ningun usuario</p>
-            {% endfor %}
-            <div class = "col-md-2 mt-4">
-                <a href='../users/'>
-                    <div class = "card text-center mb-4">
-                        <img class="card-img-top" src="{% static 'img/addFriend.png'%}" alt="Card image cap">
-                        <h2 class="card-title"> Buscar perfil</h2>
-                    </div>  
-                </a>   
-            </div>
-        </div>
-    </div>
-    
-</div>
--->
 {% block content %}
 
 <div class="container-fluid">
@@ -139,9 +26,6 @@
                 <h4>{{user.get_username}}</h4>
                 <p class="text-secondary mb-1">LVL {{user.level}} - {{user.kind_of_user}}</p>
                 <p class="text-muted font-size-sm">Se unio a HistMat el {{user.date_joined}}</p>
-                <a href="">
-                  <button class="btn btn-primary">Editar Perfil</button>
-                </a>
               </div>
             </div>
           </div>
@@ -218,7 +102,7 @@
             {% else %}
               <div class="card mt-3">
                 <div class="card-body">
-                  <p>Todavia no has añadido ninguna web o red social, si deseas hacerlo accede a la configuracion de tu perfil</p>
+                  <p>Todavia no ha añadido ninguna web o red social</p>
                 </div>
               </div>
             {% endif %}

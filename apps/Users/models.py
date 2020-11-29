@@ -62,7 +62,7 @@ class Profile(AbstractUser):
 
     def get_absolute_config_url(self):
         return reverse('users:user_config', kwargs={'pk': self.pk})
-
+ 
 
 class ProfileStats(models.Model):
     user = models.ForeignKey('profile', on_delete=models.CASCADE, related_name='user_stats', default=1)
