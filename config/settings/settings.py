@@ -51,12 +51,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'apps.Biblio',
     'apps.Users',
     'apps.Layout',
     'apps.Trivia',
     'apps.Apuntes',
     'apps.Forum',
+    
     'bootstrap4',
     'django_static_jquery_ui',
     'autoslug',

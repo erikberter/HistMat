@@ -66,8 +66,7 @@ class MyCatalogView(LoginRequiredMixin, View):
         data['shelf_title'] = data.get('book_state')
         data['book_state'] = slugify(data['shelf_title'].lower(), separator="_")
 
-        # TODO simplificar con related_name
-        books = Book.objects.filter(bookuserdetail__user=request.user).filter(bookuserdetail__book_state=data['book_state']).distinct()
+        books = request.user.added_books.filter(books_details__book_state=data['book_state'])
         
         data['books'] = [book.get_dto() for book in books]
 
@@ -98,23 +97,21 @@ class BookDetailView(DetailView):
     template_name = "Biblio/book_detail.html"
     context_object_name = "book"
 
-    
-
     def get_queryset(self):
         books = Book.public.all()
         if self.request.user.is_authenticated:
-            books = books | Book.objects.filter(bookuserdetail__user = self.request.user)
+            books = books | self.request.user.added_books.all()
 
         return books.distinct()
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['book_state'] = get_book_state(self.request.user, self.get_object())
-        data['rating'] = self.get_object().users.aggregate(total = Avg('bookuserdetail__rating'))
-        data['has_book'] =  is_book_in_user(self.request.user, self.get_object())
+        data['rating'] = self.get_object().users.aggregate(total = Avg('books_details__rating'))
+        data['has_book'] =  self.get_object().books_details.filter(user=self.request.user).exists()
+        data['book_state'] = 'None'
         if data['has_book']:
-            data['act_page'] = get_user_act_page(self.request.user, self.get_object())
-            data['own_rating'] = str(get_user_rating(self.request.user, self.get_object()))
+            data.update(self.get_object().books_details.get(user=self.request.user).get_dto())
+
         return data
 
 
@@ -147,13 +144,10 @@ def book_state_change(request, slug):
         if not new_book_state:
             raise Http404("No valid book state")
         
-        book_ud_c = BookUserDetail.objects.filter(
-                book = book).filter(user = request.user).count()
-        if(book_ud_c == 0):
+        if request.user.books_details.filter(book = book).exists():
             book_ud = BookUserDetail.objects.create(book=book, user = request.user)
         else:
-            book_ud = BookUserDetail.objects.filter(
-                book = book).filter(user = request.user).first()
+            book_ud = request.user.books_details.get(book = book)
         
         book_ud.book_state = new_book_state
         book_ud.save()
@@ -186,7 +180,7 @@ def book_page_change(request, slug):
 def book_rate(request, slug):
     book = get_object_or_404(Book, slug=slug)
     if "rating_v" in request.POST:
-        budetail = BookUserDetail.objects.filter(book=book).distinct().get(user = request.user)
+        budetail = request.user.books_details.get(book = book)
         budetail.rating = int(request.POST.get("rating_v"))
         budetail.save()
     return HttpResponseRedirect(book.get_absolute_url())

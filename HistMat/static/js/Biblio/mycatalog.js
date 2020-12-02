@@ -154,7 +154,7 @@ Vue.component('book_item', {
 });
 
 
-var fab = new Vue({
+var catalog_app = new Vue({
     el: '#catalog-app',
     delimiters: ['[[', ']]'],
     data: {
