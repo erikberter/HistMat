@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block title%} HistMat | Home {% endblock%}
 
@@ -9,89 +10,20 @@
     
     <div class="pt-2">
         <div class="d-flex justify-content-center">
-            <h1 style="font-size:100px">Bienvenido a HistMat</h1>
+            <h2 style="font-size:100px">
+                {% trans "Bienvenido a HistMat" %}
+            </h2>
             
         </div>
         <div class="d-flex justify-content-center">
-            <h4>La página web del futuro, para el alumno del presente</h4>
-            
+            <h4>{% trans 'La página web del futuro, para el alumno del presente'%}</h4>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-center">
+            <img class="img-fluid" src="https://media.istockphoto.com/photos/happy-people-studying-with-laptop-picture-id1042008006">
         </div>
     </div>
     
-    <hr>
-    <img class="img-fluid" src="https://c8.alamy.com/compes/j2h14h/grupo-internacional-de-gente-riendo-feliz-j2h14h.jpg">
-
-    <hr>
-
-    <h1>Ofrecemos</h1>
-
-    <div class="media">
-        <span class="media-left">
-            <img alt="gato trabajando" class="pull-left mr-2" src="https://media1.tenor.com/images/5ee0cbb531b8fab27efccf073e075965/tenor.gif">
-        
-        </span>
-        <div class="media-body">
-            <h2 class="media-heading">Hard Work</h2>
-            <p>Hemos adoptado a los mejores leiners del planeta para focusear sus advantages derivadas de las qualities del brain storming en multi tasking.</p>
-            <h3>¿No lo has entendido?</h3>
-            <h4>Ellos tampoco.</h4> Pero son empresarios
-        </div>
     </div>
-    <hr>
-    <div class="media">
-        <div class="media-body">
-            <h2 class="media-heading">Mentalidade de tubarão</h2>
-            <p>Nunca dejamos pasar una oportunidad</p>
-            <h3>¡Nunca!</h3>
-            <h4>¿La oportunidad de fracasar?</h4> ¡TAMPOCO!
-        </div>
-        <span class="media-right">
-            <img alt="gato trabajando" class="pull-left mr-2" src="https://4.bp.blogspot.com/-CPLy71EV_fY/WlethaHrt_I/AAAAAAAAp_0/3Gr1ffC2N9Uh0gz4mYjwNTUAgW9aT6hLQCLcBGAs/s1600/Tiburo%25CC%2581n%2B9.jpg">
-        
-        </span>
-    </div>
-    <div class="media">
-        <span class="media-left">
-            <img alt="elmo popo" class="pull-left mr-2" src="https://media1.tenor.com/images/059c954a23ff4373b00808b08d98325f/tenor.gif">
-        
-        </span>
-        <div class="media-body">
-            <h2 class="media-heading">Talento</h2>
-            <p>Tenemos a los mejores captadores de talento de todo el pais. </p>
-            <h3>¿Cómo lo sabemos?</h3>
-            <h4>No lo sabemos. Pero ellos dicen que lo son. Y AQUI TENEMOS LA MEJOR VIRTUD...</h4> 
-        </div>
-    </div>
-    <hr>
-
-    <div class="media">
-        <div class="media-body">
-            <h2 class="media-heading">Confianza</h2>
-            <p>Siempre hay que confiar en tu compañeros. Si no hay confianza no hay trabajo en equipo y sin trabajo en equipo no hay existo.</p>
-        </div>
-        <span class="media-right">
-            <img alt="gato trabajando" class="pull-left mr-2" src="https://comps.canstockphoto.es/mirar-multicultural-tel%C3%A9fono-grupo-dibujo_csp52336896.jpg">
-        
-        </span>
-    </div>
-    <hr>
-    <div class="media">
-        <span class="media-left">
-            <img alt="elmo popo" class="pull-left mr-2" src="https://preview.redd.it/py4eep80m8261.jpg?width=960&crop=smart&auto=webp&s=1a3aa6428fcd619bb03272b221c77093aec02b9c" style="width:500px;">
-        
-        </span>
-        <div class="media-body">
-            <h2 class="media-heading">Camello tactico</h2>
-            <p>Camello Tactico </p>
-            <h3>Joder camello tactico</h3>
-            <h4>Madre mia</h4> encima tactico 
-        </div>
-    </div>
-
-    <hr>
-    <div class="d-flex justify-content-center">
-        <img src="https://cadenaser00.epimg.net/programa/imagenes/2016/08/26/a_vivir_que_son_dos_dias/1472229253_381518_1472229483_noticia_normal.jpg" class="img-fluid">
-    </div>
-</div>
 
 {% endblock %}

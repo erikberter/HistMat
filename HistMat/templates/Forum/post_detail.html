@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 
 {% block title%} HistMat | Forum | {{ post.body }} {%endblock%}
 
@@ -8,7 +8,7 @@
     	<div class="row justify-content-md-center align-items-center">
         	<div class="card d-flex p-3 my-3">
                 <div class="card border-0 mx-3">
-                    <p> Posted by 
+                    <p> {% trans 'Enviado por'%} 
                         <a href="{{post.user.get_absolute_url}}"> {{ post.user }}</a> . {{ post.date }} </p>
                     <h3 class="font-weight-bold"> {{post.body}}</h3> 
                     {% if post.image %}
@@ -16,9 +16,9 @@
                     {% else %}
                         </br>
                         <img src="/HistMat/static/img/blanco.jpg" width="900" height="1">
-				        <p class="font-weight-bold"> No image </p>
+				        <p class="font-weight-bold"> {% trans 'Sin Imagen'%} </p>
                     {% endif %}
-                    <h3 class="font-weight-bold my-3">Comentarios</h3>
+                    <h3 class="font-weight-bold my-3">{% trans 'Comentarios'%}</h3>
                     <div>
                         {% load crispy_forms_tags %}
                         <form method="POST" action="{% url 'forum:post_detail' post.pk %}add_comment">
@@ -27,7 +27,7 @@
                             {% if user.is_authenticated %}
                                 <input type="submit" class="btn btn-primary">
                             {% else %}
-                                <a href="#" class="btn btn-primary disabled"> Enviar consulta</a>
+                                <a href="#" class="btn btn-primary disabled"> {% trans 'Enviar Comentario'%}</a>
                             {% endif%}
                         </form>
                     </div>
@@ -38,7 +38,7 @@
                             {{ comment.body }}
                             
                         {% empty %}
-                         <p>No hay comentarios todavia...</p>
+                         <p>{% trans 'No hay comentarios todavia...'%}<p>
                         {% endfor %}
                 </div>
             </div>

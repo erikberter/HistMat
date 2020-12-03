@@ -1,5 +1,5 @@
 {% extends 'base.html'%}
-
+{% load i18n %}
 {% block content %}
 {% load crispy_forms_tags %}
 <div class="pt-3 container">
@@ -7,7 +7,7 @@
         {% csrf_token %}
         {{ form|crispy }}
         <input type="submit" class="btn btn-success" value="Update">
-        <a href="{% url 'biblio:book_delete' book.slug%}" class="btn btn-danger">Borrar</a>
+        <a href="{% url 'biblio:book_delete' book.slug%}" class="btn btn-danger">{% trans 'Borrar' %}</a>
     </form>
 </div>
 {% endblock %}

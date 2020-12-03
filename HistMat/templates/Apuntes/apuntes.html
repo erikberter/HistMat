@@ -53,23 +53,25 @@
 					</h5>
 				</a>
 				<p class="card-text">
-					Creado por <a href ="{{apunte.autor.get_absolute_url}}"> 
+					{% trans 'Creado por' %} <a href ="{{apunte.autor.get_absolute_url}}"> 
 						{{ apunte.autor }}
 					</a>, {{ apunte.creado }}
 				</p>
 				<p class="card-text">
-					Tamaño del archivo: {{ apunte.tamaño }}
+					{% trans 'Tamaño del archivo' %}: {{ apunte.tamaño }}
 				</p>
 				<p class="card-text">
-					Numero de paginas: {{ apunte.paginas }}
+					{% trans 'Número de páginas' %}: {{ apunte.paginas }}
 				</p>
 				<p class="card-text">
-					Tipo de archivo: {{ apunte.tipo }}
+					{% trans 'Tipo de archivo' %}: {{ apunte.tipo }}
 				</p>
-				<span>Categorias: {% for category in apunte.categoria.all %}
+				<span>{% trans 'Categoria' %}: {% for category in apunte.categoria.all %}
 						<span class="badge badge-success m-1">{{category}}</span>
 					 {% empty %}
-					 	<span class="badge badge-danger m-1">Ninguna</span>
+					 	<span class="badge badge-danger m-1">
+							{% trans 'Ninguna' %}
+						 </span>
 					 {% endfor%}</span>
 			</div>
 		</div>		

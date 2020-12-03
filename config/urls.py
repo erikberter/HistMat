@@ -19,9 +19,12 @@ from django.urls import path, include
 from .settings import settings
 
 from django.conf.urls.static import static
+from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+]
+urlpatterns += i18n_patterns(
     path('biblio/', include('apps.Biblio.urls', namespace='post')),
     path('user/', include('apps.Users.urls', namespace='users')),
     path('', include('apps.Layout.urls', namespace='layout')),
@@ -29,4 +32,4 @@ urlpatterns = [
     path('', include('social_django.urls', namespace='social')),
     path('apuntes/', include('apps.Apuntes.urls', namespace='apuntes')),
     path('forum/', include('apps.Forum.urls', namespace='forum')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

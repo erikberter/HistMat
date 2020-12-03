@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load i18n %}
 {% block title %} Achievement List {% endblock title %}
 
 
@@ -13,7 +13,7 @@
         <div class = "card mb-4">
             <div class = "card text-center">
                 <div class = "card-header">
-                    <h2 class = "card-title"> Todos los logros </h2>
+                    <h2 class = "card-title"> {% trans 'Todos los logros' %}</h2>
                 </div>
             </div>
             <div class="card-body">
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                 {% empty %}
-                    <p> No hay Logros</p>
+                    <p> {% trans 'No hay Logros' %}</p>
                 {% endfor %}
             </div>
 
