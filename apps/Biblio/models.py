@@ -150,13 +150,13 @@ class BookUserDetail(models.Model):
         ('read', 'Read'),
         ('dropped', 'Dropped'),
         ('on_hold', 'On Hold'))
-    BOOK_STATE_L = [t[0] for t in BOOK_STATE]
+    BOOK_STATE_DICT = dict(BOOK_STATE)
 
     DEFAULT_BOOK_STATE = "want_to_read"
 
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="books_details")
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="books_details")
 
 
     rating =  IntegerRangeField(min_value=1, max_value=10, null=True, blank=True)
@@ -172,6 +172,9 @@ class BookUserDetail(models.Model):
     def __str__(self):
         return self.user.__str__() + self.book.__str__()
 
+    def get_book_state(self):
+        return self.BOOK_STATE_DICT[self.book_state]
+
     def assemble(self):
         """
             Data Transfer Object assembler function.
@@ -179,7 +182,9 @@ class BookUserDetail(models.Model):
         """
         data = {}
 
-        data["rating"] = self.rating
-        data["book_state"] = self.book_state
+        data["own_rating"] = str(self.rating)
+        data["book_state"] = self.BOOK_STATE_DICT[self.book_state]
         data["created"] = self.created
         data["act_page"] = self.act_page
+
+        return data

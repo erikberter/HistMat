@@ -1,38 +1,39 @@
+{% load i18n %}
 <div class="bg-white border-right" id="sidebar-wrapper">
   <button class="btn btn-success py-2" id="menu-toggle"><i class="fa fa-angle-double-right"></i></button>
     <!-- TODO make default settings by cookies-->
-    <h3 class="font-weight-bold text-center mt-3">Catalog Filter </h3>
+    <h3 class="font-weight-bold text-center mt-3">{% trans 'Filtros de Catalogo' %}</h3>
 
     
 
     <div class="p-3 mt-3">
-        <h4 class="b-3">Search</h4>
+        <h4 class="b-3">{% trans 'Buscar' %}</h4>
           <div class="form-group mb-4 border-0">
-              <input id="exampleFormControlInput1" v-model="search_query" type="search" name="search" placeholder="What are you searching for?" class="form-control form-control-underlined">
+              <input id="exampleFormControlInput1" v-model="search_query" type="search" name="search" placeholder="{% trans '¿Que estas buscando?' %}" class="form-control form-control-underlined">
             </div>
     </div>
     
     <hr>
      
      <div>
-      <h4 class="px-3"> State Filter </h4>
+      <h4 class="px-3"> {% trans 'Filtro de Estado' %} </h4>
       
       <div id="book-state-cb" class="d-flex flex-column p-2">
         <div id="book-state-toggle-buttons" class="btn-group-vertical btn-group-toggle" data-toggle="buttons">
           
           <label for="cb-want_to_read" class="btn btn-secondary" :class="{'bg-primary':active_book_states.includes('Want to Read')}"> 
             <input type="checkbox" class="cb_filter_selector" id="cb-want_to_read" @click="load_books('Want to Read')">
-            Want to Read
+            {% trans 'A leer' %}
           </label>
           
           <label for="cb-reading" class="btn btn-secondary" :class="{'bg-primary':active_book_states.includes('Reading')}">
             <input type="checkbox" class="cb_filter_selector" id="cb-reading"  @click="load_books('Reading')">
-            Reading
+            {% trans 'Leyendo' %}
           </label>
           
           <label for="cb-read" class="btn btn-secondary" :class="{'bg-primary':active_book_states.includes('Read')}"> 
             <input type="checkbox" class="cb_filter_selector" id="cb-read"  @click="load_books('Read')">
-            Read
+            {% trans 'Leido' %}
           </label>
           
         </div>
@@ -47,19 +48,16 @@
             
             <label for="last-added">
               <input type="radio" id="last-added" name="filter-order" value="order-last-added" @click="order_books('last-added')">
-              Last Added
+              {% trans 'Ultimo añadido' %}
             </label>
             <label  for="first-added">
               <input type="radio" id="first-added" name="filter-order" value="order-first-added" @click="order_books('first-added')">
-              First Added
+              {% trans 'Primero añadido' %}
             </label> 
             
             
         </div>
       </form>
     </div>
-    <!-- Implementar mediante cookies
-     <button class="btn btn-primary"> Save as Defautl</button>
-    -->
     
 </div>

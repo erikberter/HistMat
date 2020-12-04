@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 
 {%block title%}
     HistMat | {{book.title}}
@@ -73,7 +73,6 @@
                 <h1>{{book.title}}</h1>
                 <p> Escrito por {{book.author}}</p>
                 <p> {{book.description}}</p>
-
                 <div class="card p-3">
                     <span>Paginas: <span id="npage">{{book.npages}} </span></span>
                     <div class="d-flex flex-row">

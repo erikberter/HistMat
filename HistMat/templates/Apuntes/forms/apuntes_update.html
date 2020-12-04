@@ -7,7 +7,9 @@
         {% csrf_token %}
         {{ form|crispy }}
         <input type="submit" value="Update">
-        <a href="{% url 'apuntes:apuntes_remove' apunte.pk%}" class="btn btn-danger">Borrar</a>
+        <a href="{% url 'apuntes:apuntes_remove' apunte.pk%}" class="btn btn-danger">
+            {% trans 'Borrar' %}
+        </a>
     </form>
 </div>
 {% endblock %}

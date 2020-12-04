@@ -2,6 +2,7 @@
     https://mdbootstrap.com/docs/jquery/navigation/navbar/
     https://getbootstrap.com/docs/4.0/components/dropdowns/
 -->
+{% load i18n %}
 <div>
     <!-- <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown"
       aria-haspopup="true" aria-expanded="false">
@@ -21,15 +22,15 @@
     </button>
     <div class="dropdown-menu dropdown-menu-right my-0" aria-labelledby="dropdownMenuLink">
         <a class="dropdown-item px-3" href="{{ user.get_absolute_url }}">
-            <span><i class="fa fa-user"></i> Perfil</span>
+            <span><i class="fa fa-user"></i> {% trans 'Perfil'%}</span>
         </a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item px-3" href=" {{ user.get_absolute_config_url }} ">
-            <span><i class="fa fa-cog"></i> Configuracion </span>
+            <span><i class="fa fa-cog"></i> {% trans 'Configuración' %} </span>
         </a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item px-3" href="{% url 'users:logout' %}">
-            <span><i class="fa fa-sign-out"></i> Logout </span>
+            <span><i class="fa fa-sign-out"></i> {% trans 'Cerrar Sesión' %} </span>
         </a>
     </div>
 </div>

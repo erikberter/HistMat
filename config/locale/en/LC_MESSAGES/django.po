@@ -1,0 +1,296 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-03 21:42+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\HistMat\templates\Apuntes\apuntes.html:56
+msgid "Creado por"
+msgstr ""
+
+#: .\HistMat\templates\Apuntes\apuntes.html:61
+msgid "Tamaño del archivo"
+msgstr ""
+
+#: .\HistMat\templates\Apuntes\apuntes.html:64
+msgid "Número de páginas"
+msgstr ""
+
+#: .\HistMat\templates\Apuntes\apuntes.html:67
+msgid "Tipo de archivo"
+msgstr ""
+
+#: .\HistMat\templates\Apuntes\apuntes.html:69
+msgid "Categoria"
+msgstr ""
+
+#: .\HistMat\templates\Apuntes\apuntes.html:73
+#: .\HistMat\templates\Biblio\_book.html:55
+msgid "Ninguna"
+msgstr ""
+
+#: .\HistMat\templates\Apuntes\forms\apuntes_update.html:11
+#: .\HistMat\templates\Biblio\forms\book_update.html:10
+msgid "Borrar"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\_book.html:19
+msgid "Archivo"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\_book.html:25
+msgid "Sin Archivo"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\_book.html:30
+msgid "Detalles"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\_book.html:43
+msgid "Por"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\_filter_sidebar.html:5
+msgid "Filtros de Catalogo"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\_filter_sidebar.html:10
+msgid "Buscar"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\_filter_sidebar.html:12
+msgid "¿Que estas buscando?"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\_filter_sidebar.html:19
+msgid "Filtro de Estado"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\_filter_sidebar.html:26
+msgid "A leer"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\_filter_sidebar.html:31
+msgid "Leyendo"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\_filter_sidebar.html:36
+msgid "Leido"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\_filter_sidebar.html:51
+msgid "Ultimo añadido"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\_filter_sidebar.html:55
+msgid "Primero añadido"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\catalog.html:22
+msgid "Catalogo Público"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\catalog.html:33
+msgid "Cargando"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\forms\book_create.html:8
+msgid "Enviar"
+msgstr ""
+
+#: .\HistMat\templates\Biblio\forms\book_delete.html:9
+msgid "¿Estas seguro de querer eliminar"
+msgstr ""
+
+#: .\HistMat\templates\Forum\forms\add_post.html:4
+msgid "Añadir post"
+msgstr ""
+
+#: .\HistMat\templates\Forum\forms\add_post.html:8
+msgid "Añadir post al foro"
+msgstr ""
+
+#: .\HistMat\templates\Forum\forms\add_post.html:14
+msgid "Anador post"
+msgstr ""
+
+#: .\HistMat\templates\Forum\post_detail.html:11
+#: .\HistMat\templates\Forum\post_home.html:55
+msgid "Enviado por"
+msgstr ""
+
+#: .\HistMat\templates\Forum\post_detail.html:19
+#: .\HistMat\templates\Forum\post_home.html:67
+msgid "Sin Imagen"
+msgstr ""
+
+#: .\HistMat\templates\Forum\post_detail.html:21
+msgid "Comentarios"
+msgstr ""
+
+#: .\HistMat\templates\Forum\post_detail.html:30
+msgid "Enviar Comentario"
+msgstr ""
+
+#: .\HistMat\templates\Forum\post_detail.html:41
+msgid "No hay comentarios todavia..."
+msgstr ""
+
+#: .\HistMat\templates\Users\_user_menu.html:25
+msgid "Perfil"
+msgstr ""
+
+#: .\HistMat\templates\Users\_user_menu.html:29
+msgid "Configuración"
+msgstr ""
+
+#: .\HistMat\templates\Users\_user_menu.html:33
+msgid "Cerrar Sesión"
+msgstr ""
+
+#: .\HistMat\templates\Users\achievement_list.html:16
+msgid "Todos los logros"
+msgstr ""
+
+#: .\HistMat\templates\Users\achievement_list.html:37
+#: .\HistMat\templates\Users\user_detail.html:273
+msgid "No hay Logros"
+msgstr ""
+
+#: .\HistMat\templates\Users\profile_update_form.html:5
+msgid "Ajustar Usuario"
+msgstr ""
+
+#: .\HistMat\templates\Users\profile_update_form.html:74
+msgid "Eliminar Perfil"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_detail.html:32
+#, fuzzy
+#| msgid "Bienvenido a HistMat"
+msgid "Se unio a HistMat el"
+msgstr "Welcome to  HistMat"
+
+#: .\HistMat\templates\Users\user_detail.html:35
+msgid "Editar Perfil"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_detail.html:40
+msgid "No Seguir"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_detail.html:44
+msgid "Seguir"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_detail.html:65
+msgid "Website"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_detail.html:133
+msgid ""
+"Todavia no has añadido ninguna web o red social, si deseas hacerlo accede a "
+"la configuracion de tu perfil"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_detail.html:135
+msgid "Este usuario no ha añadido ninguna web o red social"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_detail.html:180
+msgid "No sigues a ningun usuario"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_detail.html:184
+msgid "Este usuario no tiene ningun amigo añadido"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_detail.html:193
+msgid "Ver lista amigos"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_detail.html:207
+msgid "Nombre completo"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_detail.html:225
+msgid "Ciudad / Pais"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_detail.html:234
+msgid "Centro de Estudios"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_detail.html:256
+msgid "Logros cercanos"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_detail.html:278
+msgid "Ir a logros"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_list.html:17
+msgid "Busqueda de Usuarios"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_list.html:19
+msgid "Todos los amigos"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_list.html:45
+msgid "Nombre de usuario / Nivel"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_list.html:53
+msgid "Centro de estudios"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_list.html:61
+msgid "Pais / Ciudad"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_list.html:70
+msgid "Visitar perfil"
+msgstr ""
+
+#: .\HistMat\templates\Users\user_list.html:78
+msgid "Todavia no sigues a ningun usuario"
+msgstr ""
+
+#: .\HistMat\templates\_navbar.html:16
+msgid "Catalogo"
+msgstr ""
+
+#: .\HistMat\templates\_navbar.html:22
+msgid "Mis Libros"
+msgstr ""
+
+#: .\HistMat\templates\_navbar.html:28
+msgid "Foro"
+msgstr ""
+
+#: .\HistMat\templates\_navbar.html:33
+msgid "Apuntes"
+msgstr ""
+
+#: .\HistMat\templates\_navbar.html:49
+msgid "Inicio de Sesión"
+msgstr ""
+
+#: .\HistMat\templates\home.html:14
+msgid "Bienvenido a HistMat"
+msgstr "Welcome to  HistMat"

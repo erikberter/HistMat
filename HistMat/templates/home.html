@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block title%} HistMat | Home {% endblock%}
 
@@ -6,30 +7,23 @@
 {% block content %}
 
 <div class="container bg-light h-100 p-3 px-5 shadow">
+    
     <div class="pt-2">
-        <h1>Bienvenido a HistMat</h1>
+        <div class="d-flex justify-content-center">
+            <h2 style="font-size:100px">
+                {% trans "Bienvenido a HistMat" %}
+            </h2>
+            
+        </div>
+        <div class="d-flex justify-content-center">
+            <h4>{% trans 'La página web del futuro, para el alumno del presente'%}</h4>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-center">
+            <img class="img-fluid" src="https://media.istockphoto.com/photos/happy-people-studying-with-laptop-picture-id1042008006">
+        </div>
     </div>
-    <h4>Este es un sitio web recreacional donde podrás encontrar herramientas para ayudarte con tus estudios.</h4>
-
-    <img src="https://media1.tenor.com/images/5ee0cbb531b8fab27efccf073e075965/tenor.gif">
-
-
-    <img src="https://media1.tenor.com/images/059c954a23ff4373b00808b08d98325f/tenor.gif">
-    <img src="https://media.tenor.com/images/f0b7704aa38dd2c9bcab7d0df9d12922/tenor.gif">
-    <img src="https://media.tenor.com/images/754b7fd8ba71cfeef383012638ff59ef/tenor.gif">
-    <img src="https://media.tenor.com/images/6af292b89558e91c2a3c8076d74d3cf2/tenor.gif">
-
-    <dl>
-        <dt>Catalog</dt><dd> Desde esta seccion podras acceder a todos los libros publicos que hayan posteado otros usuarios </dd>
-        <dt>My Books</dt><dd> Para acceder a tus libros sera necesario que inicies sesion, despues podras subir a la web todos los libros que desees y guardar informacion relevante sobre los mismos </dd>
-        <dt>Trivia</dt><dd> En esta seccion podras crear y jugar quizzes personalizados para poner a prueba tus conocimientos </dd>
-        <dt>Forum</dt><dd> En el foro podras resolver tus dudas y aportar soluciones </dd>
-        <dt>Apuntes</dt><dd> Sitio donde podras subir los apuntes que quieras conservar en la web </dd>
-    </dl>
-
-    <div>
-
+    
     </div>
-</div>
 
 {% endblock %}

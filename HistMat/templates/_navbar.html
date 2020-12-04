@@ -1,6 +1,7 @@
+{% load i18n %}
 <nav class="navbar navbar-expand-md navbar-light m-0 shadow">
     <div class="d-flex" id="navbar-logo">
-        <a href="/" class="navbar-brand font-weight-bold" style ="font-size: 2.5rem;">
+        <a href="{% url 'layout:index'%}" class="navbar-brand font-weight-bold" style ="font-size: 2.5rem;">
             HistMat
         </a>
     </div>
@@ -11,21 +12,26 @@
     <div class="navbar-collapse collapse" id="navbar-url">
         <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" href="{% url 'biblio:public_catalog'%}">Catalog</a>
+              <a class="nav-link active" href="{% url 'biblio:public_catalog'%}">
+                {% trans 'Catalogo' %}
+                </a>
             </li>
             {% if user.is_authenticated%}
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'biblio:mycatalog'%}">My Books</a>
+                <a class="nav-link active" href="{% url 'biblio:mycatalog'%}">
+                    {% trans 'Mis Libros' %}
+                </a>
             </li>
             {% endif %}
             <li class="nav-item">
-              <a class="nav-link disabled" href="{% url 'trivia:quiz_home'%}">Trivia</a>
+                <a class="nav-link active" href="{% url 'forum:post_home'%}">
+                    {% trans 'Foro' %}
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'forum:post_home'%}">Forum</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="{% url 'apuntes:apuntes'%}">Apuntes</a>
+                <a class="nav-link active" href="{% url 'apuntes:apuntes'%}">
+                    {% trans 'Apuntes' %}
+                </a>
               </li>
         </ul>
     </div>
@@ -40,7 +46,7 @@
         
         {% else %}
             <a class=" nav-item nav-link" href="{% url 'social:begin' 'google-oauth2' %}">
-                Login
+                {% trans 'Inicio de Sesión' %}
             </a>
         {% endif %}
     </div>
