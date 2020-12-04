@@ -35,10 +35,20 @@ class Author(models.Model):
     surname = models.CharField(max_length=100, default="", blank=True, null=True)
 
     def __str__(self):
-        if self.surname:
-            return self.name+" "+self.surname
-        else:
-            return self.name
+        return self.name+" "+self.surname
+
+    def get_absolute_url(self):
+        return reverse('biblio:author_detail',args=[self.slug])
+
+    def assemble(self):
+        data = {}
+        data['name'] = self.__str__()
+        data['books'] = [book.assemble() for book in Author.books.all()]
+        return data
+
+
+
+
 
 class PublicBookManager(models.Manager):
     def get_queryset(self):
@@ -83,7 +93,7 @@ class Book(models.Model):
     #################################################
     
     author= models.ForeignKey(Author, on_delete=models.SET_NULL,null=True, blank=True, default=None, related_name="books")
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL, through='BookUserDetail', related_name='users')
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, through='BookUserDetail', related_name='added_books')
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, default=None)
 
     class Meta:
@@ -95,7 +105,7 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse('biblio:book_detail',args=[self.slug])
 
-    def get_dto(self):
+    def assemble(self):
         """
             Data Transfer Object assembler function.
             Returns a dictionary with the data for the webpage. 
@@ -162,7 +172,7 @@ class BookUserDetail(models.Model):
     def __str__(self):
         return self.user.__str__() + self.book.__str__()
 
-    def get_dto(self):
+    def assemble(self):
         """
             Data Transfer Object assembler function.
             Returns a dictionary with the data for the webpage. 
