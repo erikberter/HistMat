@@ -22,6 +22,7 @@ IF "%PARAM%"=="-m" (
   python manage.py makemigrations Layout
   python manage.py makemigrations Biblio
   python manage.py makemigrations Trivia
+  python manage.py makemigrations Apuntes
   python manage.py migrate
   @echo off
 )

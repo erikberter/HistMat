@@ -35,10 +35,20 @@ class Author(models.Model):
     surname = models.CharField(max_length=100, default="", blank=True, null=True)
 
     def __str__(self):
-        if self.surname:
-            return self.name+" "+self.surname
-        else:
-            return self.name
+        return self.name+" "+self.surname
+
+    def get_absolute_url(self):
+        return reverse('biblio:author_detail',args=[self.slug])
+
+    def assemble(self):
+        data = {}
+        data['name'] = self.__str__()
+        data['books'] = [book.assemble() for book in Author.books.all()]
+        return data
+
+
+
+
 
 class PublicBookManager(models.Manager):
     def get_queryset(self):
@@ -95,7 +105,7 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse('biblio:book_detail',args=[self.slug])
 
-    def get_dto(self):
+    def assemble(self):
         """
             Data Transfer Object assembler function.
             Returns a dictionary with the data for the webpage. 
@@ -165,7 +175,7 @@ class BookUserDetail(models.Model):
     def get_book_state(self):
         return self.BOOK_STATE_DICT[self.book_state]
 
-    def get_dto(self):
+    def assemble(self):
         """
             Data Transfer Object assembler function.
             Returns a dictionary with the data for the webpage. 

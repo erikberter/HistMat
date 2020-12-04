@@ -68,7 +68,7 @@ class MyCatalogView(LoginRequiredMixin, View):
 
         books = request.user.added_books.filter(books_details__book_state=data['book_state'])
         
-        data['books'] = [book.get_dto() for book in books]
+        data['books'] = [book.assemble() for book in books]
 
         return JsonResponse(data)
 
@@ -115,6 +115,7 @@ class BookDetailView(DetailView):
         return data
 
 
+
 class BookUpdateView(UserPassesTestMixin, UpdateView):
     model = Book
     fields = ['title', 'description', 'author', 'npages', 'book_file', 'cover', 'visibility', 'tags']
@@ -132,6 +133,11 @@ class BookDeleteView(UserPassesTestMixin, DeleteView):
 
     def test_func(self, user):
         return user == self.get_object().creator
+
+class AuthorDetailView(DetailView):
+    model = Author
+    template_name = "Biblio/author_detail.html"
+    context_object_name = "author"
 
 
 
