@@ -66,6 +66,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'social_django',
     'simple_history',
+
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -79,6 +81,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'simple_history.middleware.HistoryRequestMiddleware',
+
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
+]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
 ]
 
 ROOT_URLCONF = 'config.urls'

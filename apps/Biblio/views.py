@@ -150,7 +150,7 @@ def book_state_change(request, slug):
         if not new_book_state:
             raise Http404("No valid book state")
         
-        if request.user.books_details.filter(book = book).exists():
+        if not request.user.books_details.filter(book = book).exists():
             book_ud = BookUserDetail.objects.create(book=book, user = request.user)
         else:
             book_ud = request.user.books_details.get(book = book)
@@ -160,9 +160,6 @@ def book_state_change(request, slug):
 
         return JsonResponse(CORRECT_JSON_DICT)
         
-
-
-
 @require_POST
 def book_page_change(request, slug):
     if request.is_ajax():

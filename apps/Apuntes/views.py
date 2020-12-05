@@ -1,23 +1,31 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Apunte
-from django.views.generic.edit import CreateView, UpdateView
+
+from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ApunteCreateForm
 from django.http import  HttpResponseRedirect
 from braces.views import UserPassesTestMixin
 # Create your views here.
 
-def apuntes(request):
-    apuntes = Apunte.objects.all()
-    context = {'apuntes' : apuntes}
-    return render(request, 'Apuntes/apuntes.html', context)
+class ApuntesListView(ListView):
+    model = Apunte
+    template_name = 'Apuntes/apuntes.html'
+    context_object_name = "apuntes"
 
+    paginate_by = 10
 
-def apuntes_detail(request, pk):
-    apunte = get_object_or_404(Apunte, pk = pk)
-    context = {'apunte':apunte}
-    context["own_apunte"]= apunte.autor==request.user
-    return render(request, 'Apuntes/apuntes_detail.html',context)
+class ApuntesDetailView(DetailView):
+    model = Apunte
+    context_object_name = "apunte"
+    template_name = 'Apuntes/apuntes_detail.html'
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data["own_apunte"]= self.get_object().autor==self.request.user
+        return data
 
 
 

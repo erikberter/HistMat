@@ -6,8 +6,8 @@
  */
 function send_book_state_change_ajax(book_state, book_slug){
     $.ajax({
-        type: "POST",
-        url: '/biblio/book_detail/'+book_slug+'/state_change',
+        type: "post",
+        url: '/es/biblio/book_detail/'+book_slug+'/state_change',
         dataType:'json',
         data: { 
             book_state : book_state,

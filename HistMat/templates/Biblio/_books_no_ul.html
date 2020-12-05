@@ -1,42 +1,47 @@
 {% for book in books %}
-    <li class="item card m-2 draggable infinite-item real-frame col-xs-6 shadow" b_slug="{{book.slug}}" style="max-width:200px;"> 
-        <div class="frame">
-            
-            {% if book.cover %}
-                <img src="{{book.cover.url}}" alt="{{book.title}} cover" class="img-fluid">
-            
-            {% else %}
-                {% load static %}
-                <img src="/HistMat/media/no_image.jpg" alt="{{book.title}} cover" class="img-fluid">
-            {% endif %}
+{% load i18n %}
+    <li class="item card m-2 draggable infinite-item real-frame col-xs-6 shadow" b_slug="{{book.slug}}" style="max-width:200px;">         
+    <div class="frame">
         
+        {% if book.cover %}
+            <img src="{{book.cover.url}}" alt="{{book.title}} cover" class="img-fluid">
+        
+        {% else %}
+            {% load static %}
+            <img src="/HistMat/media/no_image.jpg" alt="{{book.title}} cover" class="img-fluid">
+        {% endif %}
+    
 
-            <div class = "details jumbotron d-flex align-items-center">
-                <div class="container p-1 d-flex flex-column" >
-                    {% if book.book_file%}
-                        <a class="btn btn-primary align-middle text-white bg-transparent bold thumb-button file valid" href="{{book.book_file.url}}" style="border: white 3px solid;">
-                            <span style="font-size:large;"><i class="fa fa-file-pdf"></i> File</span>
-                        </a> 
-                    {% else %}
-                        <a class="btn btn-primary align-middle text-white bg-transparent bold thumb-button file invalid" href="#" style="border: white 3px solid;">
-                            <span style="font-size:large;"><i class="fa fa-file-exclamation"></i> No File</span>
-                        </a>
-                    {% endif %}
-                    <a class="btn btn-primary align-middle text-white bg-transparent bold thumb-button search valid mt-1" href="{{book.get_absolute_url}}" style="border: white 3px solid;">
-                        <span><i class="fa fa-search"></i> Detalles</span>
+        <div class = "details jumbotron d-flex align-items-center">
+            <div class="container p-1 d-flex flex-column" >
+                {% if book.book_file%}
+                    <a class="btn btn-primary align-middle text-white bg-transparent bold thumb-button file valid" href="{{book.book_file.url}}" style="border: white 3px solid;">
+                        <span style="font-size:large;"><i class="fa fa-file-pdf"></i>
+                            {% trans 'Archivo' %}
+                            </span>
+                    </a> 
+                {% else %}
+                    <a class="btn btn-primary align-middle text-white bg-transparent bold thumb-button file invalid" href="#" style="border: white 3px solid;">
+                        <span style="font-size:large;"><i class="fa fa-file-exclamation"></i> 
+                            {% trans 'Sin Archivo' %}
+                        </span>
                     </a>
-                    
-                </div>
+                {% endif %}
+                <a class="btn btn-primary align-middle text-white bg-transparent bold thumb-button search valid mt-1" href="{{book.get_absolute_url}}" style="border: white 3px solid;">
+                    <span><i class="fa fa-search"></i> {% trans 'Detalles' %}</span>
+                </a>
+                
             </div>
-        
         </div>
+    
+    </div>
     <div class="detailed-details bg-light">
         <div class="p-1">
             <a href="{{book.get_absolute_url}}" >
                 <span class="book-info">{{book.title}}</span>
             </a>
             <div >
-                <span class="book-info">By {{book.author}}</span>
+                <span class="book-info">{% trans 'Por' %} {{book.author}}</span>
             </div>
         </div>
         
@@ -48,12 +53,12 @@
                 {% for tag in book.tags.all|slice:"0:2" %}
                     <span class="badge badge-success m-1">{{tag}}</span>
                 {% empty %}
-                    <span class="badge badge-danger m-1">Ninguna</span>
+                    <span class="badge badge-danger m-1">{% trans 'Ninguna' %}</span>
                 {% endfor %}
             </div>
         </div>
     </div>
-        
+            
     </li>
 {% endfor %}
 
