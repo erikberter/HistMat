@@ -11,10 +11,14 @@ from django.views import View
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-def post_home(request):
-    posts = Post.objects.all()
-    context = {'posts' : posts}
-    return render(request, 'Forum/post_home.html', context)
+
+
+class PostHomeView(ListView):
+    model = Post
+    context_object_name = 'posts'
+
+    template_name = 'Forum/post_home.html'
+    paginate_by = 2
 
 def add_comment(request, pk):
     form = CommentForm(request.POST)

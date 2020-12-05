@@ -45,6 +45,24 @@
 		});
 	});
 </script>
+
+<script>
+	$(document).ready( function() {
+		   var infinite = new Waypoint.Infinite({
+			   element: $('.infinite-container')[0],
+			   onBeforePageLoad: function () {
+				   $('#loading-icon' ).show();
+			   },
+			   onAfterPageLoad: function ($items) {
+				   $('#loading-icon' ).css("display","none");
+			   }
+			   });
+	   });
+	   
+   </script>
+   <script src='https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js'></script>
+   <script src='https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/shortcuts/infinite.min.js'></script>
+   <script src="{% static 'js/Forum/Waypoint.js' %}"> </script>
 {% endblock %}
 
 {% block content %} 
@@ -76,6 +94,14 @@
 			
 		{% endfor%}
 	</div>
+	{% if page_obj.has_next %}
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+    {% endif %}
+	<div class="d-flex justify-content-center" style="display:none;">
+        <div id="loading-icon" class="spinner-border" role="status" style="display:none;">
+            <span id="spd" class="sr-only">{% trans 'Cargando' %}...</span>
+        </div>
+    </div>
 </div>
 {% if user.is_authenticated %}
 	{% include 'widgets/fab.html'%}

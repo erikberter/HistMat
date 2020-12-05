@@ -5,7 +5,7 @@ from . import views
 app_name = 'forum'
 
 urlpatterns = [
-    path("forum/", views.post_home , name='post_home'),
+    path("forum/", views.PostHomeView.as_view() , name='post_home'),
     path("forum/add_post", views.AddPostView.as_view(), name = 'add_post'),
     path("forum/post_detail/<int:pk>/", views.PostDetailView.as_view(), name = 'post_detail'),
     path("forum/post_detail/<int:pk>/add_comment", views.add_comment, name = 'add_comment'),
