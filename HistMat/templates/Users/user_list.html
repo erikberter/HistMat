@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load i18n %}
 {% block title %} User List {% endblock title %}
 
 
@@ -14,9 +14,9 @@
             <div class = "card text-center">
                 <div class = "card-header">
                     {% if is_searching %}
-                        <h2 class = "card-title"> Busqueda de Usuarios </h2>
+                        <h2 class = "card-title">{% trans 'Busqueda de Usuarios'%} </h2>
                     {% else %}
-                        <h2 class = "card-title"> Todos los amigos</h2>
+                        <h2 class = "card-title">{% trans 'Todos los amigos'%} </h2>
                     {% endif %}
                 </div>
             </div>
@@ -42,7 +42,7 @@
                                     <div class= "col-sm-9">
                                         <div class="row">
                                             <div class="col-sm-4">
-                                              <h6 class="mb-0">Nombre de usuario / Nivel</h6>
+                                              <h6 class="mb-0">{% trans 'Nombre de usuario / Nivel'%}</h6>
                                             </div>
                                             <div class="col-sm-8 text-secondary">
                                               {{profile.username}} / {{profile.level}}
@@ -50,7 +50,7 @@
                                         </div>  
                                         <div class="row">
                                             <div class="col-sm-4">
-                                              <h6 class="mb-0">Centro de estudios</h6>
+                                              <h6 class="mb-0">{% trans 'Centro de estudios'%}</h6>
                                             </div>
                                             <div class="col-sm-8 text-secondary">
                                               {{profile.study_center}}
@@ -58,7 +58,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-4">
-                                              <h6 class="mb-0">Pais / Ciudad</h6>
+                                              <h6 class="mb-0">{% trans 'Pais / Ciudad'%}</h6>
                                             </div>
                                             <div class="col-sm-8 text-secondary">
                                                 {{profile.country}} / {{profile.city}}
@@ -67,7 +67,7 @@
                                     </div>
                                     <div class= "col-sm-3">
                                             <a class="btn btn-primary" href="{% url 'users:user_detail' profile.pk %}">
-                                                Visitar perfil
+                                                {% trans 'Visitar perfil'%}
                                             </a> 
                                     </div>
                                 </div>       
@@ -75,7 +75,7 @@
                         </div>
                     </div>
                 {% empty %}
-                    <p> Todavia no sigues a ningun usuario</p>
+                    <p> {% trans 'Todavia no sigues a ningun usuario'%}</p>
                 {% endfor %}
             </div>
         </div>

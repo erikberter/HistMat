@@ -34,8 +34,11 @@
     <div class="extended-details p-1 ">
         <div class="d-flex flex-row">
             <span>Tags:</span>
-            <div class="d-flex flex-row flex-wrap">
-                <span class="badge badge-danger m-1" v-if="index<2" v-for="(tag, index) in book_tags">[[tag]]</span>
+            <div class="d-flex flex-row flex-wrap" v-if="book_tags.length>0">
+                <span class="badge badge-success m-1" v-if="index<2" v-for="(tag, index) in book_tags">[[tag]]</span>
+            </div>
+            <div class="d-flex flex-row flex-wrap" v-else>
+                <span class="badge badge-danger m-1">Ninguna</span>
             </div>
         </div>
     </div>

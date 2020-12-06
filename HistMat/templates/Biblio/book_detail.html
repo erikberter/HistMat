@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 
 {%block title%}
     HistMat | {{book.title}}
@@ -73,9 +73,8 @@
                 <h1>{{book.title}}</h1>
                 <p> Escrito por {{book.author}}</p>
                 <p> {{book.description}}</p>
-
                 <div class="card p-3">
-                    <span>Paginas: {{book.npages}} </span>
+                    <span>Paginas: <span id="npage">{{book.npages}} </span></span>
                     <div class="d-flex flex-row">
                         <span>Tags:</span>
                         <div class="d-flex flex-row flex-wrap">
@@ -99,7 +98,7 @@
                         <option value="Read" {% if book_state == 'Read'%} selected {% endif %}>Read</option>
                     </select>
                 </div>
-                <div class="row d-flex flex-column card p-3">
+                <div class="row d-flex flex-column card p-3 mt-2">
                     <div>
                         {% if has_book %}
                             <form method="POST" id="star-rating" action="{{ request.path }}/rate">
@@ -108,7 +107,9 @@
                                     <!-- https://stackoverflow.com/questions/1107737/numeric-for-loop-in-django-templates -->
                                     {% for i in '54321'|make_list %}
                                         <!-- https://bbbootstrap.com/snippets/star-rating-pure-css-19646372 -->
-                                        <input type="radio" name="rating_v" value="{{ i }}" id="rating-{{ i }}">
+                                        <input type="radio" name="rating_v" value="{{ i }}" id="rating-{{ i }}" 
+                                        {% if i == own_rating %}
+                                        checked {% endif %}>
                                         <label for="rating-{{ i }}">☆</label> 
                                     {% endfor %}
                                 </div>
@@ -129,9 +130,17 @@
                     {% if  user.is_authenticated %}
                         {% if has_book %}
                             <div class="d-flex justify-content-center">
-                                <p> Página actual</p>
+                                <h4>Página actual</h4> 
                             </div>
-                            <input id="set-act-page" type="input" b_slug = "{{book.slug}}" placeholder="{{act_page}}">
+                            <div class="d-flex justify-content-center">
+                                <h6 id="act-page">{{act_page}}</h6>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-center">
+                                <p>¿Has leido más páginas?</p>
+                            </div>
+
+                            <input id="set-act-page" class="form-control" type="input" b_slug = "{{book.slug}}" placeholder="Pulsa enter para actualizar el número">
                         {% else %}
                             <p>You should consider adding this book to be able to track your progess!</p>
                         {% endif %}

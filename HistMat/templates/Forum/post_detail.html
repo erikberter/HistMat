@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 
 {% block title%} HistMat | Forum | {{ post.body }} {%endblock%}
 
@@ -8,33 +8,55 @@
     	<div class="row justify-content-md-center align-items-center">
         	<div class="card d-flex p-3 my-3">
                 <div class="card border-0 mx-3">
-                    <p> Posted by {{ post.user }} . {{ post.date }} </p>
+                    <p> {% trans 'Enviado por'%} 
+                        <a href="{{post.user.get_absolute_url}}"> {{ post.user }}</a> . {{ post.date }} </p>
                     <h3 class="font-weight-bold"> {{post.body}}</h3> 
                     {% if post.image %}
 				        <img class="rounded" src="{{post.image.url}}" width="900">
                     {% else %}
                         </br>
                         <img src="/HistMat/static/img/blanco.jpg" width="900" height="1">
-				        <p class="font-weight-bold"> No image </p>
+				        <p class="font-weight-bold"> {% trans 'Sin Imagen'%} </p>
                     {% endif %}
-                    <h3 class="font-weight-bold my-3">Comentarios</h3>
+                    <h3 class="font-weight-bold my-3">{% trans 'Comentarios'%}</h3>
                     <div>
                         {% load crispy_forms_tags %}
                         <form method="POST" action="{% url 'forum:post_detail' post.pk %}add_comment">
                             {% csrf_token %}
                             {{comment_form|crispy}}
-                            <input type="submit" class="btn btn-primary">
+                            {% if user.is_authenticated %}
+                                <input type="submit" class="btn btn-primary">
+                            {% else %}
+                                <a href="#" class="btn btn-primary disabled"> {% trans 'Enviar Comentario'%}</a>
+                            {% endif%}
                         </form>
                     </div>
                     </br>
-                    {% if not post.comments.all %}
-                        Todavía no hay ningún comentario...
-                    {% else %}
-                        {% for comment in post.comments.all %}
-                            <strong> {{ comment.user }} </strong> 
+                        {% for comment in comments %}
+                        <hr>
+                            <strong> <a href="{{comment.user.get_absolute_url}}"> {{ comment.user }}</a> </strong>
                             {{ comment.body }}
+                            
+                        {% empty %}
+                         <p>{% trans 'No hay comentarios todavia...'%}<p>
                         {% endfor %}
-                    {% endif %}
+                        <div class="pagination">
+                            <span class="step-links">
+                                {% if comments.has_previous %}
+                                    <a href="?page=1">&laquo; first</a>
+                                    <a href="?page={{ comments.previous_page_number }}">previous</a>
+                                {% endif %}
+                        
+                                <span class="current">
+                                    Page {{ comments.number }} of {{ comments.paginator.num_pages }}.
+                                </span>
+                        
+                                {% if comments.has_next %}
+                                    <a href="?page={{ comments.next_page_number }}">next</a>
+                                    <a href="?page={{ comments.paginator.num_pages }}">last &raquo;</a>
+                                {% endif %}
+                            </span>
+                        </div>
                 </div>
             </div>
         </div>

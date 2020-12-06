@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block title %} HistMat | Forum {% endblock %}
 
 {% load static %}
 
 {% block css%}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
+
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/shortcuts/infinite.min.js'></script>
+
 {% endblock %}
 
 {% block js%}
@@ -14,12 +18,10 @@
 	var fab = new Vue({
 		el: '#fab-container',
 		data: {
-			//Data
 			create_url: "{% url 'forum:add_post' %}"
 		},
 		methods: {
 			fab_action: function (event) {
-				//Action
 				window.location = this.create_url;
 			}
 		}
@@ -78,14 +80,16 @@
 		});
 	});
 </script>
+
+   
 {% endblock %}
 
 {% block content %} 
 <div class="container">
-	<div class="row justify-content-md-center align-items-center">
+	<ul class="row infinite-container justify-content-md-center align-items-center">
 		{% for post in posts %}
-			<div class="card d-flex p-3 my-2">
-					<p> Posted by {{ post.user }} . {{ post.date }} </p>
+			<li class="card d-flex p-3 my-2 infinite-item">
+					<p> {% trans 'Enviado por'%} <a href="{{post.user.get_absolute_url}}"> {{ post.user }}</a> . {{ post.date }} </p>
 					<h3>
 						<a class="font-weight-bold" href="{{post.get_absolute_url}}">
 							{{ post.body }}
@@ -97,7 +101,7 @@
 								<img class="rounded" src="{{post.image.url}}" width="750">
 							</a>
 						{% else %}
-							<p class="font-weight-bold my-3"> No image </p>
+							<p class="font-weight-bold my-3"> {% trans 'Sin Imagen'%} </p>
 							<img src="/HistMat/static/img/blanco.jpg" width="750" height="1">
 						{% endif %}
 					</div>	
@@ -105,11 +109,38 @@
 						<i class="fa fa-thumbs-up like-button mt-2" pk='{{post.pk}}'></i> 
 						<span class="like-count-{{post.pk}} font-weight-bold">{{ post.likes }}</span> 
 					</div>
-				</div>
+				</li>
 			
 		{% endfor%}
-	</div>
+		</ul>
+	{% if page_obj.has_next %}
+        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
+	{% endif %}
+	
+	<div class="d-flex justify-content-center" style="display:none;">
+        <div id="loading-icon" class="spinner-border" role="status" style="display:none;">
+            <span id="spd" class="sr-only">{% trans 'Cargando' %}...</span>
+        </div>
+    </div>
 </div>
-{% include 'widgets/fab.html'%}
+
+
+<script>
+$(document).ready( function() {
+	var infinite = new Waypoint.Infinite({
+		element: $('.infinite-container')[0],
+		onBeforePageLoad: function () {
+			$('#loading-icon').show();
+		},
+		onAfterPageLoad: function ($items) {
+			$('#loading-icon').css("display","none");
+		}
+	});
+});
+</script>
+
+{% if user.is_authenticated %}
+	{% include 'widgets/fab.html'%}
+{% endif%}
 
 {% endblock %}

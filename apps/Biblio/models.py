@@ -35,10 +35,20 @@ class Author(models.Model):
     surname = models.CharField(max_length=100, default="", blank=True, null=True)
 
     def __str__(self):
-        if self.surname:
-            return self.name+" "+self.surname
-        else:
-            return self.name
+        return self.name+" "+self.surname
+
+    def get_absolute_url(self):
+        return reverse('biblio:author_detail',args=[self.slug])
+
+    def assemble(self):
+        data = {}
+        data['name'] = self.__str__()
+        data['books'] = [book.assemble() for book in Author.books.all()]
+        return data
+
+
+
+
 
 class PublicBookManager(models.Manager):
     def get_queryset(self):
@@ -83,7 +93,7 @@ class Book(models.Model):
     #################################################
     
     author= models.ForeignKey(Author, on_delete=models.SET_NULL,null=True, blank=True, default=None, related_name="books")
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL, through='BookUserDetail', related_name='users')
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, through='BookUserDetail', related_name='added_books')
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, default=None)
 
     class Meta:
@@ -95,7 +105,7 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse('biblio:book_detail',args=[self.slug])
 
-    def get_dto(self):
+    def assemble(self):
         """
             Data Transfer Object assembler function.
             Returns a dictionary with the data for the webpage. 
@@ -140,13 +150,13 @@ class BookUserDetail(models.Model):
         ('read', 'Read'),
         ('dropped', 'Dropped'),
         ('on_hold', 'On Hold'))
-    BOOK_STATE_L = [t[0] for t in BOOK_STATE]
+    BOOK_STATE_DICT = dict(BOOK_STATE)
 
     DEFAULT_BOOK_STATE = "want_to_read"
 
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="books_details")
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="books_details")
 
 
     rating =  IntegerRangeField(min_value=1, max_value=10, null=True, blank=True)
@@ -162,14 +172,19 @@ class BookUserDetail(models.Model):
     def __str__(self):
         return self.user.__str__() + self.book.__str__()
 
-    def get_dto(self):
+    def get_book_state(self):
+        return self.BOOK_STATE_DICT[self.book_state]
+
+    def assemble(self):
         """
             Data Transfer Object assembler function.
             Returns a dictionary with the data for the webpage. 
         """
         data = {}
 
-        data["rating"] = self.rating
-        data["book_state"] = self.book_state
+        data["own_rating"] = str(self.rating)
+        data["book_state"] = self.BOOK_STATE_DICT[self.book_state]
         data["created"] = self.created
         data["act_page"] = self.act_page
+
+        return data

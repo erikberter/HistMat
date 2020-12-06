@@ -10,11 +10,15 @@ from .forms import PostForm, CommentForm
 from django.views import View
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.core.paginator import Paginator
 
-def post_home(request):
-    posts = Post.objects.all()
-    context = {'posts' : posts}
-    return render(request, 'Forum/post_home.html', context)
+
+class PostHomeView(ListView):
+    model = Post
+    context_object_name = 'posts'
+
+    template_name = 'Forum/post_home.html'
+    paginate_by = 10
 
 def add_comment(request, pk):
     form = CommentForm(request.POST)
@@ -24,17 +28,22 @@ def add_comment(request, pk):
         comment.user = request.user
         comment.post = post
         comment.save()
-        return redirect('forum:post_detail', pk=pk)
-    else:
-        return redirect('forum:post_detail', pk=pk)
+    return redirect('forum:post_detail', pk=pk)
 
 class PostDetailView(DetailView):
     model = Post
     template_name = 'Forum/post_detail.html'
     context_object_name = "post"
+
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['comment_form'] = CommentForm
+
+        _list = Comment.objects.filter(post=self.kwargs.get('pk'))
+        paginator = Paginator(_list, 2) 
+        page = self.request.GET.get('page')
+        data['comments'] = paginator.get_page(page)
+
         return data
 
 class AddPostView(CreateView):

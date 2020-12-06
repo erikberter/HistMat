@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 
 {% block title%} HistMat | {{ apunte.titulo }}{%endblock%}
 
@@ -11,7 +11,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
 
 	{% if own_apunte%}
-	
     <script>
         var fab = new Vue({
             el: '#fab-container',
@@ -30,24 +29,29 @@
 {% endblock %}
 
 {% block content%}
-<div class="card" style="width: 70rem;">
+<div class="container">
+
+    <div class="card mt-3" style="width: 70rem;">
 
 
-	<div class="card-body">
-		<h5 class="card-title">
-        {{apunte.nombre}}, {{own_apunte}}, {{apunte.autor}}
-		</h5>
-		<a class="btn btn-default" href="{% url 'apuntes:apuntes_remove' apunte.pk %}"><i class="fa fa-trash"></i></a>
-		{% if apunte.documento%}
-		<a class="btn w-100 btn-success" href="{{apunte.documento.url}}"> PDF </a>
-		{% else %}
-		<a class="btn w-100 btn-success disabled" > PDF </a>
-		{% endif %}
-		
-	 
-		
-		
-	</div>
+        <div class="card-body">
+            <h5 class="card-title">
+            {{apunte.nombre}}
+            </h5>
+            <a class="btn btn-default" href="{% url 'apuntes:apuntes_remove' apunte.pk %}"><i class="fa fa-trash"></i></a>
+            {% if apunte.documento%}
+            <a class="btn w-100 btn-success" href="{{apunte.documento.url}}"> PDF </a>
+            {% else %}
+            <a class="btn w-100 btn-success disabled" > PDF </a>
+            {% endif %}
+            
+         
+            
+            
+        </div>
+    </div>
 </div>
-{% include 'widgets/fab.html'%}
+{% if own_apunte%}
+    {% include 'widgets/fab.html'%}
+{% endif %}
 {% endblock %}

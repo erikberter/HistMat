@@ -1,16 +1,16 @@
 <transition name="modal_book_list" id="modal_book_list" class="shadow">
-    <div v-bind:id="'container-cb-'+book_state" class="bg-light p-2 m-1 rounded">
+    <div v-bind:id="'container-cb-'+book_state" class="d-flex flex-column bg-light p-2 m-1 rounded">
         <div class="d-flex justify-content-center">
             <h1 id="catalog_book_title" class="text-dark font-weight-bold" style="font-size:48px;">[[shelf_title]]</h1>
         </div>
         
-        <ul v-model="books" group="books" v-bind:id="'sortable-'+book_state" v-bind:shelf_name="book_state" class="d-flex flex-row flex-wrap scroll-element connectedSortable border bg-secondary p-2 inner-shadow" >
+        <ul v-model="books" group="books" v-bind:id="'sortable-'+book_state" v-bind:shelf_name="book_state" class="d-flex flex-row flex-wrap flex-grow-1 scroll-element connectedSortable border bg-secondary p-2 inner-shadow" >
             <book_item 
                 class="shadow"
                 v-for="book in books"
                 v-if = "book.title.includes(search_query)"
                 
-                v-bind:book='book.slug'
+                v-bind:book_slug='book.slug'
                 v-bind:book_cover_url = 'book.cover_url'
                 v-bind:book_title = 'book.title'
                 v-bind:book_file_url = 'book.file_url'
