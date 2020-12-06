@@ -31,45 +31,15 @@
 <script>
 	$(document).ready(function(){
 
-		
-		document.cookie='name=User';
-		console.log(document.cookie);
-
-		//Ejemplo de Cookie: name=User; csrftoken=nqLcmxZ2TkN90ZmNSvr3cjKybkyrDWaJPhDW1xTVwN7ueHSUCnNpcyLrk0EkdJhy
-
-		function getCookie(name) {
-			var cookieValue = null;
-
-			if (document.cookie && document.cookie !== '') {
-				var cookies = document.cookie.split(';');
-
-				for (var i = 0; i < cookies.length; i++) {
-					var cookie = cookies[i].trim();
-
-					if (cookie.substring(0, name.length + 1) === (name + '=')) {
-						cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-						break;
-					}
-				}
-			}
-			return cookieValue;
-		};
-
-		var csrfToken = getCookie('csrftoken')
-
-		$.ajaxSetup({
-			beforeSend: function(xhr) {
-				xhr.setRequestHeader("X-CSRFToken", csrfToken);
-			}
-		})
-
 		$(".like-button").click(function(){
 			let pk  = $(this).attr('pk');
 			$.ajax({
 				type: "POST",
 				url: "post_detail/" + pk + "/upvote",
 				dataType:'json',
-				data: {},
+				data: {
+					csrfmiddlewaretoken: window.CSRF_TOKEN
+				},
 				success: function(result){
 					$(".like-count-" + pk).text(parseInt($(".like-count-" + pk).text())+1);
 				},

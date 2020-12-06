@@ -42,7 +42,9 @@ class UserUpdateView(UserPassesTestMixin, UpdateView):
     success_url ='user_detail'
 
     def test_func(self, user):
-        return user == self.get_object()
+        is_valid = user == self.get_object()
+        is_valid |= user.is_superuser
+        return is_valid
 
 
 class UserDeleteView(UserPassesTestMixin, DeleteView):
@@ -77,7 +79,6 @@ class UserListView(ListView):
         friends =  self.request.user.following_users.all()
         return friends
 
-@csrf_exempt
 @require_POST
 def search_view(request):
     query = request.POST.get('search')    

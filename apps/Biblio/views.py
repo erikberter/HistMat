@@ -110,7 +110,7 @@ class BookDetailView(DetailView):
         data['has_book'] =  self.get_object().books_details.filter(user=self.request.user).exists()
         data['book_state'] = 'None'
         if data['has_book']:
-            data.update(self.get_object().books_details.get(user=self.request.user).get_dto())
+            data.update(self.get_object().books_details.get(user=self.request.user).assemble())
 
         return data
 

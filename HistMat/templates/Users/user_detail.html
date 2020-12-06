@@ -34,7 +34,13 @@
                     <a class="btn btn-primary" href="{{ user.get_absolute_config_url }}">
                       {% trans 'Editar Perfil'%}
                     </a>
+                
                 {% else %}
+                  {% if request.user.is_superuser %}
+                    <a class="btn btn-primary" href="{{ user_detail.get_absolute_config_url }}">
+                      {% trans 'Editar Perfil'%}
+                    </a>
+                  {% endif %}
                   {% if sigole %}
                     <a class="btn btn-danger" href="{% url 'users:seguir' user_detail.pk%}">
                       {% trans 'No Seguir'%}
@@ -145,6 +151,7 @@
           <div class="d-flex flex-column align-items-center text-center mb-2">
             
             <form method="POST" action="{% url 'users:user_search'%}">
+              {% csrf_token %}
               <div class="p-1 bg-light rounded rounded-pill shadow-sm mt-3">
                 <div class="input-group">
                   <input type="search" name="search" placeholder="Buscar un usuario" aria-describedby="button-addon1" class="form-control border-0 bg-light">

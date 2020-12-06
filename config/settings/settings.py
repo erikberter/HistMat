@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'apps.Biblio',
     'apps.Users',
     'apps.Layout',
-    'apps.Trivia',
     'apps.Apuntes',
     'apps.Forum',
     

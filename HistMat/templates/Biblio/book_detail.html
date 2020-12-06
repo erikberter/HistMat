@@ -101,7 +101,7 @@
                 <div class="row d-flex flex-column card p-3 mt-2">
                     <div>
                         {% if has_book %}
-                            <form method="POST" id="star-rating" action="{{ request.path }}/rate">
+                            <form method="POST" id="star-rating" action="{{ request.path }}rate">
                                 {%csrf_token%}
                                 <div class="rating"> 
                                     <!-- https://stackoverflow.com/questions/1107737/numeric-for-loop-in-django-templates -->

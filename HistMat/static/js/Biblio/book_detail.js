@@ -22,7 +22,7 @@ $(document).ready(function(e){
             if(!$.isNumeric(act_page)){
                 $( "#set-act-page" ).effect( "shake" , { direction: "up", times: 4, distance: 5});
                 return;
-            }else if(parseInt(act_page) > parseInt($("#npage").text())){
+            }else if(parseInt(act_page) > parseInt($("#npage").text()) || parseInt(act_page) < 0){
                 $( "#set-act-page" ).effect( "shake" , { direction: "up", times: 4, distance: 5});
                 return;
             }
