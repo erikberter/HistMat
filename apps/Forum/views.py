@@ -52,7 +52,6 @@ class AddPostView(CreateView):
 
 from django.views.decorators.csrf import csrf_exempt
 
-@csrf_exempt
 def postUpvote(request, pk):
     if request.method == "POST":
         if request.is_ajax():
