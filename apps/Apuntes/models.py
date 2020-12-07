@@ -7,14 +7,13 @@ from django.urls import reverse
 
 class Apunte(models.Model):
     nombre = models.CharField(max_length=80)
-    likes = models.IntegerField()
-    paginas = models.IntegerField()
+    likes = models.IntegerField(default=0)
+    paginas = models.IntegerField(default = 0)
     documento = models.FileField(upload_to='apuntes/docu/img')
     autor =  models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    tamaño = models.IntegerField()
     thumbnail = models.ImageField(upload_to = 'apuntes/docu/img/', blank = True, null = True)
     categoria = TaggableManager()
-    tipo =  models.CharField(max_length=80)
+    tipo =  models.CharField(max_length=80, default="unknown")
     creado = models.DateTimeField(auto_now_add=True)
     editado = models.DateTimeField(auto_now_add=True)
     

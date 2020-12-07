@@ -32,7 +32,7 @@ msgstr ""
 
 #: .\HistMat\templates\Apuntes\apuntes.html:67
 msgid "Tipo de archivo"
-msgstr ""
+msgstr "File type"
 
 #: .\HistMat\templates\Apuntes\apuntes.html:69
 msgid "Categoria"

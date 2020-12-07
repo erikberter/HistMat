@@ -8,6 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ApunteCreateForm
 from django.http import  HttpResponseRedirect
 from braces.views import UserPassesTestMixin
+
+import os
 # Create your views here.
 
 class ApuntesListView(ListView):
@@ -41,9 +43,11 @@ class ApunteCreateView(LoginRequiredMixin, CreateView):
     form_class = ApunteCreateForm
 
     def form_valid(self, form):
-        apunte = form.save()
+        apunte = form.save(commit = False)
         apunte.autor = self.request.user
-        
+        name, extension = os.path.splitext(apunte.documento.path)
+        apunte.tipo = extension
+        apunte.save()
         return HttpResponseRedirect(apunte.get_absolute_url())
 
     def get_form_kwargs(self, *args, **kwargs):

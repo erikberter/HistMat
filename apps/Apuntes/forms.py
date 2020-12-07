@@ -4,7 +4,7 @@ from apps.Apuntes.models import Apunte
 class ApunteCreateForm(ModelForm):
     class Meta:
         model = Apunte
-        fields = ['nombre', 'likes', 'paginas', 'documento', 'autor' , 'tamaño', 'thumbnail', 'categoria' , 'tipo']
+        fields = ['nombre', 'documento' , 'thumbnail', 'categoria' ]
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
