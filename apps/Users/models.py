@@ -58,6 +58,14 @@ class Profile(AbstractUser):
 
     def get_absolute_config_url(self):
         return reverse('users:user_config', kwargs={'pk': self.pk})
+    
+    def get_level_progress(self):
+        progress = (int)(self.xp / self.level*10)
+        print(progress)
+        return progress
+    
+    def get_level_max_xp(self):
+        return self.level*10
 
     def get_a_div(self):
         return "<a href='" + self.get_absolute_url() + "'>" + self.username + "</a>"

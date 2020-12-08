@@ -249,8 +249,10 @@
               <div class="col-sm-3">
                 <h6 class="mb-0">XP</h6>
               </div>
-              <div class="col-sm-9 text-secondary">
-                {{user_detail.xp}}
+              <div class="col-sm-9">
+                <div class="progress mb-3" style="height: 12px">
+                  <div class="progress-bar" style="width:{{user_detail.get_level_progress}}%">{{user_detail.xp}} / {{user_detail.get_level_max_xp}}</div>
+                </div>
               </div>
             </div>
           </div>
