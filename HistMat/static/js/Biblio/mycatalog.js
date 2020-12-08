@@ -2,9 +2,7 @@
  * **Summary**. Filtering data used during the *send_book_lookup_ajax* function.
  */
 var mycatalog_data = {
-    "search_query" : "",
     "book_state" : "",
-    "book_order" : "order-last-added"
 }
 
 /*
@@ -22,9 +20,7 @@ function send_book_lookup_ajax(){
         type: "POST",
         url: "/biblio/mycatalog",
         data: { 
-            search_query : mycatalog_data["search_query"],
             book_state : mycatalog_data["book_state"],
-            book_order : mycatalog_data["book_order"],
             csrfmiddlewaretoken: window.CSRF_TOKEN
         },
         success: function(result) {
@@ -107,16 +103,6 @@ $(document).ready(function() {
      */
     load_checked_filters();
     
-    /**
-     * **Summary**. KeyPress event listener for the enter key on the search bar.
-     */
-    $('#exampleFormControlInput1').keypress(function(e){
-        if(e.which == 13){
-            mycatalog_data["search_query"] =  $('#exampleFormControlInput1').val();
-            send_book_lookup_ajax();
-        }
-    });
-
     /**
      * **Summary**. On click listener for the filter menu toggle button.
      */

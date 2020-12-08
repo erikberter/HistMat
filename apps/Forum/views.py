@@ -28,6 +28,7 @@ def add_comment(request, pk):
         comment.user = request.user
         comment.post = post
         comment.save()
+        user_mechs.add_exp(request.user, 2)
     return redirect('forum:post_detail', pk=pk)
 
 class PostDetailView(DetailView):
@@ -55,6 +56,7 @@ class AddPostView(CreateView):
         post = form.save()
         post.user = self.request.user
         post.save()
+        user_mechs.add_exp(request.user, 5)
         return HttpResponseRedirect(post.get_absolute_url())
 
     success_url = reverse_lazy('forum:post_home')
@@ -67,4 +69,5 @@ def postUpvote(request, pk):
             post = Post.objects.get(pk=pk)
             post.likes += 1
             post.save()
+            user_mechs.add_exp(request.user, 1)
     return JsonResponse({'status':'Success', 'msg': 'save successfully'})

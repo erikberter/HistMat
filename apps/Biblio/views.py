@@ -29,6 +29,8 @@ from django.urls import reverse_lazy
 
 from braces.views import UserPassesTestMixin
 
+import apps.Users.mechanics as user_mechs
+
 #########################################
 #           Views Configuration         #
 #########################################
@@ -83,6 +85,7 @@ class BookCreateView(LoginRequiredMixin, CreateView):
         book_du = BookUserDetail.objects.create(book=book, user=self.request.user)
         book_du.save()
         book.save()
+        user_mechs.add_exp(request.user, 10)
         return HttpResponseRedirect(book.get_absolute_url())
 
     def get_form_kwargs(self, *args, **kwargs):
@@ -157,7 +160,7 @@ def book_state_change(request, slug):
         
         book_ud.book_state = new_book_state
         book_ud.save()
-
+        user_mechs.add_exp(request.user, 1)
         return JsonResponse(CORRECT_JSON_DICT)
         
 @require_POST
@@ -176,6 +179,9 @@ def book_page_change(request, slug):
 
         book_ud.act_page = new_act_page
         book_ud.save()
+
+        user_mechs.add_exp(request.user, 1)
+
         return JsonResponse(CORRECT_JSON_DICT)
 
 
@@ -186,48 +192,5 @@ def book_rate(request, slug):
         budetail = request.user.books_details.get(book = book)
         budetail.rating = int(request.POST.get("rating_v"))
         budetail.save()
+        user_mechs.add_exp(request.user, 2)
     return HttpResponseRedirect(book.get_absolute_url())
-
-from config.settings.settings import DEBUG
-
-if DEBUG:
-    import random
-    from .utils import get_random_string
-    from django.core.files import File  # you need this somewhere
-    import urllib.request
-    import os
-    from apps.Users.models import Profile
-
-    def add_random_book():
-        book_state_l = ['reading','want_to_read','read']
-        book_status = ['private','public']
-        book = Book()
-        book.title = get_random_string(15)
-        book.author = Author.objects.order_by('?')[0]
-        book.visibility = random.choice(book_status)
-        book.npages = random.randint(10,500)
-        book.save()
-        result = urllib.request.urlretrieve("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/action-thriller-book-cover-design-template-3675ae3e3ac7ee095fc793ab61b812cc_screen.jpg?ts=1588152105")
-        book.cover.save(os.path.basename("Algo"), File(open(result[0], 'rb')))
-        book_state = random.choice(book_state_l)
-        book_du = BookUserDetail.objects.create(book=book, user=Profile.objects.order_by('?')[0], book_state=book_state)
-        
-        book_du.save()
-        book.save()
-
-    def populate(request):
-        context = {}
-        book_state_l = ['reading','want_to_read','read']
-        book_status = ['private','public']
-        if request.method == 'POST':
-            n_author    = request.POST['n_author'] 
-            n_book      = request.POST['n_book']
-
-            same_user   = request.POST['same_user']
-            
-            for i in range(int(n_author)):
-                Author.objects.create(name= get_random_string(15))
-            for i in range(int(n_book)):
-                add_random_book()
-            return HttpResponseRedirect("mycatalog")
-        return render(request,'biblio/populate.html', context)

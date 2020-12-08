@@ -11,6 +11,9 @@ from django.http import  HttpResponseRedirect
 from braces.views import UserPassesTestMixin
 
 import os
+
+import apps.Users.mechanics as user_mechs
+
 # Create your views here.
 
 class ApuntesListView(ListView):
@@ -51,6 +54,7 @@ class ApunteCreateView(LoginRequiredMixin, CreateView):
         name, extension = os.path.splitext(apunte.documento.path)
         apunte.tipo = extension
         apunte.save()
+        user_mechs.add_exp(request.user, 10)
         return HttpResponseRedirect(apunte.get_absolute_url())
 
     def get_form_kwargs(self, *args, **kwargs):
@@ -61,7 +65,7 @@ class ApunteCreateView(LoginRequiredMixin, CreateView):
 
 class ApunteUpdateView(UserPassesTestMixin, UpdateView):
     model = Apunte
-    fields = ['nombre', 'likes', 'paginas', 'documento', 'autor' , 'tamaño', 'thumbnail', 'categoria' , 'tipo']
+    fields = ['nombre', 'paginas', 'documento', 'tamaño', 'thumbnail', 'categoria' , 'tipo']
     template_name = 'Apuntes/forms/apuntes_update.html'
 
     def test_func(self, user):

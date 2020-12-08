@@ -20,6 +20,3 @@ urlpatterns = [
     path('book_detail/<slug:slug>/page_change', views.book_page_change, name='book_page_change'),
     path('book_detail/<slug:slug>/rate', views.book_rate, name='book_rate'),
 ]
-
-if settings.DEBUG:
-    urlpatterns += [path('populate', views.populate, name='populate')]

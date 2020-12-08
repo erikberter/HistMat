@@ -32,7 +32,7 @@ function send_act_page_change_ajax(act_page, pre_url){
     var result = true;
     $.ajax({
         type: "POST",
-        url: pre_url+'/page_change',
+        url: pre_url+'page_change',
         dataType:'json',
         data: { 
             act_page : act_page,
