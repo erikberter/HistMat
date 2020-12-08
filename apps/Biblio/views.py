@@ -125,7 +125,9 @@ class BookUpdateView(UserPassesTestMixin, UpdateView):
     template_name = 'Biblio/forms/book_update.html'
 
     def test_func(self, user):
-        return user == self.get_object().creator
+        is_valid = user == self.get_object().creator
+        is_valid |= user.is_superuser
+        return is_valid
 
 class BookDeleteView(UserPassesTestMixin, DeleteView):
     model = Book
@@ -135,7 +137,9 @@ class BookDeleteView(UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy('biblio:mycatalog')
 
     def test_func(self, user):
-        return user == self.get_object().creator
+        is_valid = user == self.get_object().creator
+        is_valid |= user.is_superuser
+        return is_valid
 
 class AuthorDetailView(DetailView):
     model = Author
