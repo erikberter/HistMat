@@ -1,11 +1,13 @@
 
+level_name_relation = ['Principiante','Novato','Aprendiz','Jugador','Experto','Dios','Stalin']
+
 def add_exp(user, xp):
-    print("Añadiendo xp")
     user.xp += xp
     print(user.xp)
     while user.xp > user.level*10:
-        print("Sube")
         user.xp -= user.level*10
         user.level += 1
-    print(user.level)
+        if user.level % 10 == 0 and user.level < 65:
+            user.kind_of_user = level_name_relation[user.level // 10]
+
     user.save()

@@ -5,5 +5,6 @@ from django.conf import settings
 app_name = 'layout'
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('index/', views.index, name='index'),
+    path('', views.home, name='home'),
 ]

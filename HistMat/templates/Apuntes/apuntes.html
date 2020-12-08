@@ -58,10 +58,10 @@
 					</a>, {{ apunte.creado }}
 				</p>
 				<p class="card-text">
-					{% trans 'Tamaño del archivo' %}: {{ apunte.documento.size }}
+					{% trans 'Tamanio del archivo' %}: {{ apunte.documento.size }}
 				</p>
 				<p class="card-text">
-					{% trans 'Número de páginas' %}: {{ apunte.paginas }}
+					{% trans 'Numero de paginas' %}: {{ apunte.paginas }}
 				</p>
 				<p class="card-text">
 					{% trans 'Tipo de archivo' %}: {{ apunte.tipo }}
@@ -79,7 +79,7 @@
 	
 	{% endfor%}
 	<ul class="pagination">
-		{% trans 'Página: '%}
+		{% trans 'Pagina: '%}
 		{% if page_obj.has_previous %}
 			<li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
 		{% endif %}

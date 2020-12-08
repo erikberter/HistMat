@@ -19,7 +19,7 @@
         var fab = new Vue({
             el: '#fab-container',
             data: {
-                update_url: "{% url 'biblio:book_update' book.slug%}"
+                update_url: "{% url 'biblio:book_update' book.slug %}"
             },
             methods: {
                 fab_action: function (event) {
@@ -119,7 +119,7 @@
                     </div>
                     <div class="d-flex justify-content-center">
                         {% if rating.total%}
-                            <span >El libro tiene una puntuación de {{ rating.total }}.</span>
+                            <span >El libro tiene una puntuacinon de {{ rating.total }}.</span>
                         {% else %}
                             <span>Este libro nunca se ha valorado</span>
                         {% endif %}
@@ -130,17 +130,17 @@
                     {% if  user.is_authenticated %}
                         {% if has_book %}
                             <div class="d-flex justify-content-center">
-                                <h4>Página actual</h4> 
+                                <h4>Pagina actual</h4> 
                             </div>
                             <div class="d-flex justify-content-center">
                                 <h6 id="act-page">{{act_page}}</h6>
                             </div>
                             <hr>
                             <div class="d-flex justify-content-center">
-                                <p>¿Has leido más páginas?</p>
+                                <p>Has leido mas paginas?</p>
                             </div>
 
-                            <input id="set-act-page" class="form-control" type="input" b_slug = "{{book.slug}}" placeholder="Pulsa enter para actualizar el número">
+                            <input id="set-act-page" class="form-control" type="input" b_slug = "{{book.slug}}" placeholder="Pulsa enter para actualizar el numero">
                         {% else %}
                             <p>You should consider adding this book to be able to track your progess!</p>
                         {% endif %}
@@ -155,7 +155,6 @@
         </div>
     </div>    
 </div>
-<p> {{ request.user.is_superuser }} </p>
 {% if book.creator == request.user or request.user.is_superuser == True%}
     {% include 'widgets/fab.html' with icon="fa-cog"%}
 {% endif %}

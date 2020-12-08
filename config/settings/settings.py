@@ -57,9 +57,10 @@ INSTALLED_APPS = [
     'apps.Layout',
     'apps.Apuntes',
     'apps.Forum',
+    'apps.Blog',
     
     'bootstrap4',
-    'django_static_jquery_ui',
+    'jquery_ui',
     'autoslug',
     'taggit',
     'crispy_forms',
@@ -172,6 +173,11 @@ USE_TZ = True
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale')
+]
+
+LANGUAGES = [
+   ('eu', 'Euskera'),
+   ('en', 'English'),
 ]
 
 

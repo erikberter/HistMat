@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('likes', models.IntegerField()),
                 ('paginas', models.IntegerField()),
                 ('documento', models.FileField(upload_to='apuntes/docu/img')),
-                ('tamaño', models.IntegerField()),
+                ('tamanio', models.IntegerField()),
                 ('thumbnail', models.ImageField(blank=True, null=True, upload_to='apuntes/docu/img/')),
                 ('tipo', models.CharField(max_length=80)),
                 ('creado', models.DateTimeField(auto_now_add=True)),

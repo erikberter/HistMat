@@ -5,21 +5,6 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
 
-
-
-# Create your models here.
-'''
-class User(models.Model):
-    username = models.CharField(max_length=40, default = "")
-    name = models.CharField(max_length=40, default = "")
-    surname = models.CharField(max_length=60, default = "")
-
-    def get_absolute_url(self):
-        return reverse('user_detail', args=[self.pk])
-'''
-
-
-
 class Achievement(models.Model):
     name = models.CharField(max_length=40, default = "")
     achievement_image = models.ImageField(upload_to='media/model/img/achievements/', blank=True, null=True)
@@ -53,12 +38,14 @@ class Profile(AbstractUser):
     country = models.CharField(max_length=40, default = "", blank=True)
     city = models.CharField(max_length=40, default = "", blank=True)
     born_date = models.DateField(default=timezone.now)
+
     #--------------------SOCIAL------------------------------
     website = models.CharField(max_length=40, default = "", null=True, blank=True)
     github = models.CharField(max_length=40, default = "",  null=True, blank=True)
     instagram = models.CharField(max_length=40, default = "",  null=True, blank=True)
     twitter = models.CharField(max_length=40, default = "", null=True, blank=True)
     facebook = models.CharField(max_length=40, default = "",  null=True, blank=True)
+
     #--------------------LEVEL------------------------------
     level = models.IntegerField(default=1)
     xp = models.BigIntegerField(default=0)
@@ -72,7 +59,8 @@ class Profile(AbstractUser):
     def get_absolute_config_url(self):
         return reverse('users:user_config', kwargs={'pk': self.pk})
 
-
+    def get_a_div(self):
+        return "<a href='" + self.get_absolute_url() + "'>" + self.username + "</a>"
 
 class ProfileStats(models.Model):
     user = models.ForeignKey('profile', on_delete=models.CASCADE, related_name='user_stats', default=1)

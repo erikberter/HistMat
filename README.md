@@ -3,9 +3,9 @@
 Para logearse con admin.
 
 Usuario: whiwho
-Contraseña: 12345
+Contrasenia: 12345
 
-El home lo vamos a cambiar, pero esta gracioso de mientras. Nos falta mucha funcionalidad, pero porque deriva más de javascript
+El home lo vamos a cambiar, pero esta gracioso de mientras. Nos falta mucha funcionalidad, pero porque deriva mas de javascript
 
 ## Paginas Web Interesantes
 

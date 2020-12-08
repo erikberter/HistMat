@@ -1,6 +1,6 @@
 from django.db import models
 
-# Esta copiada y pegada ya que no es algo muy importante y es facil de implementar per sé
+# Esta copiada y pegada ya que no es algo muy importante y es facil de implementar per se
 # https://stackoverflow.com/questions/849142/how-to-limit-the-maximum-value-of-a-numeric-field-in-a-django-model
 class IntegerRangeField(models.IntegerField):
     def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):

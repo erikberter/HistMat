@@ -13,6 +13,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.paginator import Paginator
 
 
+import apps.Users.mechanics as user_mechs
+
 class PostHomeView(ListView):
     model = Post
     context_object_name = 'posts'
@@ -56,7 +58,7 @@ class AddPostView(CreateView):
         post = form.save()
         post.user = self.request.user
         post.save()
-        user_mechs.add_exp(request.user, 5)
+        user_mechs.add_exp(self.request.user, 5)
         return HttpResponseRedirect(post.get_absolute_url())
 
     success_url = reverse_lazy('forum:post_home')

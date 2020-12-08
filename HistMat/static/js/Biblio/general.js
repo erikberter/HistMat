@@ -5,6 +5,7 @@
  * @param {string} book_slug 
  */
 function send_book_state_change_ajax(book_state, book_slug){
+    let book_state_s = book_state;
     $.ajax({
         type: "post",
         url: '/es/biblio/book_detail/'+book_slug+'/state_change',
@@ -14,7 +15,10 @@ function send_book_state_change_ajax(book_state, book_slug){
             csrfmiddlewaretoken: window.CSRF_TOKEN,
         },
         success: function(result){
-            $('#book_state_button').empty().append(book_state);
+            $("#book_state_dropdown > option").each(function(){
+                if($(this).val() == book_act_state)
+                    $(this).attr("selected","selected");
+            });
         },
         error: function(result) {
             alert('error');

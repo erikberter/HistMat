@@ -1,9 +1,16 @@
 {% load i18n %}
 <nav class="navbar navbar-expand-md navbar-light m-0 shadow">
     <div class="d-flex" id="navbar-logo">
+        {% if user.is_authenticated%}
+        <a href="{% url 'layout:home'%}" class="navbar-brand font-weight-bold" style ="font-size: 2.5rem;">
+            HistMat
+        </a>
+        {% else %}
         <a href="{% url 'layout:index'%}" class="navbar-brand font-weight-bold" style ="font-size: 2.5rem;">
             HistMat
         </a>
+        {% endif %}
+        
     </div>
     
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-url" aria-controls="navbar-url" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +53,7 @@
         
         {% else %}
             <a class=" nav-item nav-link" href="{% url 'social:begin' 'google-oauth2' %}">
-                {% trans 'Inicio de Sesión' %}
+                {% trans 'Inicio de Sesinon' %}
             </a>
         {% endif %}
     </div>

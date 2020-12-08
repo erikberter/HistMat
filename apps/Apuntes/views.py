@@ -65,7 +65,7 @@ class ApunteCreateView(LoginRequiredMixin, CreateView):
 
 class ApunteUpdateView(UserPassesTestMixin, UpdateView):
     model = Apunte
-    fields = ['nombre', 'paginas', 'documento', 'tamaño', 'thumbnail', 'categoria' , 'tipo']
+    fields = ['nombre', 'paginas', 'documento',  'thumbnail', 'categoria' , 'tipo']
     template_name = 'Apuntes/forms/apuntes_update.html'
 
     def test_func(self, user):

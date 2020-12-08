@@ -30,7 +30,7 @@ from django.urls import reverse_lazy
 from braces.views import UserPassesTestMixin
 
 import apps.Users.mechanics as user_mechs
-
+from apps.Blog.models import *
 #########################################
 #           Views Configuration         #
 #########################################
@@ -85,7 +85,10 @@ class BookCreateView(LoginRequiredMixin, CreateView):
         book_du = BookUserDetail.objects.create(book=book, user=self.request.user)
         book_du.save()
         book.save()
-        user_mechs.add_exp(request.user, 10)
+
+        user_mechs.add_exp(self.request.user, 10)
+        ActionBookAdd.objects.create(autor = self.request.user, book = book)
+
         return HttpResponseRedirect(book.get_absolute_url())
 
     def get_form_kwargs(self, *args, **kwargs):
@@ -161,6 +164,7 @@ def book_state_change(request, slug):
         book_ud.book_state = new_book_state
         book_ud.save()
         user_mechs.add_exp(request.user, 1)
+        
         return JsonResponse(CORRECT_JSON_DICT)
         
 @require_POST
@@ -181,6 +185,7 @@ def book_page_change(request, slug):
         book_ud.save()
 
         user_mechs.add_exp(request.user, 1)
+        ActionBookPageChange.objects.create(autor = request.user, book = book, page=new_act_page)
 
         return JsonResponse(CORRECT_JSON_DICT)
 
@@ -193,4 +198,6 @@ def book_rate(request, slug):
         budetail.rating = int(request.POST.get("rating_v"))
         budetail.save()
         user_mechs.add_exp(request.user, 2)
+        ActionBookRate.objects.create(autor = request.user, book = book, valoracion=budetail.rating)
+
     return HttpResponseRedirect(book.get_absolute_url())

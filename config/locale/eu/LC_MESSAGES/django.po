@@ -1,298 +1,326 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-04 10:47+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
 #: .\HistMat\templates\Apuntes\apuntes.html:56
 msgid "Creado por"
-msgstr ""
+msgstr "Egilea: " 
 
 #: .\HistMat\templates\Apuntes\apuntes.html:61
-msgid "Tamaño del archivo"
-msgstr ""
+#, fuzzy
+#| msgid "Tamao del archivo"
+msgid "Tamanio del archivo"
+msgstr "Fitxategiaren tamaina " 
 
 #: .\HistMat\templates\Apuntes\apuntes.html:64
-msgid "Número de páginas"
-msgstr ""
+#, fuzzy
+#| msgid "Nmero de pginas"
+msgid "Numero de paginas"
+msgstr "Orrialde kopurua " 
 
 #: .\HistMat\templates\Apuntes\apuntes.html:67
 msgid "Tipo de archivo"
-msgstr ""
+msgstr "Fitxategi mota " 
 
 #: .\HistMat\templates\Apuntes\apuntes.html:69
 msgid "Categoria"
-msgstr ""
+msgstr "Kategoria " 
 
 #: .\HistMat\templates\Apuntes\apuntes.html:73
-#: .\HistMat\templates\Biblio\_book.html:55
+#: .\HistMat\templates\Biblio\_books_no_ul.html:56
 msgid "Ninguna"
-msgstr ""
+msgstr "Bat ere ez " 
+
+#: .\HistMat\templates\Apuntes\apuntes.html:82
+#, fuzzy
+#| msgid "Pgina: "
+msgid "Pagina: "
+msgstr "Orrialdea: " 
 
 #: .\HistMat\templates\Apuntes\forms\apuntes_update.html:11
 #: .\HistMat\templates\Biblio\forms\book_update.html:10
 msgid "Borrar"
-msgstr ""
+msgstr "Ezabatu " 
 
-#: .\HistMat\templates\Biblio\_book.html:19
+#: .\HistMat\templates\Biblio\_books_no_ul.html:20
 msgid "Archivo"
-msgstr ""
+msgstr "Artxiboa " 
 
-#: .\HistMat\templates\Biblio\_book.html:25
+#: .\HistMat\templates\Biblio\_books_no_ul.html:26
 msgid "Sin Archivo"
-msgstr ""
+msgstr "Ez dago fitxategirik " 
 
-#: .\HistMat\templates\Biblio\_book.html:30
+#: .\HistMat\templates\Biblio\_books_no_ul.html:31
 msgid "Detalles"
-msgstr ""
+msgstr "Xehetasunak " 
 
-#: .\HistMat\templates\Biblio\_book.html:43
+#: .\HistMat\templates\Biblio\_books_no_ul.html:44
 msgid "Por"
-msgstr ""
+msgstr "By " 
+
+#: .\HistMat\templates\Biblio\_books_no_ul.html:64
+#, fuzzy
+#| msgid "Todavia no hay libros aadidos"
+msgid "Todavia no hay libros aniadidos"
+msgstr "Oraindik ez da libururik gehitu " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:5
 msgid "Filtros de Catalogo"
-msgstr ""
+msgstr "Katalogoko iragazkiak " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:10
 msgid "Buscar"
-msgstr ""
+msgstr "Bilatu " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:12
-msgid "¿Que estas buscando?"
-msgstr ""
+#, fuzzy
+#| msgid "Que estas buscando?"
+msgid "Que estas buscando?"
+msgstr "Zer ari zara bilatzen? " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:19
 msgid "Filtro de Estado"
-msgstr ""
+msgstr "Egoera iragazkia " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:26
 msgid "A leer"
-msgstr ""
+msgstr "Irakurri " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:31
 msgid "Leyendo"
-msgstr ""
+msgstr "Irakurketa " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:36
 msgid "Leido"
-msgstr ""
+msgstr "Irakurri " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:51
-msgid "Ultimo añadido"
-msgstr ""
+#, fuzzy
+#| msgid "Ultimo aadido"
+msgid "Ultimo aniadido"
+msgstr "Gehitutako azkena " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:55
-msgid "Primero añadido"
-msgstr ""
+#, fuzzy
+#| msgid "Primero aadido"
+msgid "Primero aniadido"
+msgstr "Lehenik eta behin gehitu " 
 
 #: .\HistMat\templates\Biblio\catalog.html:22
-msgid "Catalogo Público"
-msgstr ""
+#, fuzzy
+#| msgid "Catalogo Pblico"
+msgid "Catalogo Publico"
+msgstr "Katalogo publikoa " 
 
 #: .\HistMat\templates\Biblio\catalog.html:33
+#: .\HistMat\templates\Forum\post_home.html:92
 msgid "Cargando"
-msgstr ""
+msgstr "Kargatzen " 
 
-#: .\HistMat\templates\Biblio\forms\book_create.html:8
+#: .\HistMat\templates\Biblio\forms\book_create.html:10
 msgid "Enviar"
-msgstr ""
+msgstr "Bidali " 
 
 #: .\HistMat\templates\Biblio\forms\book_delete.html:9
-msgid "¿Estas seguro de querer eliminar"
-msgstr ""
+#, fuzzy
+#| msgid "Estas seguro de querer eliminar"
+msgid "Estas seguro de querer eliminar"
+msgstr "Ziur zaude ezabatu nahi duzula " 
 
 #: .\HistMat\templates\Forum\forms\add_post.html:4
-msgid "Añadir post"
-msgstr ""
+#, fuzzy
+#| msgid "Aadir post"
+msgid "Aniadir post"
+msgstr "Gehitu mezua " 
 
 #: .\HistMat\templates\Forum\forms\add_post.html:8
-msgid "Añadir post al foro"
-msgstr ""
+#, fuzzy
+#| msgid "Aadir post al foro"
+msgid "Aniadir post al foro"
+msgstr "Gehitu mezua foroan " 
 
 #: .\HistMat\templates\Forum\forms\add_post.html:14
 msgid "Anador post"
-msgstr ""
+msgstr "Anador mezua " 
 
 #: .\HistMat\templates\Forum\post_detail.html:11
-#: .\HistMat\templates\Forum\post_home.html:55
+#: .\HistMat\templates\Forum\post_home.html:62
 msgid "Enviado por"
-msgstr ""
+msgstr "Bidalita " 
 
 #: .\HistMat\templates\Forum\post_detail.html:19
-#: .\HistMat\templates\Forum\post_home.html:67
+#: .\HistMat\templates\Forum\post_home.html:74
 msgid "Sin Imagen"
-msgstr ""
+msgstr "Irudirik gabe " 
 
 #: .\HistMat\templates\Forum\post_detail.html:21
 msgid "Comentarios"
-msgstr ""
+msgstr "Iruzkinak " 
 
 #: .\HistMat\templates\Forum\post_detail.html:30
 msgid "Enviar Comentario"
-msgstr ""
+msgstr "Bidali iruzkina " 
 
 #: .\HistMat\templates\Forum\post_detail.html:41
 msgid "No hay comentarios todavia..."
-msgstr ""
+msgstr "Oraindik ez dago iruzkinik ... " 
 
 #: .\HistMat\templates\Users\_user_menu.html:25
 msgid "Perfil"
-msgstr ""
+msgstr "Profila " 
 
 #: .\HistMat\templates\Users\_user_menu.html:29
-msgid "Configuración"
-msgstr ""
+#, fuzzy
+#| msgid "Configuracin"
+msgid "Configuracinon"
+msgstr "Konfigurazioa " 
 
 #: .\HistMat\templates\Users\_user_menu.html:33
-msgid "Cerrar Sesión"
-msgstr ""
+#, fuzzy
+#| msgid "Cerrar Sesin"
+msgid "Cerrar Sesinon"
+msgstr "Saioa itxi " 
 
 #: .\HistMat\templates\Users\achievement_list.html:16
 msgid "Todos los logros"
-msgstr ""
+msgstr "Lorpen guztiak " 
 
 #: .\HistMat\templates\Users\achievement_list.html:37
-#: .\HistMat\templates\Users\user_detail.html:273
+#: .\HistMat\templates\Users\user_detail.html:280
 msgid "No hay Logros"
-msgstr ""
+msgstr "Lorpenik ez " 
 
 #: .\HistMat\templates\Users\profile_update_form.html:5
 msgid "Ajustar Usuario"
-msgstr ""
+msgstr "Ezarri erabiltzailea " 
 
 #: .\HistMat\templates\Users\profile_update_form.html:74
 msgid "Eliminar Perfil"
-msgstr ""
+msgstr "Ezabatu profila " 
 
 #: .\HistMat\templates\Users\user_detail.html:32
 msgid "Se unio a HistMat el"
-msgstr ""
+msgstr "HistMat-en sartu zen " 
 
 #: .\HistMat\templates\Users\user_detail.html:35
+#: .\HistMat\templates\Users\user_detail.html:41
 msgid "Editar Perfil"
-msgstr ""
+msgstr "Editatu profila " 
 
-#: .\HistMat\templates\Users\user_detail.html:40
+#: .\HistMat\templates\Users\user_detail.html:46
 msgid "No Seguir"
-msgstr ""
+msgstr "Ez jarraitzeko " 
 
-#: .\HistMat\templates\Users\user_detail.html:44
+#: .\HistMat\templates\Users\user_detail.html:50
 msgid "Seguir"
-msgstr ""
+msgstr "Jarraitu " 
 
-#: .\HistMat\templates\Users\user_detail.html:65
+#: .\HistMat\templates\Users\user_detail.html:71
 msgid "Website"
-msgstr ""
+msgstr "Webgunea " 
 
-#: .\HistMat\templates\Users\user_detail.html:133
+#: .\HistMat\templates\Users\user_detail.html:139
+#, fuzzy
+#| msgid ""
+#| "Todavia no has aadido ninguna web o red social, si deseas hacerlo accede "
+#| "a la configuracion de tu perfil"
 msgid ""
-"Todavia no has añadido ninguna web o red social, si deseas hacerlo accede a "
+"Todavia no has aniadido ninguna web o red social, si deseas hacerlo accede a "
 "la configuracion de tu perfil"
-msgstr ""
+msgstr "" 
 
-#: .\HistMat\templates\Users\user_detail.html:135
-msgid "Este usuario no ha añadido ninguna web o red social"
-msgstr ""
+#: .\HistMat\templates\Users\user_detail.html:141
+#, fuzzy
+#| msgid "Este usuario no ha aadido ninguna web o red social"
+msgid "Este usuario no ha aniadido ninguna web o red social"
+msgstr "Erabiltzaile honek ez du webgunerik edo sare sozialik gehitu " 
 
-#: .\HistMat\templates\Users\user_detail.html:180
+#: .\HistMat\templates\Users\user_detail.html:187
 msgid "No sigues a ningun usuario"
-msgstr ""
+msgstr "Ez duzu inolako erabiltzailerik jarraitzen " 
 
-#: .\HistMat\templates\Users\user_detail.html:184
-msgid "Este usuario no tiene ningun amigo añadido"
-msgstr ""
+#: .\HistMat\templates\Users\user_detail.html:191
+#, fuzzy
+#| msgid "Este usuario no tiene ningun amigo aadido"
+msgid "Este usuario no tiene ningun amigo aniadido"
+msgstr "Erabiltzaile honek ez du lagunik gehitu " 
 
-#: .\HistMat\templates\Users\user_detail.html:193
+#: .\HistMat\templates\Users\user_detail.html:200
 msgid "Ver lista amigos"
-msgstr ""
+msgstr "Ikusi lagunen zerrenda " 
 
-#: .\HistMat\templates\Users\user_detail.html:207
+#: .\HistMat\templates\Users\user_detail.html:214
 msgid "Nombre completo"
-msgstr ""
+msgstr "Izen osoa " 
 
-#: .\HistMat\templates\Users\user_detail.html:225
+#: .\HistMat\templates\Users\user_detail.html:232
 msgid "Ciudad / Pais"
-msgstr ""
+msgstr "Hiria Herrialdea " 
 
-#: .\HistMat\templates\Users\user_detail.html:234
+#: .\HistMat\templates\Users\user_detail.html:241
 msgid "Centro de Estudios"
-msgstr ""
+msgstr "Ikasketa Zentroa " 
 
-#: .\HistMat\templates\Users\user_detail.html:256
+#: .\HistMat\templates\Users\user_detail.html:263
 msgid "Logros cercanos"
-msgstr ""
+msgstr "Lorpen estuak " 
 
-#: .\HistMat\templates\Users\user_detail.html:278
+#: .\HistMat\templates\Users\user_detail.html:285
 msgid "Ir a logros"
-msgstr ""
+msgstr "Lorpenetara joan " 
 
 #: .\HistMat\templates\Users\user_list.html:17
 msgid "Busqueda de Usuarios"
-msgstr ""
+msgstr "Erabiltzaile Bilaketa " 
 
 #: .\HistMat\templates\Users\user_list.html:19
 msgid "Todos los amigos"
-msgstr ""
+msgstr "Lagun guztiak " 
 
 #: .\HistMat\templates\Users\user_list.html:45
 msgid "Nombre de usuario / Nivel"
-msgstr ""
+msgstr "Erabiltzaile izena / Maila " 
 
 #: .\HistMat\templates\Users\user_list.html:53
 msgid "Centro de estudios"
-msgstr ""
+msgstr "Ikasketa zentroa " 
 
 #: .\HistMat\templates\Users\user_list.html:61
 msgid "Pais / Ciudad"
-msgstr ""
+msgstr "Herriko Hiria " 
 
 #: .\HistMat\templates\Users\user_list.html:70
 msgid "Visitar perfil"
-msgstr ""
+msgstr "Bisitatu profila " 
 
 #: .\HistMat\templates\Users\user_list.html:78
 msgid "Todavia no sigues a ningun usuario"
-msgstr ""
+msgstr "Oraindik ez duzu inolako erabiltzailerik jarraitzen " 
 
-#: .\HistMat\templates\_navbar.html:16
+#: .\HistMat\templates\_navbar.html:23
 msgid "Catalogo"
-msgstr ""
+msgstr "Katalogoa " 
 
-#: .\HistMat\templates\_navbar.html:22
+#: .\HistMat\templates\_navbar.html:29
 msgid "Mis Libros"
-msgstr ""
+msgstr "Nire liburuak " 
 
-#: .\HistMat\templates\_navbar.html:28
+#: .\HistMat\templates\_navbar.html:35
 msgid "Foro"
-msgstr ""
+msgstr "Foroa " 
 
-#: .\HistMat\templates\_navbar.html:33
+#: .\HistMat\templates\_navbar.html:40
 msgid "Apuntes"
-msgstr ""
+msgstr "Oharrak " 
 
-#: .\HistMat\templates\_navbar.html:49
-msgid "Inicio de Sesión"
-msgstr ""
+#: .\HistMat\templates\_navbar.html:56
+#, fuzzy
+#| msgid "Inicio de Sesin"
+msgid "Inicio de Sesinon"
+msgstr "Saioa hasi " 
 
-#: .\HistMat\templates\home.html:14
+#: .\HistMat\templates\index.html:13
 msgid "Bienvenido a HistMat"
-msgstr ""
+msgstr "Ongi etorri HistMat-era " 
 
-#: .\HistMat\templates\home.html:19
-msgid "La página web del futuro, para el alumno del presente"
-msgstr ""
+#: .\HistMat\templates\index.html:18
+#, fuzzy
+#| msgid "La pgina web del futuro, para el alumno del presente"
+msgid "La pagina web del futuro, para el alumno del presente"
+msgstr "Etorkizuneko webgunea, oraingo ikaslearentzat " 

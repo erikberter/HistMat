@@ -1,296 +1,322 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-03 21:42+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
 #: .\HistMat\templates\Apuntes\apuntes.html:56
 msgid "Creado por"
-msgstr ""
+msgstr "Created by " 
 
 #: .\HistMat\templates\Apuntes\apuntes.html:61
-msgid "Tamaño del archivo"
-msgstr ""
+#, fuzzy
+#| msgid "Tamao del archivo"
+msgid "Tamanio del archivo"
+msgstr "File size " 
 
 #: .\HistMat\templates\Apuntes\apuntes.html:64
-msgid "Número de páginas"
-msgstr ""
+#, fuzzy
+#| msgid "Nmero de pginas"
+msgid "Numero de paginas"
+msgstr "Number of pages " 
 
 #: .\HistMat\templates\Apuntes\apuntes.html:67
 msgid "Tipo de archivo"
-msgstr "File type"
+msgstr "Type of file " 
 
 #: .\HistMat\templates\Apuntes\apuntes.html:69
 msgid "Categoria"
-msgstr ""
+msgstr "Category " 
 
 #: .\HistMat\templates\Apuntes\apuntes.html:73
-#: .\HistMat\templates\Biblio\_book.html:55
+#: .\HistMat\templates\Biblio\_books_no_ul.html:56
 msgid "Ninguna"
-msgstr ""
+msgstr "None " 
+
+#: .\HistMat\templates\Apuntes\apuntes.html:82
+#, fuzzy
+#| msgid "Pgina: "
+msgid "Pagina: "
+msgstr "Page: " 
 
 #: .\HistMat\templates\Apuntes\forms\apuntes_update.html:11
 #: .\HistMat\templates\Biblio\forms\book_update.html:10
 msgid "Borrar"
-msgstr ""
+msgstr "Delete " 
 
-#: .\HistMat\templates\Biblio\_book.html:19
+#: .\HistMat\templates\Biblio\_books_no_ul.html:20
 msgid "Archivo"
-msgstr ""
+msgstr "Archive " 
 
-#: .\HistMat\templates\Biblio\_book.html:25
+#: .\HistMat\templates\Biblio\_books_no_ul.html:26
 msgid "Sin Archivo"
-msgstr ""
+msgstr "No File " 
 
-#: .\HistMat\templates\Biblio\_book.html:30
+#: .\HistMat\templates\Biblio\_books_no_ul.html:31
 msgid "Detalles"
-msgstr ""
+msgstr "Details " 
 
-#: .\HistMat\templates\Biblio\_book.html:43
+#: .\HistMat\templates\Biblio\_books_no_ul.html:44
 msgid "Por"
-msgstr ""
+msgstr "By " 
+
+#: .\HistMat\templates\Biblio\_books_no_ul.html:64
+#, fuzzy
+#| msgid "Todavia no hay libros aadidos"
+msgid "Todavia no hay libros aniadidos"
+msgstr "There are no books added yet " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:5
 msgid "Filtros de Catalogo"
-msgstr ""
+msgstr "Catalog Filters " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:10
 msgid "Buscar"
-msgstr ""
+msgstr "Search " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:12
-msgid "¿Que estas buscando?"
-msgstr ""
+msgid "Que estas buscando?"
+msgstr "What are you looking for? " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:19
 msgid "Filtro de Estado"
-msgstr ""
+msgstr "Status Filter " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:26
 msgid "A leer"
-msgstr ""
+msgstr "To read " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:31
 msgid "Leyendo"
-msgstr ""
+msgstr "Reading " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:36
 msgid "Leido"
-msgstr ""
+msgstr "Read " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:51
-msgid "Ultimo añadido"
-msgstr ""
+#, fuzzy
+#| msgid "Ultimo aadido"
+msgid "Ultimo aniadido"
+msgstr "Last added " 
 
 #: .\HistMat\templates\Biblio\_filter_sidebar.html:55
-msgid "Primero añadido"
-msgstr ""
+#, fuzzy
+#| msgid "Primero aadido"
+msgid "Primero aniadido"
+msgstr "First added " 
 
 #: .\HistMat\templates\Biblio\catalog.html:22
-msgid "Catalogo Público"
-msgstr ""
+#, fuzzy
+#| msgid "Catalogo Pblico"
+msgid "Catalogo Publico"
+msgstr "Public Catalog " 
 
 #: .\HistMat\templates\Biblio\catalog.html:33
+#: .\HistMat\templates\Forum\post_home.html:92
 msgid "Cargando"
-msgstr ""
+msgstr "Loading " 
 
-#: .\HistMat\templates\Biblio\forms\book_create.html:8
+#: .\HistMat\templates\Biblio\forms\book_create.html:10
 msgid "Enviar"
-msgstr ""
+msgstr "Send " 
 
 #: .\HistMat\templates\Biblio\forms\book_delete.html:9
-msgid "¿Estas seguro de querer eliminar"
-msgstr ""
+msgid "Estas seguro de querer eliminar"
+msgstr "Are you sure you want to delete " 
 
 #: .\HistMat\templates\Forum\forms\add_post.html:4
-msgid "Añadir post"
-msgstr ""
+#, fuzzy
+#| msgid "Aadir post"
+msgid "Aniadir post"
+msgstr "Add post " 
 
 #: .\HistMat\templates\Forum\forms\add_post.html:8
-msgid "Añadir post al foro"
-msgstr ""
+#, fuzzy
+#| msgid "Aadir post al foro"
+msgid "Aniadir post al foro"
+msgstr "Add post in forum " 
 
 #: .\HistMat\templates\Forum\forms\add_post.html:14
 msgid "Anador post"
-msgstr ""
+msgstr "Anador post " 
 
 #: .\HistMat\templates\Forum\post_detail.html:11
-#: .\HistMat\templates\Forum\post_home.html:55
+#: .\HistMat\templates\Forum\post_home.html:62
 msgid "Enviado por"
-msgstr ""
+msgstr "Sent by " 
 
 #: .\HistMat\templates\Forum\post_detail.html:19
-#: .\HistMat\templates\Forum\post_home.html:67
+#: .\HistMat\templates\Forum\post_home.html:74
 msgid "Sin Imagen"
-msgstr ""
+msgstr "Without image " 
 
 #: .\HistMat\templates\Forum\post_detail.html:21
 msgid "Comentarios"
-msgstr ""
+msgstr "Comments " 
 
 #: .\HistMat\templates\Forum\post_detail.html:30
 msgid "Enviar Comentario"
-msgstr ""
+msgstr "Send comment " 
 
 #: .\HistMat\templates\Forum\post_detail.html:41
 msgid "No hay comentarios todavia..."
-msgstr ""
+msgstr "No comments yet ... " 
 
 #: .\HistMat\templates\Users\_user_menu.html:25
 msgid "Perfil"
-msgstr ""
+msgstr "Profile " 
 
 #: .\HistMat\templates\Users\_user_menu.html:29
-msgid "Configuración"
-msgstr ""
+#, fuzzy
+#| msgid "Configuracin"
+msgid "Configuracinon"
+msgstr "Configuration " 
 
 #: .\HistMat\templates\Users\_user_menu.html:33
-msgid "Cerrar Sesión"
-msgstr ""
+#, fuzzy
+#| msgid "Cerrar Sesin"
+msgid "Cerrar Sesinon"
+msgstr "Sign off " 
 
 #: .\HistMat\templates\Users\achievement_list.html:16
 msgid "Todos los logros"
-msgstr ""
+msgstr "All achievements " 
 
 #: .\HistMat\templates\Users\achievement_list.html:37
-#: .\HistMat\templates\Users\user_detail.html:273
+#: .\HistMat\templates\Users\user_detail.html:280
 msgid "No hay Logros"
-msgstr ""
+msgstr "No Achievements " 
 
 #: .\HistMat\templates\Users\profile_update_form.html:5
 msgid "Ajustar Usuario"
-msgstr ""
+msgstr "Set User " 
 
 #: .\HistMat\templates\Users\profile_update_form.html:74
 msgid "Eliminar Perfil"
-msgstr ""
+msgstr "Delete Profile " 
 
 #: .\HistMat\templates\Users\user_detail.html:32
-#, fuzzy
-#| msgid "Bienvenido a HistMat"
 msgid "Se unio a HistMat el"
-msgstr "Welcome to  HistMat"
+msgstr "He joined HistMat on " 
 
 #: .\HistMat\templates\Users\user_detail.html:35
+#: .\HistMat\templates\Users\user_detail.html:41
 msgid "Editar Perfil"
-msgstr ""
+msgstr "Edit profile " 
 
-#: .\HistMat\templates\Users\user_detail.html:40
+#: .\HistMat\templates\Users\user_detail.html:46
 msgid "No Seguir"
-msgstr ""
+msgstr "Not to follow " 
 
-#: .\HistMat\templates\Users\user_detail.html:44
+#: .\HistMat\templates\Users\user_detail.html:50
 msgid "Seguir"
-msgstr ""
+msgstr "Follow " 
 
-#: .\HistMat\templates\Users\user_detail.html:65
+#: .\HistMat\templates\Users\user_detail.html:71
 msgid "Website"
-msgstr ""
+msgstr "Website " 
 
-#: .\HistMat\templates\Users\user_detail.html:133
+#: .\HistMat\templates\Users\user_detail.html:139
+#, fuzzy
+#| msgid ""
+#| "Todavia no has aadido ninguna web o red social, si deseas hacerlo accede "
+#| "a la configuracion de tu perfil"
 msgid ""
-"Todavia no has añadido ninguna web o red social, si deseas hacerlo accede a "
+"Todavia no has aniadido ninguna web o red social, si deseas hacerlo accede a "
 "la configuracion de tu perfil"
-msgstr ""
+msgstr "" 
 
-#: .\HistMat\templates\Users\user_detail.html:135
-msgid "Este usuario no ha añadido ninguna web o red social"
-msgstr ""
+#: .\HistMat\templates\Users\user_detail.html:141
+#, fuzzy
+#| msgid "Este usuario no ha aadido ninguna web o red social"
+msgid "Este usuario no ha aniadido ninguna web o red social"
+msgstr "This user has not added any website or social network " 
 
-#: .\HistMat\templates\Users\user_detail.html:180
+#: .\HistMat\templates\Users\user_detail.html:187
 msgid "No sigues a ningun usuario"
-msgstr ""
+msgstr "You do not follow any user " 
 
-#: .\HistMat\templates\Users\user_detail.html:184
-msgid "Este usuario no tiene ningun amigo añadido"
-msgstr ""
+#: .\HistMat\templates\Users\user_detail.html:191
+#, fuzzy
+#| msgid "Este usuario no tiene ningun amigo aadido"
+msgid "Este usuario no tiene ningun amigo aniadido"
+msgstr "This user does not have any friends added " 
 
-#: .\HistMat\templates\Users\user_detail.html:193
+#: .\HistMat\templates\Users\user_detail.html:200
 msgid "Ver lista amigos"
-msgstr ""
+msgstr "See friends list " 
 
-#: .\HistMat\templates\Users\user_detail.html:207
+#: .\HistMat\templates\Users\user_detail.html:214
 msgid "Nombre completo"
-msgstr ""
+msgstr "Full name " 
 
-#: .\HistMat\templates\Users\user_detail.html:225
+#: .\HistMat\templates\Users\user_detail.html:232
 msgid "Ciudad / Pais"
-msgstr ""
+msgstr "City Country " 
 
-#: .\HistMat\templates\Users\user_detail.html:234
+#: .\HistMat\templates\Users\user_detail.html:241
 msgid "Centro de Estudios"
-msgstr ""
+msgstr "Study Center " 
 
-#: .\HistMat\templates\Users\user_detail.html:256
+#: .\HistMat\templates\Users\user_detail.html:263
 msgid "Logros cercanos"
-msgstr ""
+msgstr "Close achievements " 
 
-#: .\HistMat\templates\Users\user_detail.html:278
+#: .\HistMat\templates\Users\user_detail.html:285
 msgid "Ir a logros"
-msgstr ""
+msgstr "Go to achievements " 
 
 #: .\HistMat\templates\Users\user_list.html:17
 msgid "Busqueda de Usuarios"
-msgstr ""
+msgstr "User Search " 
 
 #: .\HistMat\templates\Users\user_list.html:19
 msgid "Todos los amigos"
-msgstr ""
+msgstr "All the friends " 
 
 #: .\HistMat\templates\Users\user_list.html:45
 msgid "Nombre de usuario / Nivel"
-msgstr ""
+msgstr "Username / Level " 
 
 #: .\HistMat\templates\Users\user_list.html:53
 msgid "Centro de estudios"
-msgstr ""
+msgstr "Study center " 
 
 #: .\HistMat\templates\Users\user_list.html:61
 msgid "Pais / Ciudad"
-msgstr ""
+msgstr "Country City " 
 
 #: .\HistMat\templates\Users\user_list.html:70
 msgid "Visitar perfil"
-msgstr ""
+msgstr "Visit profile " 
 
 #: .\HistMat\templates\Users\user_list.html:78
 msgid "Todavia no sigues a ningun usuario"
-msgstr ""
+msgstr "You still do not follow any user " 
 
-#: .\HistMat\templates\_navbar.html:16
+#: .\HistMat\templates\_navbar.html:23
 msgid "Catalogo"
-msgstr ""
+msgstr "Catalogue " 
 
-#: .\HistMat\templates\_navbar.html:22
+#: .\HistMat\templates\_navbar.html:29
 msgid "Mis Libros"
-msgstr ""
+msgstr "My books " 
 
-#: .\HistMat\templates\_navbar.html:28
+#: .\HistMat\templates\_navbar.html:35
 msgid "Foro"
-msgstr ""
+msgstr "Forum " 
 
-#: .\HistMat\templates\_navbar.html:33
+#: .\HistMat\templates\_navbar.html:40
 msgid "Apuntes"
-msgstr ""
+msgstr "Notes " 
 
-#: .\HistMat\templates\_navbar.html:49
-msgid "Inicio de Sesión"
-msgstr ""
+#: .\HistMat\templates\_navbar.html:56
+#, fuzzy
+#| msgid "Inicio de Sesin"
+msgid "Inicio de Sesinon"
+msgstr "Login " 
 
-#: .\HistMat\templates\home.html:14
+#: .\HistMat\templates\index.html:13
 msgid "Bienvenido a HistMat"
-msgstr "Welcome to  HistMat"
+msgstr "Welcome to HistMat " 
+
+#: .\HistMat\templates\index.html:18
+#, fuzzy
+#| msgid "La pgina web del futuro, para el alumno del presente"
+msgid "La pagina web del futuro, para el alumno del presente"
+msgstr "The website of the future, for the student of the present " 
