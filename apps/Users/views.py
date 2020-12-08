@@ -41,6 +41,12 @@ class UserUpdateView(UserPassesTestMixin, UpdateView):
     template_name_suffix = '_update_form'
     success_url ='user_detail'
 
+
+    def get_context_data(self,**kwargs):
+        context = super(UserUpdateView, self).get_context_data(**kwargs)
+        context['userPk'] = self.get_object().pk
+        return context
+
     def test_func(self, user):
         is_valid = user == self.get_object()
         is_valid |= user.is_superuser
@@ -53,7 +59,9 @@ class UserDeleteView(UserPassesTestMixin, DeleteView):
     success_url = "/"
 
     def test_func(self, user):
-        return user == self.get_object()
+        is_valid = user == self.get_object()
+        is_valid |= user.is_superuser
+        return is_valid
 
 class AchievementListView(ListView):
     template_name = "Users/achievement_list.html"

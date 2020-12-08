@@ -33,7 +33,7 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/rating.css' %}">    
-    {% if has_book %}
+    {% if has_book or request.user.is_superuser == True%}
         <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
     {% endif %}
 {% endblock %}
@@ -155,8 +155,8 @@
         </div>
     </div>    
 </div>
-
-{% if book.creator == request.user %}
+<p> {{ request.user.is_superuser }} </p>
+{% if book.creator == request.user or request.user.is_superuser == True%}
     {% include 'widgets/fab.html' with icon="fa-cog"%}
 {% endif %}
 

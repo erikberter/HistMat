@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import Http404
 from .models import Apunte
 
 from django.views.generic import DetailView, ListView, TemplateView
@@ -27,13 +28,15 @@ class ApuntesDetailView(DetailView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data["own_apunte"]= self.get_object().autor==self.request.user
+        data["is_superuser"]= self.request.user.is_superuser
         return data
 
 
 
 def apuntes_remove(request, pk):
     apunte = get_object_or_404(Apunte, pk=pk)
-    if request.user != apunte.autor : 
+    print(request.user.is_superuser)
+    if (request.user != apunte.autor and request.user.is_superuser !=  True): 
         raise Http404("No eres el creador")
     apunte.delete()
     return redirect('apuntes:apuntes')
@@ -62,4 +65,6 @@ class ApunteUpdateView(UserPassesTestMixin, UpdateView):
     template_name = 'Apuntes/forms/apuntes_update.html'
 
     def test_func(self, user):
-        return user == self.get_object().autor
+        is_valid = user == self.get_object().autor
+        is_valid |= user.is_superuser
+        return is_valid
