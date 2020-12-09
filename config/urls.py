@@ -26,7 +26,8 @@ from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    path('admin_HistMat_zJ8pyWuQCm/', admin.site.urls),
     
 ]
 urlpatterns += i18n_patterns(

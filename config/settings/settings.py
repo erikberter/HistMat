@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'social_django',
     'simple_history',
+    'admin_honeypot',
 
     'debug_toolbar',
 ]
@@ -176,8 +177,10 @@ LOCALE_PATHS = [
 ]
 
 LANGUAGES = [
+   ('es', 'Spanish'),
    ('eu', 'Euskera'),
    ('en', 'English'),
+
 ]
 
 
