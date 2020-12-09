@@ -30,7 +30,7 @@ from django.urls import reverse_lazy
 from braces.views import UserPassesTestMixin
 
 import apps.Users.mechanics as user_mechs
-from apps.Blog.models import *
+from apps.UserMechanics.models import *
 #########################################
 #           Views Configuration         #
 #########################################

@@ -23,4 +23,4 @@ class Comment(models.Model):
     likes = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return self.user
+        return self.user.username

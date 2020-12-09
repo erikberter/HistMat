@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from apps.Blog.models import Action 
+from apps.UserMechanics.models import Action 
 
 # Create your views here.
 def index(request):

@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'apps.Layout',
     'apps.Apuntes',
     'apps.Forum',
-    'apps.Blog',
+    'apps.UserMechanics',
     
     'bootstrap4',
     'jquery_ui',
