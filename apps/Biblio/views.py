@@ -130,6 +130,7 @@ class BookUpdateView(UserPassesTestMixin, UpdateView):
     def test_func(self, user):
         is_valid = user == self.get_object().creator
         is_valid |= user.is_superuser
+        is_valid |= user.is_content_editor
         return is_valid
 
 class BookDeleteView(UserPassesTestMixin, DeleteView):
