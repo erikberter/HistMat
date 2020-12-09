@@ -4,6 +4,8 @@ from taggit.managers import TaggableManager
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.urls import reverse
+from django.utils import timezone
+
 
 class Apunte(models.Model):
     nombre = models.CharField(max_length=80)
@@ -14,8 +16,8 @@ class Apunte(models.Model):
     thumbnail = models.ImageField(upload_to = 'apuntes/docu/img/', blank = True, null = True)
     categoria = TaggableManager()
     tipo =  models.CharField(max_length=80, default="unknown")
-    creado = models.DateTimeField(auto_now_add=True)
-    editado = models.DateTimeField(auto_now_add=True)
+    creado = models.DateTimeField(default=timezone.now)
+    editado = models.DateTimeField(default=timezone.now)
     
     
     def _str_(self):

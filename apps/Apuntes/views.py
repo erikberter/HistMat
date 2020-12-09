@@ -54,7 +54,7 @@ class ApunteCreateView(LoginRequiredMixin, CreateView):
         name, extension = os.path.splitext(apunte.documento.path)
         apunte.tipo = extension
         apunte.save()
-        user_mechs.add_exp(request.user, 10)
+        user_mechs.add_exp(self.request.user, 10)
         return HttpResponseRedirect(apunte.get_absolute_url())
 
     def get_form_kwargs(self, *args, **kwargs):
