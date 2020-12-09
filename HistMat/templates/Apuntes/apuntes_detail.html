@@ -10,7 +10,7 @@
     {% csrf_token %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
 
-	{% if own_apunte or is_superuser%}
+	{% if own_apunte or is_superuser or is_content_editor %}
     <script>
         var fab = new Vue({
             el: '#fab-container',
@@ -51,7 +51,7 @@
         </div>
     </div>
 </div>
-{% if own_apunte or is_superuser%}
+{% if own_apunte or is_superuser or is_content_editor%}
     {% include 'widgets/fab.html'%}
 {% endif %}
 {% endblock %}

@@ -14,7 +14,7 @@
     <script src="{% static 'js/Biblio/widgets.js' %}"> </script>
     <script src="{% static 'js/Biblio/book_detail.js' %}"> </script>
 
-    {% if has_book or request.user.is_superuser%}
+    {% if has_book or request.user.is_superuser or request.user.is_content_editor%}
     <script>
         var fab = new Vue({
             el: '#fab-container',
@@ -33,7 +33,7 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/rating.css' %}">    
-    {% if has_book or request.user.is_superuser%}
+    {% if has_book or request.user.is_superuser or request.user.is_content_editor%}
         <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
     {% endif %}
 {% endblock %}
@@ -155,7 +155,7 @@
         </div>
     </div>    
 </div>
-{% if book.creator == request.user or request.user.is_superuser%}
+{% if book.creator == request.user or request.user.is_superuser or request.user.is_content_editor%}
     {% include 'widgets/fab.html' with icon="fa-cog"%}
 {% endif %}
 

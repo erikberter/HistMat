@@ -53,6 +53,8 @@ class Profile(AbstractUser):
 
     following = models.ManyToManyField('profile', related_name='following_users')
 
+    is_content_editor = models.BooleanField(default=False)
+
     def get_absolute_url(self):
         return reverse('users:user_detail', kwargs={'pk': self.pk})
 
