@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'social_django',
     'simple_history',
     'admin_honeypot',
+    'sorl.thumbnail',
 
     'debug_toolbar',
 ]

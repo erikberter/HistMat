@@ -12,6 +12,8 @@ from django.http import  HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+from sorl.thumbnail import get_thumbnail
+
 # Create your views here.
 def user_detail(request, pk):
     user = Profile.objects.get(pk = pk)
@@ -39,8 +41,15 @@ class UserUpdateView(UserPassesTestMixin, UpdateView):
     model = Profile
     form = ProfileForm()
     template_name_suffix = '_update_form'
-    success_url ='user_detail'
 
+    def form_valid(self, form):
+        redirect_url = super(UserUpdateView, self).form_valid(form)
+        user = self.get_object()
+        if form.instance.profile_image:
+            user.profile_image_t11 = get_thumbnail(form.instance.profile_image, '100x100', crop='center', quality=80).name
+        user.save()
+
+        return HttpResponseRedirect(user.get_absolute_url())
 
     def get_context_data(self,**kwargs):
         context = super(UserUpdateView, self).get_context_data(**kwargs)

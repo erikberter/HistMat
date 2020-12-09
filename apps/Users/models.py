@@ -34,6 +34,8 @@ class Achievement_Progress(models.Model):
 class Profile(AbstractUser):
     #-----------------PERDONAL DATA------------------------------
     profile_image = models.ImageField(upload_to='model/img/users/', blank=True, null=True)
+    profile_image_t11 = models.ImageField(upload_to='model/img/users_t11/', null=True, blank=True)
+
     study_center = models.CharField(max_length=40, default = "", blank=True)
     country = models.CharField(max_length=40, default = "", blank=True)
     city = models.CharField(max_length=40, default = "", blank=True)
@@ -71,8 +73,6 @@ class Profile(AbstractUser):
 
     def get_a_div(self):
         html = ""
-        if self.profile_image:
-            html += "<img src='" + self.profile_image.url + "' alt= '" + self.username + "'/>"
         html += "<a href='" + self.get_absolute_url() + "'>" + self.username + "</a>"
         
         return html

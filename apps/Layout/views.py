@@ -7,8 +7,13 @@ def index(request):
     context = {}
 
     return render(request, 'index.html', context)
-
+import time
 def home(request):
     context = {}
-    context['action_list'] = [ { 'text' : obj.cast().get_string() , 'timestamp' : obj.creado} for obj in Action.objects.order_by('creado')[:20]]
+    start = time.time()
+    context['action_list'] = [ {'autor' : obj.autor, 'text' : obj.cast().get_string() , 'timestamp' : obj.creado} for obj in Action.objects.order_by('-creado')[:10]]
+    end = time.time()
+    print("----------------")
+    print(end - start)
+    print("---------------")
     return render(request, 'home.html', context)

@@ -72,7 +72,8 @@ class Book(models.Model):
 
     book_file = models.FileField(upload_to='biblio/books/docs/', null=True, blank=True, default=None)
     cover = models.ImageField(upload_to='biblio/books/covers/', null=True, blank=True)
-
+    cover_t36 = models.ImageField(upload_to='biblio/books/covers_t36/', null=True, blank=True)
+    
     #################################################
     #               Book Metadata                   #
     #################################################

@@ -31,6 +31,9 @@ from braces.views import UserPassesTestMixin
 
 import apps.Users.mechanics as user_mechs
 from apps.UserMechanics.models import *
+
+from sorl.thumbnail import get_thumbnail
+
 #########################################
 #           Views Configuration         #
 #########################################
@@ -84,7 +87,9 @@ class BookCreateView(LoginRequiredMixin, CreateView):
         book.creator = self.request.user
         book_du = BookUserDetail.objects.create(book=book, user=self.request.user)
         book_du.save()
+        book.cover_t36 = get_thumbnail(my_file, '300x600', crop='center', quality=80)
         book.save()
+        
 
         user_mechs.add_exp(self.request.user, 10)
         ActionBookAdd.objects.create(autor = self.request.user, book = book)
@@ -126,6 +131,18 @@ class BookUpdateView(UserPassesTestMixin, UpdateView):
     model = Book
     fields = ['title', 'description', 'author', 'npages', 'book_file', 'cover', 'visibility', 'tags']
     template_name = 'Biblio/forms/book_update.html'
+
+    def form_valid(self, form):
+        redirect_url = super(BookUpdateView, self).form_valid(form)
+        book = self.get_object()
+        if form.instance.cover:
+            book.cover_t36 = get_thumbnail(form.instance.cover, '300x600', crop='center', quality=80).name
+        book.save()
+        
+        user_mechs.add_exp(self.request.user, 10)
+        ActionBookAdd.objects.create(autor = self.request.user, book = book)
+
+        return HttpResponseRedirect(book.get_absolute_url())
 
     def test_func(self, user):
         is_valid = user == self.get_object().creator
