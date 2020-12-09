@@ -10,5 +10,5 @@ def index(request):
 
 def home(request):
     context = {}
-    context['action_list'] = [ { 'text' : obj.cast().get_string() , 'timestamp' : obj.creado} for obj in Action.objects.all()]
+    context['action_list'] = [ { 'text' : obj.cast().get_string() , 'timestamp' : obj.creado} for obj in Action.objects.order_by('creado')[:20]]
     return render(request, 'home.html', context)

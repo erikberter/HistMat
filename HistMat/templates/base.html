@@ -1,7 +1,7 @@
 {% load static %}
 {% load i18n %}
 <!DOCTYPE html5>
-<html lang="es">
+<html lang="{{LANGUAGE_CODE  }}">
 <head>
     <title>{% block title %}{% endblock %}</title>
 
@@ -12,6 +12,9 @@
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
     
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+
     {% load static %}
     <script type='text/javascript' src='{% static "js/jquery-ui.js" %}'></script>
     <link rel='stylesheet' type='text/css' href='{% static "css/jquery-ui/smoothness/jquery-ui.css" %}' />
@@ -50,6 +53,8 @@
         });
         </script>
     {% endif %}
+    {% block widgets %}
+    {% endblock %}
 
     <!-- Navbar  -->
     {% include '_navbar.html'%}

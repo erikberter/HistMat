@@ -68,7 +68,12 @@ class Profile(AbstractUser):
         return self.level*10
 
     def get_a_div(self):
-        return "<a href='" + self.get_absolute_url() + "'>" + self.username + "</a>"
+        html = ""
+        if self.profile_image:
+            html += "<img src='" + self.profile_image.url + "' alt= '" + self.username + "'/>"
+        html += "<a href='" + self.get_absolute_url() + "'>" + self.username + "</a>"
+        
+        return html
 
 class ProfileStats(models.Model):
     user = models.ForeignKey('profile', on_delete=models.CASCADE, related_name='user_stats', default=1)

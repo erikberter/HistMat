@@ -12,8 +12,8 @@
             <h2>Ultimas acciones</h2>
         </div>
         <hr>
-        <div class="d-flex justify-content-center">
-            <div class="d-flex flex-column w-75">
+        <div class="d-flex justify-content-center container">
+            <div class="d-flex flex-column w-100">
                 {% for action in action_list %}
                     <div class="card w-100 my-2 shadow">
                         <div class="card-body p-2 pt-3"><h6>{{action.text|safe}}</h6></div>

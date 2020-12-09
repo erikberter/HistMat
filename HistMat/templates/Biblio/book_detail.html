@@ -155,8 +155,13 @@
         </div>
     </div>    
 </div>
-{% if book.creator == request.user or request.user.is_superuser%}
-    {% include 'widgets/fab.html' with icon="fa-cog"%}
-{% endif %}
 
+{% endblock %}
+
+{% block widgets %}
+    {% if book.creator == request.user or request.user.is_superuser%}
+        {% include 'widgets/fab.html' with icon="fa-cog"%}
+    {% endif %}
+
+    {% include 'widgets/toast.html' %}
 {% endblock %}
