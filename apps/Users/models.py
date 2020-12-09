@@ -24,9 +24,9 @@ class Achievement_Progress(models.Model):
     achievement = models.ForeignKey('achievement', on_delete=models.CASCADE, related_name='achievement', default=1)
     actual_progress = models.IntegerField(default=0)
     objects = Achievement_ProgressManager()
-
-    def __str__(self):
-        return self.user.username + ' HA COMPLETADO EL ' + str(self.actual_progress) + '% DE LA TAREA ' + self.achievement.name
+     
+    #def __str__(self):
+        #return self.user.username + ' HA COMPLETADO EL ' + str(self.actual_progress) + '% DE LA TAREA ' + self.achievement.name
 
 
 
