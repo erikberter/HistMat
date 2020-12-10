@@ -13,6 +13,8 @@
     <script src="{% static 'js/Biblio/general.js' %}"> </script>
     <script src="{% static 'js/Biblio/widgets.js' %}"> </script>
     <script src="{% static 'js/Biblio/book_detail.js' %}"> </script>
+    <script src="{% static 'js/widgets/toast.js'%}"></script>
+
 
     {% if has_book or request.user.is_superuser or request.user.is_content_editor%}
     <script>

@@ -1,3 +1,15 @@
+
+TOAST_RESPONSE = {
+    'book_page_change' : {
+        'es' : 'Se ha cambiado la pagina correctamente',
+        'en' : 'Page was correctly changed',
+        'eu' : 'Pagina ondo aldatu da?'
+    },
+}
+
+
+
+
 /**
  * **Summary**. Sends and AJAX request to the server to change the state of a book.
  * 
@@ -43,18 +55,8 @@ function send_act_page_change_ajax(act_page, pre_url){
             csrfmiddlewaretoken: window.CSRF_TOKEN,
         },
         success: function(result){
-            var toast_text = "";
-            if ( document.documentElement.lang.toLowerCase() === "en" ) 
-                toast_text = 'Page was correctly changed';
-            else if(document.documentElement.lang.toLowerCase() === "es" )
-                toast_text = 'Se ha cambiado la pagina correctamente';
-            else if(document.documentElement.lang.toLowerCase() === "eu" )
-                toast_text = 'Pagina ondo aldatu da?';
-            else  toast_text = 'Page was correctly changed';
-            
-            $('.toast > .toast-body > p').text(toast_text);
-            $('.toast').toast({delay:2000});
-            $('.toast').toast('show');
+            var toast_text = translate_text(TOAST_RESPONSE['book_page_change']);
+            load_toast(toast_text);
         },
         error: function(result) {
             result = false;
