@@ -17,6 +17,8 @@ from django.core.paginator import Paginator
 import apps.Users.mechanics as user_mechs
 from apps.UserMechanics.models import ActionPostComment, ActionPostAdd, ActionPostLike
 
+from braces.views import UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class PostHomeView(ListView):
     model = Post
@@ -26,6 +28,9 @@ class PostHomeView(ListView):
     paginate_by = 10
 
 def add_comment(request, pk):
+    if not user.is_authenticated:
+        return redirect('forum:post_detail', pk=pk)
+
     form = CommentForm(request.POST)
     if form.is_valid():
         post = get_object_or_404(Post, pk=pk)
@@ -55,10 +60,11 @@ class PostDetailView(DetailView):
 
         return data
 
-class AddPostView(CreateView):
+class AddPostView(LoginRequiredMixin, CreateView):
     model = Post
     template_name = 'Forum/forms/add_post.html'
     form_class = PostForm
+    success_url = reverse_lazy('forum:post_home')
 
     def form_valid(self, form):
         post = form.save()
@@ -70,25 +76,22 @@ class AddPostView(CreateView):
 
         return HttpResponseRedirect(post.get_absolute_url())
 
-    success_url = reverse_lazy('forum:post_home')
-
-from django.views.decorators.csrf import csrf_exempt
-
 def postUpvote(request, pk):
+    if not request.user.is_authenticated:
+        raise Http404("Anonymous user liked post")
+
     if request.method == "POST":
         if request.is_ajax():
             post = Post.objects.get(pk=pk)
 
             if is_post_liked(post, request.user):
                 post.likes -= 1
-                post.save()
                 ActionPostLike.objects.filter(autor=request.user).filter(post = post).delete()
-
             else:
                 post.likes += 1
-                post.save()
-
                 user_mechs.add_exp(request.user, 1)
                 ActionPostLike.objects.create(autor = request.user, post = post)
+
+            post.save()
 
     return JsonResponse({'status':'Success', 'msg': 'save successfully'})
