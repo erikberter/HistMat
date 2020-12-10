@@ -11,7 +11,8 @@ import time
 def home(request):
     context = {}
     start = time.time()
-    context['action_list'] = [ {'autor' : obj.autor, 'text' : obj.cast().get_string() , 'timestamp' : obj.creado} for obj in Action.objects.order_by('-creado')[:10]]
+    lang = request.LANGUAGE_CODE
+    context['action_list'] = [ {'autor' : obj.autor, 'text' : obj.cast().get_string(lang = lang) , 'timestamp' : obj.creado} for obj in Action.objects.order_by('-creado')[:10]]
     end = time.time()
     print("----------------")
     print(end - start)

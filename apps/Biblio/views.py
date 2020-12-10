@@ -138,9 +138,6 @@ class BookUpdateView(UserPassesTestMixin, UpdateView):
         if form.instance.cover:
             book.cover_t36 = get_thumbnail(form.instance.cover, '300x600', crop='center', quality=80).name
         book.save()
-        
-        user_mechs.add_exp(self.request.user, 10)
-        ActionBookAdd.objects.create(autor = self.request.user, book = book)
 
         return HttpResponseRedirect(book.get_absolute_url())
 
@@ -185,8 +182,10 @@ def book_state_change(request, slug):
         
         book_ud.book_state = new_book_state
         book_ud.save()
+
         user_mechs.add_exp(request.user, 1)
-        
+        ActionBookState.objects.create(autor = request.user, book = book, status=new_book_state)
+
         return JsonResponse(CORRECT_JSON_DICT)
         
 @require_POST

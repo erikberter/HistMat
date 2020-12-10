@@ -40,8 +40,17 @@
 				data: {
 					csrfmiddlewaretoken: window.CSRF_TOKEN
 				},
-				success: function(result){
-					$(".like-count-" + pk).text(parseInt($(".like-count-" + pk).text())+1);
+				success: (json) =>{
+					if($(this).hasClass('far')){
+						$(".like-count-" + pk).text(parseInt($(".like-count-" + pk).text())+1);
+						$(this).addClass('fas');
+						$(this).removeClass('far');
+					}else{
+						$(".like-count-" + pk).text(parseInt($(".like-count-" + pk).text())-1);
+						$(this).addClass('far');
+						$(this).removeClass('fas');
+					}
+					
 				},
 				error: function(result) {
 					alert('error');
@@ -57,6 +66,7 @@
 {% block content %} 
 <div class="container">
 	<ul class="row infinite-container justify-content-md-center align-items-center">
+		{% load like_tags %}
 		{% for post in posts %}
 			<li class="card d-flex p-3 my-2 infinite-item">
 					<p> {% trans 'Enviado por'%} <a href="{{post.user.get_absolute_url}}"> {{ post.user }}</a> . {{ post.date }} </p>
@@ -76,7 +86,8 @@
 						{% endif %}
 					</div>	
 					<div class="col">
-						<i class="fa fa-thumbs-up like-button mt-2" pk='{{post.pk}}'></i> 
+						{% is_liked post user as post_liked %}
+						<i class="{% if post_liked%}fas{%else%}far{% endif%} fa-thumbs-up like-button mt-2" pk='{{post.pk}}'></i> 
 						<span class="like-count-{{post.pk}} font-weight-bold">{{ post.likes }}</span> 
 					</div>
 				</li>

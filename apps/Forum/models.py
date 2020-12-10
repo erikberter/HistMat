@@ -16,6 +16,14 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('forum:post_detail', args=[self.pk])
 
+    def get_a_div(self):
+        html = ""
+        html += "<a href='" + self.get_absolute_url() + "'>" + self.body[:50] + "</a>"
+        
+        return html
+
+    
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, related_name="forum_comments", on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, default=None)

@@ -6,6 +6,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
+from .utils import *
 
 from django.views import View
 from django.views.generic import DetailView, ListView, TemplateView
@@ -14,6 +15,8 @@ from django.core.paginator import Paginator
 
 
 import apps.Users.mechanics as user_mechs
+from apps.UserMechanics.models import ActionPostComment, ActionPostAdd, ActionPostLike
+
 
 class PostHomeView(ListView):
     model = Post
@@ -30,7 +33,10 @@ def add_comment(request, pk):
         comment.user = request.user
         comment.post = post
         comment.save()
+
         user_mechs.add_exp(request.user, 2)
+        ActionPostComment.objects.create(autor = request.user, post = post, comment=comment)
+
     return redirect('forum:post_detail', pk=pk)
 
 class PostDetailView(DetailView):
@@ -58,7 +64,10 @@ class AddPostView(CreateView):
         post = form.save()
         post.user = self.request.user
         post.save()
+
         user_mechs.add_exp(self.request.user, 5)
+        ActionPostAdd.objects.create(autor = self.request.user, post = post)
+
         return HttpResponseRedirect(post.get_absolute_url())
 
     success_url = reverse_lazy('forum:post_home')
@@ -69,7 +78,17 @@ def postUpvote(request, pk):
     if request.method == "POST":
         if request.is_ajax():
             post = Post.objects.get(pk=pk)
-            post.likes += 1
-            post.save()
-            user_mechs.add_exp(request.user, 1)
+
+            if is_post_liked(post, request.user):
+                post.likes -= 1
+                post.save()
+                ActionPostLike.objects.filter(autor=request.user).filter(post = post).delete()
+
+            else:
+                post.likes += 1
+                post.save()
+
+                user_mechs.add_exp(request.user, 1)
+                ActionPostLike.objects.create(autor = request.user, post = post)
+
     return JsonResponse({'status':'Success', 'msg': 'save successfully'})

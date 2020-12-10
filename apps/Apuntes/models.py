@@ -26,4 +26,8 @@ class Apunte(models.Model):
     def get_absolute_url(self):
         return reverse('apuntes:apuntes_detail', args=[self.pk])
 
-
+    def get_a_div(self):
+        html = ""
+        html += "<a href='" + self.get_absolute_url() + "'>" + self.nombre + "</a>"
+        
+        return html

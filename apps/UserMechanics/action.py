@@ -13,6 +13,16 @@ ACTION_LIST_DICT = {
         'text_b' : "~user~ ha aniadido el libro ~titulo~",
         'text' : {
             'es' : "{0} ha aniadido el libro {1}",
+            'en' : "{0} has added the book {1}",
+            'eu' : "{0} aniaditu du liburua {1}",
+        }
+    }, 
+    'book_state' : {
+        'text_b' : "~user~ ha aniadido el libro ~titulo~ a la estanteria ~estado~",
+        'text' : {
+            'es' : "{0} ha aniadido el libro {1} a la estanteria {2}",
+            'en' : "{0} has added the book {1} to the shelf {2}",
+            'eu' : "{0} aniaditu du liburua {1} {2} estanteriara",
         }
     }, 
     'book_rate' : {
