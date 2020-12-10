@@ -65,7 +65,6 @@ INSTALLED_APPS = [
     'taggit',
     'crispy_forms',
     'social_django',
-    'simple_history',
     'admin_honeypot',
     'sorl.thumbnail',
 
@@ -81,8 +80,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    'simple_history.middleware.HistoryRequestMiddleware',
 
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 
