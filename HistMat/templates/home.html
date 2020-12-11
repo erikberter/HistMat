@@ -23,8 +23,8 @@
                 {% for action in action_list %}
                     <div class="home_action card w-100 my-2 shadow" style="display: none;">
                         <div class="d-flex flex-row p-3">
-                            {% if user.profile_image_t11 %}
-                                <img class="rounded" src="{{ user.profile_image_t11.url }}" width="100" height="100" alt="{{ action.autor.username }} profile pic" />
+                            {% if action.autor.profile_image_t11 %}
+                                <img class="rounded" src="{{ action.autor.profile_image_t11.url }}" width="100" height="100" alt="{{ action.autor.username }} profile pic" />
                             {% endif %}
                             <div class="card-body p-2 pt-3"><h6>{{action.text|safe}}</h6></div>
                             

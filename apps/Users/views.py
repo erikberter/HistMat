@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.utils import timezone
-from .models import Profile, Achievement_Progress, Achievement
+from .models import Profile
 from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -17,21 +17,15 @@ from sorl.thumbnail import get_thumbnail
 # Create your views here.
 def user_detail(request, pk):
     user = Profile.objects.get(pk = pk)
-    progresses = Achievement_Progress.objects.filter(user = user.pk).filter(actual_progress__lte = 99).order_by('-actual_progress')[:3]
     friends = user.following_users.all()[:5]
     context = {
         'user_detail':user,
-        'progresses':progresses,
         'friends': friends,
     }
     context['is_own_account'] = request.user == user
     if not context['is_own_account']:
         context['sigole'] = (user in request.user.following_users.all())
     
-    if not progresses.exists():
-        for achievement in Achievement.objects.all():
-            achievement_progress = Achievement_Progress.objects.create_achievement_progress(user, achievement, 0)
-            achievement_progress.save()
 
     return render(request, "Users/user_detail.html", context)
 
@@ -71,15 +65,6 @@ class UserDeleteView(UserPassesTestMixin, DeleteView):
         is_valid = user == self.get_object()
         is_valid |= user.is_superuser
         return is_valid
-
-class AchievementListView(ListView):
-    template_name = "Users/achievement_list.html"
-    context_object_name = 'achievement_progress_list'
-    model = Achievement_Progress
-
-    def get_queryset(self):  
-        user = self.request.user
-        return Achievement_Progress.objects.filter(user=user.pk)
  
 class UserListView(ListView):
     template_name = "Users/user_list.html"

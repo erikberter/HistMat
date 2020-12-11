@@ -1,12 +1,9 @@
 from django.contrib import admin
-from  .models import Achievement, Profile, Achievement_Progress, ProfileStats
+from  .models import  Profile,  ProfileStats
 from apps.Biblio.models import BookUserDetail
 from apps.Apuntes.models import Apunte
 from apps.Forum.models import Post, Comment
 
-class AchievementInLine(admin.TabularInline):
-    model = Achievement_Progress
-    extra = 2
 
 class StatsInLine(admin.TabularInline):
     model = ProfileStats
@@ -38,16 +35,8 @@ class ProfileAdmin(admin.ModelAdmin):
         ('Rol & Amigos', {'fields': ['level', 'xp', 'kind_of_user', 'following'], 'classes': ['collapse']}),
         ('Informacion Tecnica', {'fields': ['last_login', 'date_joined', 'is_superuser', 'is_active', 'is_staff','is_content_editor', 'user_permissions', 'groups'], 'classes': ['collapse']}),
     ]
-    inlines = [AchievementInLine, StatsInLine, BookInLine, ApunteInLine, PostInLine, CommentInLine]
+    inlines = [ StatsInLine, BookInLine, ApunteInLine, PostInLine, CommentInLine]
 
-class AchievementAdmin(admin.ModelAdmin):
-    list_filter = ['created_date','updated_date']
-    search_fields = ['name', 'xp_cuantity']
-    list_display = ('name', 'description', 'xp_cuantity', 'updated_date')
-
-class Achievement_ProgressAdmin(admin.ModelAdmin):
-    search_fields = ['user','achievement', 'actual_progress']
-    list_display = ('user', 'achievement', 'actual_progress') 
 
 class ProfileStatsAdmin(admin.ModelAdmin):
     search_fields = ['user']
@@ -55,6 +44,4 @@ class ProfileStatsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Profile, ProfileAdmin)
-admin.site.register(Achievement, AchievementAdmin)
-admin.site.register(Achievement_Progress, Achievement_ProgressAdmin)
 admin.site.register(ProfileStats, ProfileStatsAdmin)

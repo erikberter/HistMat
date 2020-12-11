@@ -10,6 +10,8 @@ from django.shortcuts import render, get_object_or_404
 
 from django.utils.decorators import method_decorator
 
+from django.core.files import File
+
 from django.views import View
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -29,10 +31,10 @@ from django.urls import reverse_lazy
 
 from braces.views import UserPassesTestMixin
 
-import apps.Users.mechanics as user_mechs
 from apps.UserMechanics.models import *
 
 from sorl.thumbnail import get_thumbnail
+from pinax.badges.registry import badges
 
 #########################################
 #           Views Configuration         #
@@ -87,12 +89,13 @@ class BookCreateView(LoginRequiredMixin, CreateView):
         book.creator = self.request.user
         book_du = BookUserDetail.objects.create(book=book, user=self.request.user)
         book_du.save()
-        book.cover_t36 = get_thumbnail(my_file, '300x600', crop='center', quality=80)
-        book.save()
+        book.save(thumbnail=True)
+    
         
-
-        user_mechs.add_exp(self.request.user, 10)
-        ActionBookAdd.objects.create(autor = self.request.user, book = book)
+        self.request.user.add_exp(10)
+        badges.possibly_award_badge("book_added", user=self.request.user)
+        ActionBookAdd.objects.create(autor = self.request.user, book = book, 
+            visibility=form.instance.visibility)
 
         return HttpResponseRedirect(book.get_absolute_url())
 
@@ -139,6 +142,8 @@ class BookUpdateView(UserPassesTestMixin, UpdateView):
             book.cover_t36 = get_thumbnail(form.instance.cover, '300x600', crop='center', quality=80).name
         book.save()
 
+        ActionBookAdd.objects.filter(autor = request.user).filter(book=book).update(visibility = form.instance.visibility)
+
         return HttpResponseRedirect(book.get_absolute_url())
 
     def test_func(self, user):
@@ -183,7 +188,7 @@ def book_state_change(request, slug):
         book_ud.book_state = new_book_state
         book_ud.save()
 
-        user_mechs.add_exp(request.user, 1)
+        request.user.add_exp(1)
         ActionBookState.objects.create(autor = request.user, book = book, status=new_book_state)
 
         return JsonResponse(CORRECT_JSON_DICT)
@@ -205,7 +210,7 @@ def book_page_change(request, slug):
         book_ud.act_page = new_act_page
         book_ud.save()
 
-        user_mechs.add_exp(request.user, 1)
+        request.user.add_exp(1)
         ActionBookPageChange.objects.create(autor = request.user, book = book, page=new_act_page)
 
         return JsonResponse(CORRECT_JSON_DICT)
@@ -218,7 +223,7 @@ def book_rate(request, slug):
         budetail = request.user.books_details.get(book = book)
         budetail.rating = int(request.POST.get("rating_v"))
         budetail.save()
-        user_mechs.add_exp(request.user, 2)
+        request.user.add_exp(2)
         ActionBookRate.objects.create(autor = request.user, book = book, valoracion=budetail.rating)
 
     return HttpResponseRedirect(book.get_absolute_url())

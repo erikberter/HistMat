@@ -52,10 +52,6 @@
     flex: 1 1 auto;
   }
 
-.achievement_photo{
-    max-height: 80px;
-    max-width: 80px;
-}
 
 .img-square-wrapper{
     align-self: center;

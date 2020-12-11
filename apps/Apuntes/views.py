@@ -12,7 +12,6 @@ from braces.views import UserPassesTestMixin
 
 import os
 
-import apps.Users.mechanics as user_mechs
 from apps.UserMechanics.models import ActionApunteAdd
 # Create your views here.
 
@@ -56,7 +55,7 @@ class ApunteCreateView(LoginRequiredMixin, CreateView):
         apunte.tipo = extension
         apunte.save()
 
-        user_mechs.add_exp(self.request.user, 10)
+        self.request.user.add_exp(10)
         ActionApunteAdd.objects.create(autor = self.request.user, apunte = apunte)
 
         return HttpResponseRedirect(apunte.get_absolute_url())

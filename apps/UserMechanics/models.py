@@ -8,10 +8,29 @@ from apps.Apuntes.models import Apunte
 from apps.Forum.models import *
 # Create your models here.
 
+class FriendsActionManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().all().exclude(visibility='private')
+
+class PublicActionManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(visibility='public')
 
 class Action(models.Model):
+    VISIBILITY_CHOICES = (
+        ('private', 'Private'),
+        ('friends','Friends Only'),
+        ('public', 'Public')
+    )
+
     autor =  models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     creado = models.DateTimeField(auto_now_add=True)
+
+    visibility  = models.CharField(max_length = 35, choices = VISIBILITY_CHOICES, default = 'public')
+
+    objects = models.Manager()
+    public = PublicActionManager()
+    friends = FriendsActionManager()
 
     def get_string(self, action, data, lang='es'):
         if lang not in ACTION_LIST_DICT[action]['text']:
@@ -32,6 +51,9 @@ class Action(models.Model):
             except:
                 pass
         return self
+
+    def get_dto(self, lang='es'):
+        return {'autor' : self.autor, 'text' : self.cast().get_string(lang = lang) , 'timestamp' : self.creado}
 
 class ActionBookAdd(Action):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)

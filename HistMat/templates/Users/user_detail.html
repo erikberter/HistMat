@@ -178,7 +178,7 @@
                     
                   </a> 
                   <a href="{% url 'users:user_detail' userFollowing.pk %}">
-                    {{userFollowing.username}}
+                    {{userFollowing.username|truncatechars:20 }}
                   </a>  
               </div>
               {% empty %}
@@ -263,31 +263,18 @@
             <div class="card h-100">
               <div class="card-body">
                 <h6 class="d-flex align-items-center mb-3">{% trans 'Logros cercanos'%}</h6>
-                  {% for achievement_progress in progresses %}
-                    <div class = "card mb-2">
-                        <div class="card-horizontal">
-                            <div class="img-square-wrapper">
-                                <img class="achievement_photo" src='/HistMat/media/{{achievement_progress.achievement.achievement_image}}' alt="Card image cap">
-                            </div>
-                            <div class="card-body">
-                                <h4 class="card-title">{{achievement_progress.achievement.name}}</h4>
-                                <p class="card-text">{{achievement_progress.achievement.funny_phrase}}</p>
-                                <div class="progress mb-3" style="height: 12px">
-                                    <div class="progress-bar" style="width:{{achievement_progress.actual_progress}}%">{{achievement_progress.actual_progress}}%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                  {% empty %}
-                    <p>{% trans 'No hay Logros'%} </p>
-                  {% endfor %}
-                  <div class= "d-flex flex-column align-items-center text-center">
-                    {% if is_own_account %}
-                      <a class="btn btn-primary" href="{% url 'users:achievement_list' %}">
-                        {% trans 'Ir a logros'%}
-                      </a>
-                    {% endif %}
-                  </div>
+                {% load pinax_badges_tags %}
+                {% badges_for_user user as badges %}
+                    <h1> Hay {% badge_count user %} BADGES!</h1>
+                    {% for badge in badges %}
+                    <div class="card bg-warning">
+                      <div class="card-body">
+                        {{badge}} : {{badge.funny}}</div>
+                      </div>
+                    
+                    {% empty%}
+                    <p>Esque no hay</p>
+                    {% endfor %}
               </div>
             </div>
           </div>

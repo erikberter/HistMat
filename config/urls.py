@@ -37,6 +37,7 @@ urlpatterns += i18n_patterns(
     path('', include('social_django.urls', namespace='social')),
     path('apuntes/', include('apps.Apuntes.urls', namespace='apuntes')),
     path('forum/', include('apps.Forum.urls', namespace='forum')),
+    path("badges/", include("pinax.badges.urls", namespace="pinax_badges")),
     
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

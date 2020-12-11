@@ -14,7 +14,6 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.paginator import Paginator
 
 
-import apps.Users.mechanics as user_mechs
 from apps.UserMechanics.models import ActionPostComment, ActionPostAdd, ActionPostLike
 
 from braces.views import UserPassesTestMixin
@@ -39,7 +38,7 @@ def add_comment(request, pk):
         comment.post = post
         comment.save()
 
-        user_mechs.add_exp(request.user, 2)
+        request.user.add_exp(2)
         ActionPostComment.objects.create(autor = request.user, post = post, comment=comment)
 
     return redirect('forum:post_detail', pk=pk)
@@ -71,7 +70,7 @@ class AddPostView(LoginRequiredMixin, CreateView):
         post.user = self.request.user
         post.save()
 
-        user_mechs.add_exp(self.request.user, 5)
+        self.request.user.add_exp(5)
         ActionPostAdd.objects.create(autor = self.request.user, post = post)
 
         return HttpResponseRedirect(post.get_absolute_url())
@@ -89,7 +88,7 @@ def postUpvote(request, pk):
                 ActionPostLike.objects.filter(autor=request.user).filter(post = post).delete()
             else:
                 post.likes += 1
-                user_mechs.add_exp(request.user, 1)
+                request.user.add_exp(1)
                 ActionPostLike.objects.create(autor = request.user, post = post)
 
             post.save()

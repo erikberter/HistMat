@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'social_django',
     'admin_honeypot',
     'sorl.thumbnail',
+    'pinax.badges',
 
     'debug_toolbar',
 ]

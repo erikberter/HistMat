@@ -10,7 +10,9 @@ from taggit.managers import TaggableManager
 from django.conf import settings
 
 from .external import IntegerRangeField
+from django.core.files.base import ContentFile
 
+from sorl.thumbnail import get_thumbnail
 
 #################################
 #        Helper Functions       #
@@ -48,7 +50,9 @@ class Author(models.Model):
 
 
 
-
+class FriendsBookManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().all().exclude(visibility='private')
 
 class PublicBookManager(models.Manager):
     def get_queryset(self):
@@ -88,6 +92,7 @@ class Book(models.Model):
 
     objects = models.Manager()
     public = PublicBookManager()
+    friends = FriendsBookManager()
 
     #################################################
     #               Book Relationships              #
@@ -111,6 +116,12 @@ class Book(models.Model):
         html += "<a href='" + self.get_absolute_url() + "'>" + self.title + "</a>"
         
         return html
+
+    def save(self,thumbnail=False, *args, **kwargs):
+        if thumbnail:
+            img_cover_t36 = get_thumbnail(self.cover, '300x300', crop='center', quality=80)
+            self.cover_t36.save(img_cover_t36.name, ContentFile(img_cover_t36.read()), True)
+        super(Book, self).save(*args, **kwargs)
 
     def assemble(self):
         """

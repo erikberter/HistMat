@@ -70,7 +70,7 @@
 	<ul class="row infinite-container justify-content-md-center align-items-center">
 		{% load like_tags %}
 		{% for post in posts %}
-			<li class="card d-flex p-3 my-2 infinite-item">
+			<li class="card d-flex p-3 my-2 infinite-item shadow">
 					<p> {% trans 'Enviado por'%} <a href="{{post.user.get_absolute_url}}"> {{ post.user }}</a> . {{ post.date }} </p>
 					<h3>
 						<a class="font-weight-bold" href="{{post.get_absolute_url}}">

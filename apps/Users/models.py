@@ -4,32 +4,13 @@ from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
+from sorl.thumbnail import get_thumbnail
+from django.core.files.base import ContentFile
 
-class Achievement(models.Model):
-    name = models.CharField(max_length=40, default = "")
-    achievement_image = models.ImageField(upload_to='media/model/img/achievements/', blank=True, null=True)
-    description = models.TextField(default="")
-    funny_phrase = models.CharField(max_length=40,default="")
-    xp_cuantity = models.BigIntegerField(default=0)
-    created_date = models.DateTimeField(default=timezone.now)
-    updated_date = models.DateTimeField(default=timezone.now)
-
-class Achievement_ProgressManager(models.Manager):
-    def create_achievement_progress(self, userPk, achievementPk, actualProgress):
-        achievement_progress = self.create(user=userPk, achievement = achievementPk, actual_progress = actualProgress)
-        return achievement_progress
-
-class Achievement_Progress(models.Model):
-    user = models.ForeignKey('profile', on_delete=models.CASCADE, related_name='user', default=1)
-    achievement = models.ForeignKey('achievement', on_delete=models.CASCADE, related_name='achievement', default=1)
-    actual_progress = models.IntegerField(default=0)
-    objects = Achievement_ProgressManager()
-     
-    #def __str__(self):
-        #return self.user.username + ' HA COMPLETADO EL ' + str(self.actual_progress) + '% DE LA TAREA ' + self.achievement.name
+from .badges import *
 
 
-
+level_name_relation = ['Principiante','Novato','Aprendiz','Jugador','Experto','Dios','Stalin']
 
 class Profile(AbstractUser):
     #-----------------PERDONAL DATA------------------------------
@@ -64,18 +45,24 @@ class Profile(AbstractUser):
         return reverse('users:user_config', kwargs={'pk': self.pk})
     
     def get_level_progress(self):
-        progress = (int)(self.xp / self.level*10)
-        print(progress)
+        progress = self.xp // self.get_level_max_xp()
         return progress
     
     def get_level_max_xp(self):
         return self.level*10
 
     def get_a_div(self):
-        html = ""
-        html += "<a href='" + self.get_absolute_url() + "'>" + self.username + "</a>"
-        
-        return html
+        return "<a href='" + self.get_absolute_url() + "'>" + self.username + "</a>"
+    
+    def add_exp(self, xp):
+        self.xp += xp
+        while self.xp > self.level*10:
+            self.xp -= self.level*10
+            self.level += 1
+            if self.level % 10 == 0 and self.level < 65:
+                self.kind_of_user = level_name_relation[self.level // 10]
+
+        self.save()
 
 class ProfileStats(models.Model):
     user = models.ForeignKey('profile', on_delete=models.CASCADE, related_name='user_stats', default=1)
