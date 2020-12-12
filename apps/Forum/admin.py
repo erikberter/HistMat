@@ -6,9 +6,9 @@ class CommentInLine(admin.TabularInline):
     extra = 1
 
 class PostAdmin(admin.ModelAdmin):
-    list_filter = ['date']
-    list_display = ('user', 'body' , 'date', 'likes')
-    search_fields = ['user', 'body' , 'date', 'likes']
+    list_filter = ['created']
+    list_display = ('user', 'body' , 'created', 'likes')
+    search_fields = ['user', 'body' , 'created', 'likes']
     inlines = [CommentInLine]
 
 

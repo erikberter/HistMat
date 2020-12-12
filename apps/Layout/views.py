@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 
 from apps.UserMechanics.models import Action 
+from apps.Blog.models import Blog
 import time
 
 # Create your views here.
@@ -17,5 +18,5 @@ def home(request):
 
     followings = request.user.following_users.all()
     context['action_list'] = [ obj.get_dto(lang)  for obj in Action.friends.filter(autor__in=followings).order_by('-creado')[:10] ]
-    
+    context['important_blog'] = Blog.objects.all()[:5]
     return render(request, 'home.html', context)

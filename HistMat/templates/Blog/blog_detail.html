@@ -1,11 +1,48 @@
 {% extends 'base.html'%}
 
-{% block content %}
 
-{% if blog.thumbnail%}
-    <img  src="{{blog.thumbnail.url }}" alt="{{blog.title}} cover">
+
+{% load static %}
+{% block css%}
+{% if request.user.is_superuser or request.user.is_content_editor%}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
 {% endif %}
-<h1>{{blog.title}}</h1>
-<p> {{blog.text}}</p>
+{% endblock %}
 
+{% block js %}
+{% if request.user.is_superuser or request.user.is_content_editor%}
+<script>
+    var fab = new Vue({
+        el: '#fab-container',
+        data: {
+            create_url: "{% url 'blog:blog_update' blog.slug%}"
+        },
+        methods: {
+            fab_action: function (event) {
+                window.location = this.create_url;
+            }
+        }
+    })
+</script>
+{% endif%}
+{% endblock %}
+
+
+{% block content %}
+<div class="container bg-light shadow p-0">
+    {% if blog.thumbnail%}
+        <img  src="{{blog.thumbnail.url }}" alt="{{blog.title}} cover" class="img-fluid w-100" style="height:300px;">
+    {% endif %}
+    <div class="p-3">
+        <h1>{{blog.title}}</h1>
+        <p> {{blog.text}}</p>
+    </div>
+    
+</div>
+
+
+{% endblock %}
+
+{% block widgets %}
+    {% include 'widgets/fab.html' with icon="fa-cog" %}
 {% endblock %}

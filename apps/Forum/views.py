@@ -27,13 +27,19 @@ class PostHomeView(ListView):
     paginate_by = 10
 
 def add_comment(request, pk):
-    if not user.is_authenticated:
+    if not request.user.is_authenticated:
         return redirect('forum:post_detail', pk=pk)
 
     form = CommentForm(request.POST)
     if form.is_valid():
         post = get_object_or_404(Post, pk=pk)
         comment = form.save(commit=False)
+        
+        if 'parent_id' in request.POST:
+            if request.POST['parent_id']:
+                if Comment.objects.filter(pk=int(request.POST['parent_id'])).exists():
+                    comment.parent = Comment.objects.get(pk=int(request.POST['parent_id']))
+        
         comment.user = request.user
         comment.post = post
         comment.save()
@@ -53,7 +59,7 @@ class PostDetailView(DetailView):
         data['comment_form'] = CommentForm
 
         _list = Comment.objects.filter(post=self.kwargs.get('pk'))
-        paginator = Paginator(_list, 2) 
+        paginator = Paginator(_list, 20) 
         page = self.request.GET.get('page')
         data['comments'] = paginator.get_page(page)
 

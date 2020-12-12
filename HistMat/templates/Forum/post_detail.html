@@ -3,62 +3,144 @@
 
 {% block title%} HistMat | Forum | {{ post.body }} {%endblock%}
 
+
+{%block js%}
+<script>
+    var close_button = "<button type='button' class='btn btn-danger py-1 px-2 float-right' onclick='remove_reply()'><i class='fas fa-times'></i></button>";
+    
+    function remove_reply(){
+        $('#comment_response').fadeOut("slow", function(){
+            $('#comment_response').empty();
+        });
+        $("input[name='parent_id']").removeAttr('value');
+    }
+    
+    $(document).ready(function(){
+        $(".reply-button").click(function(){
+            let comment = $(this).parent().parent().clone();
+            var q = comment.find(".reply-button").replaceWith(close_button);
+            if(!$('#comment_response').is(':empty')){
+                $('#comment_response').fadeOut("slow", function(){
+                    $('#comment_response').html(comment);
+                    $('#comment_response').fadeIn("slow");
+                });
+            }else
+                $('#comment_response').hide().html(comment).show("slow");
+            
+            $("input[name='parent_id']").attr('value', $(this).attr('parent_id'));
+        });
+
+    });
+    
+</script>
+{% endblock%}
+
 {% block content%}
-    <div class="container">
-    	<div class="row justify-content-md-center align-items-center">
-        	<div class="card d-flex p-3 my-3">
-                <div class="card border-0 mx-3">
-                    <p> {% trans 'Enviado por'%} 
-                        <a href="{{post.user.get_absolute_url}}"> {{ post.user }}</a> . {{ post.date }} </p>
-                    <h3 class="font-weight-bold"> {{post.body}}</h3> 
-                    {% if post.image %}
-				        <img class="rounded" src="{{post.image.url}}" width="900">
-                    {% else %}
-                        </br>
-                        <img src="/HistMat/static/img/blanco.jpg" width="900" height="1">
-				        <p class="font-weight-bold"> {% trans 'Sin Imagen'%} </p>
-                    {% endif %}
-                    <h3 class="font-weight-bold my-3">{% trans 'Comentarios'%}</h3>
-                    <div>
-                        {% load crispy_forms_tags %}
-                        <form method="POST" action="{% url 'forum:post_detail' post.pk %}add_comment">
-                            {% csrf_token %}
-                            {{comment_form|crispy}}
-                            {% if user.is_authenticated %}
-                                <input type="submit" class="btn btn-primary">
-                            {% else %}
-                                <a href="#" class="btn btn-primary disabled"> {% trans 'Enviar Comentario'%}</a>
-                            {% endif%}
-                        </form>
-                    </div>
-                    </br>
-                        {% for comment in comments %}
-                        <hr>
-                            <strong> <a href="{{comment.user.get_absolute_url}}"> {{ comment.user }}</a> </strong>
-                            {{ comment.body }}
-                            
-                        {% empty %}
-                         <p>{% trans 'No hay comentarios todavia...'%}<p>
-                        {% endfor %}
-                        <div class="pagination">
-                            <span class="step-links">
-                                {% if comments.has_previous %}
-                                    <a href="?page=1">&laquo; first</a>
-                                    <a href="?page={{ comments.previous_page_number }}">previous</a>
-                                {% endif %}
-                        
-                                <span class="current">
-                                    Page {{ comments.number }} of {{ comments.paginator.num_pages }}.
-                                </span>
-                        
-                                {% if comments.has_next %}
-                                    <a href="?page={{ comments.next_page_number }}">next</a>
-                                    <a href="?page={{ comments.paginator.num_pages }}">last &raquo;</a>
-                                {% endif %}
-                            </span>
-                        </div>
-                </div>
+    <div class="container p-3">
+        <div class="card shadow">
+            <div class="card-header">
+                <h3><strong>{{post.title}}</strong></h3>
             </div>
+            <div class="p-3">
+                <p>{{post.body}}</p>
+
+                {% if post.image %}
+                    <div class="d-flex justify-content-center">
+                        <img class="w-50 rounded img-fluid" src="{{post.image.url}}" >
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="card-footer p-1">
+                <strong class="border-right px-2">
+                    <a href="{{comment.user.get_absolute_url}}">
+                        {{ post.user }}
+                    </a>
+                </strong>
+                <span class="px-2"> {{post.created}} </span>
+            </div>
+        </div>
+
+        <div class="card p-3 m-2">
+            <h3 class="font-weight-bold my-3">{% trans 'Comentarios'%}</h3>
+
+            <div class="card p-3 shadow my-2">
+                {% load crispy_forms_tags %}
+                <form method="POST" action="{% url 'forum:add_comment' post.pk %}">
+                    {% csrf_token %}
+                    {{comment_form|crispy}}
+                    <input type="hidden" name="parent_id" />
+                    <div id="comment_response"></div>
+                    {% if user.is_authenticated %}
+                        <input type="submit" class="btn btn-primary">
+                    {% else %}
+                        <a href="#" class="btn btn-primary disabled"> {% trans 'Enviar Comentario'%}</a>
+                    {% endif%}
+                </form>
+            </div>
+
+            {% for comment in comments %}
+                <div class="card my-2 shadow">
+                    <div class="p-2">
+                        {% if comment.parent %}
+                            <p>
+                                Respondiendo a <strong><a href="{{comment.user.get_absolute_url}}">
+                                    {{ comment.user }}
+                                </a></strong>:
+                            </p>
+                            <div class="card">
+                                <div class="p-2">
+                                    <p>{{ comment.parent.body }}</p>
+                                </div>
+                                <div class="card-footer p-1">
+                                    <strong class="border-right px-2">
+                                        <a href="{{comment.user.get_absolute_url}}">
+                                            {{ comment.parent.user }}
+                                        </a>
+                                    </strong>
+                                    <span class="px-2"> {{comment.parent.created}} </span>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <p>{{ comment.body }}</p>
+                    </div>
+                    <div class="card-footer p-1">
+                        <strong class="border-right px-2">
+                            <a href="{{comment.user.get_absolute_url}}">
+                                {{ comment.user }}
+                            </a>
+                        </strong>
+                        <span class="px-2"> {{comment.created}} </span>
+                        <button class="reply-button btn btn-primary p-1 float-right" parent_id="{{comment.pk}}">
+                            <i class="fas fa-reply"></i>
+                        </button>
+                    </div>
+                </div>
+                    
+                    
+            {% empty %}
+                <p>{% trans 'No hay comentarios todavia...'%}</p>
+            {% endfor %}
+                
+            <div class="pagination">
+                <span class="step-links">
+                    {% if comments.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ comments.previous_page_number }}">previous</a>
+                    {% endif %}
+            
+                    <span class="current">
+                        Page {{ comments.number }} of {{ comments.paginator.num_pages }}.
+                    </span>
+            
+                    {% if comments.has_next %}
+                        <a href="?page={{ comments.next_page_number }}">next</a>
+                        <a href="?page={{ comments.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+
+
         </div>
     </div>
 {% endblock %}

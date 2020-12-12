@@ -24,5 +24,5 @@ class Blog(models.Model):
         return self.nombre
         
     def get_absolute_url(self):
-        return reverse('blog:blog_detail', args=[self.pk])
+        return reverse('blog:blog_detail', args=[self.slug])
 

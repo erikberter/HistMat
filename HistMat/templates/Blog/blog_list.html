@@ -1,7 +1,17 @@
 {% extends 'base.html'%}
 
+{% load static %}
+{% block css%}
+{% if request.user.is_superuser or request.user.is_content_editor%}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
+{% endif %}
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/shortcuts/infinite.min.js'></script>
+
+{% endblock %}
 
 {% block js %}
+{% if request.user.is_superuser or request.user.is_content_editor%}
 <script>
     var fab = new Vue({
         el: '#fab-container',
@@ -15,15 +25,22 @@
         }
     })
 </script>
-
+{% endif %}
 {% endblock %}
 
 {% block content%}
-<div class='container bg-light'>
+<div class='container bg-light p-3'>
     {% for blog in blogs %}
 
-        <div class="card">
-            <div class=""><a href = "{{blog.get_absolute_path}}">{{blog.title}}</a></div>
+        <div class="card bg-light shadow p-0 m-2">
+            {% if blog.thumbnail%}
+                <img  src="{{blog.thumbnail.url }}" alt="{{blog.title}} cover" class="img-fluid w-100" style="height:200px;">
+            {% endif %}
+            <div class="p-3">
+                <h1><a href = "{{blog.get_absolute_url}}">{{blog.title}}</a></h1>
+                <p> {{blog.text|truncatechars:100}}</p>
+            </div>
+            <div class="card-footer p-1">{{blog.created}}</div>
         </div>
 
     {% endfor %}
@@ -32,5 +49,7 @@
 
 
 {% block widgets %}
-    {% include 'widgets/fab.html'%}
+    {% if request.user.is_superuser or request.user.is_content_editor%}
+        {% include 'widgets/fab.html'%}
+    {% endif%}
 {% endblock %}
