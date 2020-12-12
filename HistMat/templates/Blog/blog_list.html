@@ -1,0 +1,36 @@
+{% extends 'base.html'%}
+
+
+{% block js %}
+<script>
+    var fab = new Vue({
+        el: '#fab-container',
+        data: {
+            create_url: "{% url 'blog:blog_create'%}"
+        },
+        methods: {
+            fab_action: function (event) {
+                window.location = this.create_url;
+            }
+        }
+    })
+</script>
+
+{% endblock %}
+
+{% block content%}
+<div class='container bg-light'>
+    {% for blog in blogs %}
+
+        <div class="card">
+            <div class=""><a href = "{{blog.get_absolute_path}}">{{blog.title}}</a></div>
+        </div>
+
+    {% endfor %}
+</div>
+{% endblock %}
+
+
+{% block widgets %}
+    {% include 'widgets/fab.html'%}
+{% endblock %}

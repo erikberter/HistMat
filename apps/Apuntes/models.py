@@ -1,8 +1,6 @@
 from django.db import models
 from django.conf import settings
 from taggit.managers import TaggableManager
-from django.views.generic.edit import CreateView
-from django.urls import reverse_lazy
 from django.urls import reverse
 from django.utils import timezone
 

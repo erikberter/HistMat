@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'apps.Apuntes',
     'apps.Forum',
     'apps.UserMechanics',
+    'apps.Blog',
     
     'bootstrap4',
     'jquery_ui',
