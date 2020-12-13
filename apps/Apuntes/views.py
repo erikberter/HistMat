@@ -1,9 +1,8 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect
 from .models import Apunte
 
-from django.views.generic import DetailView, ListView, TemplateView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView, UpdateView
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ApunteCreateForm

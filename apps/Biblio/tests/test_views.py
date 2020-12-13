@@ -1,7 +1,6 @@
 from django.test import TestCase, RequestFactory
 from django.http import Http404
-from django.contrib.auth.models import User, AnonymousUser
-from django.test.client import Client
+from django.contrib.auth.models import AnonymousUser
 
 from apps.Biblio.models import Book, Author, BookUserDetail
 

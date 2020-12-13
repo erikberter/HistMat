@@ -1,4 +1,3 @@
-from django import template
 from apps.UserMechanics.models import ActionPostLike
 
 

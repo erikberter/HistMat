@@ -1,15 +1,10 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.models import User
-from django.utils import timezone
+from django.shortcuts import redirect, render
 from .models import Profile
 from django.views.generic.edit import UpdateView, DeleteView
-from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from .forms import ProfileForm
 from braces.views import UserPassesTestMixin
-from django.db.models import Q
 from django.http import  HttpResponseRedirect
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from sorl.thumbnail import get_thumbnail
@@ -34,7 +29,7 @@ class UserUpdateView(UserPassesTestMixin, UpdateView):
     template_name_suffix = '_update_form'
 
     def form_valid(self, form):
-        redirect_url = super(UserUpdateView, self).form_valid(form)
+        super(UserUpdateView, self).form_valid(form)
         
         if form.instance.profile_image:
             self.request.user.profile_image_t11 = get_thumbnail(

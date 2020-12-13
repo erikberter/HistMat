@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 from taggit.managers import TaggableManager
 from django.urls import reverse
-from django.utils import timezone
 
 
 class Apunte(models.Model):

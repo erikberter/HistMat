@@ -1,21 +1,16 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 
-from django.db.models import Avg, Q
+from django.db.models import Avg
 
 from django.http import  HttpResponseRedirect, Http404, JsonResponse
 
 from django.shortcuts import render, get_object_or_404
 
-from django.utils.decorators import method_decorator
 
-from django.core.files import File
 
 from django.views import View
-from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 
@@ -140,7 +135,7 @@ class BookUpdateView(UserPassesTestMixin, UpdateView):
     template_name = 'Biblio/forms/book_update.html'
 
     def form_valid(self, form):
-        redirect_url = super(BookUpdateView, self).form_valid(form)
+        super(BookUpdateView, self).form_valid(form)
 
         book = self.get_object()
         book.save(thumbnail=True)

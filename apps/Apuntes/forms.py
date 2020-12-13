@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Form
+from django.forms import ModelForm
 from apps.Apuntes.models import Apunte
 
 class ApunteCreateForm(ModelForm):

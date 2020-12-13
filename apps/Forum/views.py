@@ -1,16 +1,14 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
-from django.db.models import Q
 from django.http import JsonResponse, HttpResponseRedirect
 
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from .utils import *
 
-from django.views import View
-from django.views.generic import DetailView, ListView, TemplateView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, ListView
+from django.views.generic.edit import CreateView
 from django.core.paginator import Paginator
 
 

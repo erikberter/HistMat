@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.contrib.auth.models import User, AnonymousUser
 
 from apps.Biblio.models import *
 from apps.Users.models import Profile
@@ -18,7 +17,7 @@ class AuthorModelTest(TestCase):
 
     def test_create_empty_author(self):
         try:
-            autor_test_1 = Author.objects.create()
+            Author.objects.create()
             self.fail("Author name cannot be empty")
         except:
             pass

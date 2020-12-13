@@ -3,7 +3,6 @@ from django.shortcuts import redirect
 
 from apps.UserMechanics.models import Action 
 from apps.Blog.models import Blog
-import time
 
 # Create your views here.
 def index(request):
