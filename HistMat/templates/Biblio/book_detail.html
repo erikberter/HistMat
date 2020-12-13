@@ -15,7 +15,7 @@
     <script src="{% static 'js/Biblio/book_detail.js' %}"> </script>
     <script src="{% static 'js/widgets/toast.js'%}"></script>
 
-
+    {% if request.is_authenticated %}
     {% if has_book or request.user.is_superuser or request.user.is_content_editor%}
     <script>
         var fab = new Vue({
@@ -31,12 +31,15 @@
         })
     </script>
     {% endif %}
+    {%endif%}
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/rating.css' %}">    
-    {% if has_book or request.user.is_superuser or request.user.is_content_editor%}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
+    <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/rating.css' %}">   
+    {% if request.is_authenticated %} 
+        {% if has_book or request.user.is_superuser or request.user.is_content_editor%}
+            <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
+        {% endif %}
     {% endif %}
 {% endblock %}
 
@@ -92,6 +95,7 @@
             <!-- Right Sector -->
             <div class="col">
                 <!-- Book State Dropdown-->
+                {% if user.is_authenticated%}
                 <div class="row">
                     <select name="book_state" id="book_state_dropdown" b_state="{{book_state}}" class="btn btn-secondary dropdown-toggle w-100" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <option value="None" {% if book_state == 'None'%} selected {% endif %}>Add to shelf</option>
@@ -100,6 +104,7 @@
                         <option value="Read" {% if book_state == 'Read'%} selected {% endif %}>Read</option>
                     </select>
                 </div>
+                {% endif %}
                 <div class="row d-flex flex-column card p-3 mt-2">
                     <div>
                         {% if has_book %}
@@ -161,8 +166,10 @@
 {% endblock %}
 
 {% block widgets %}
-    {% if book.creator == request.user or request.user.is_superuser%}
-        {% include 'widgets/fab.html' with icon="fa-cog"%}
+    {% if request.is_authenticated %}
+        {% if book.creator == request.user or request.user.is_superuser%}
+            {% include 'widgets/fab.html' with icon="fa-cog"%}
+        {% endif %}
     {% endif %}
 
     {% include 'widgets/toast.html' %}

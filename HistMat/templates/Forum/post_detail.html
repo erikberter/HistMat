@@ -72,9 +72,20 @@
                     <input type="hidden" name="parent_id" />
                     <div id="comment_response"></div>
                     {% if user.is_authenticated %}
-                        <input type="submit" class="btn btn-primary">
+                        <input type="submit" class="btn btn-primary w-100" value="{% trans 'Enviar Comentario'%}">
                     {% else %}
-                        <a href="#" class="btn btn-primary disabled"> {% trans 'Enviar Comentario'%}</a>
+                        <span class="d-inline-block  w-100" data-toggle="popover-hover"  title="Registro Obligatorio"  data-content="{% trans 'Debes registrarte para poder comentar.' %}">
+                            <button class="btn btn-primary  w-100" style="pointer-events: none;" disabled>{% trans 'Enviar Comentario'%}</button>
+                        </span>
+                        <script>
+                            $(function () {
+                                $('span[data-toggle="popover-hover"]').popover({
+                                    html: true,
+                                    trigger: 'hover',
+                                    placement: 'bottom',
+                                });
+                            });
+                        </script>
                     {% endif%}
                 </form>
             </div>

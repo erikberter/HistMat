@@ -10,21 +10,23 @@
     {% csrf_token %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
 
-	{% if own_apunte or is_superuser or is_content_editor %}
-    <script>
-        var fab = new Vue({
-            el: '#fab-container',
-            data: {
-                update_url: "{% url 'apuntes:apuntes_update' apunte.pk %}"
-            },
-            methods: {
-                fab_action: function (event) {
-					
-                    window.location = this.update_url;
+    {% if user.is_authenticated %}
+        {% if own_apunte or user.is_superuser or user.is_content_editor %}
+        <script>
+            var fab = new Vue({
+                el: '#fab-container',
+                data: {
+                    update_url: "{% url 'apuntes:apuntes_update' apunte.pk %}"
+                },
+                methods: {
+                    fab_action: function (event) {
+                        
+                        window.location = this.update_url;
+                    }
                 }
-            }
-        })
-    </script>
+            })
+        </script>
+        {% endif %}
     {% endif %}
 {% endblock %}
 
@@ -51,7 +53,12 @@
         </div>
     </div>
 </div>
-{% if own_apunte or is_superuser or is_content_editor%}
-    {% include 'widgets/fab.html'%}
-{% endif %}
+{% endblock%}
+
+{% block widgets %}
+    {% if user.is_authenticated %}
+        {% if own_apunte or user.is_superuser or user.is_content_editor %}
+            {% include 'widgets/fab.html'%}
+        {% endif %}
+    {% endif %}
 {% endblock %}

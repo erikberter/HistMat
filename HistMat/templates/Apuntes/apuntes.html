@@ -95,7 +95,10 @@
 		{% endif %}
 	</ul>
 </div>
-
-	{% include 'widgets/fab.html'%}
-
 {% endblock%}
+
+{% block widgets %}
+	{% if user.is_authenticated %}
+		{% include 'widgets/fab.html'%}
+	{% endif %}
+{% endblock %}

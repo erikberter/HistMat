@@ -36,10 +36,12 @@
                     </a>
                 
                 {% else %}
-                  {% if request.user.is_superuser %}
-                    <a class="btn btn-primary" href="{{ user_detail.get_absolute_config_url }}">
-                      {% trans 'Editar Perfil'%}
-                    </a>
+                  {% if request.is_authenticated %}
+                    {% if request.user.is_superuser %}
+                      <a class="btn btn-primary" href="{{ user_detail.get_absolute_config_url }}">
+                        {% trans 'Editar Perfil'%}
+                      </a>
+                    {% endif %}
                   {% endif %}
                   {% if sigole %}
                     <a class="btn btn-danger" href="{% url 'users:seguir' user_detail.pk%}">

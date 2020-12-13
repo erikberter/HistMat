@@ -66,7 +66,6 @@ class MyCatalogView(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         data = json.loads(request.body.decode('utf-8'))
-        print(data)
         if not data:
             raise Http404("Empty")
 
@@ -121,10 +120,15 @@ class BookDetailView(DetailView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['rating'] = self.get_object().users.aggregate(total = Avg('books_details__rating'))
-        data['has_book'] =  self.get_object().books_details.filter(user=self.request.user).exists()
-        data['book_state'] = 'None'
-        if data['has_book']:
-            data.update(self.get_object().books_details.get(user=self.request.user).assemble())
+        data['has_book'] = False
+        
+        if self.request.user.is_authenticated:
+            book_details = self.get_object().books_details.filter(user=self.request.user)
+
+            data['has_book'] =  book_details.exists()
+            data['book_state'] = 'None'
+            if data['has_book']:
+                data.update(book_details.first().assemble())
 
         return data
 
@@ -137,20 +141,22 @@ class BookUpdateView(UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         redirect_url = super(BookUpdateView, self).form_valid(form)
-        book = self.get_object()
-        if form.instance.cover:
-            book.cover_t36 = get_thumbnail(form.instance.cover, '300x600', crop='center', quality=80).name
-        book.save()
 
-        ActionBookAdd.objects.filter(autor = request.user).filter(book=book).update(visibility = form.instance.visibility)
+        book = self.get_object()
+        book.save(thumbnail=True)
+
+        ActionBookAdd.objects.filter(
+            autor = request.user
+        ).filter(
+            book=book
+        ).update(
+            visibility = form.instance.visibility
+        )
 
         return HttpResponseRedirect(book.get_absolute_url())
 
     def test_func(self, user):
-        is_valid = user == self.get_object().creator
-        is_valid |= user.is_superuser
-        is_valid |= user.is_content_editor
-        return is_valid
+        return ( user == self.get_object().creator ) | user.is_superuser | user.is_content_editor
 
 class BookDeleteView(UserPassesTestMixin, DeleteView):
     model = Book
@@ -160,9 +166,7 @@ class BookDeleteView(UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy('biblio:mycatalog')
 
     def test_func(self, user):
-        is_valid = user == self.get_object().creator
-        is_valid |= user.is_superuser
-        return is_valid
+        return ( user == self.get_object().creator ) | user.is_superuser
 
 class AuthorDetailView(DetailView):
     model = Author
@@ -202,13 +206,7 @@ def book_page_change(request, slug):
 
         book = Book.objects.get(slug=slug)
         
-        book_ud = get_object_or_404(BookUserDetail,
-                book=book,
-                user = request.user
-            )
-
-        book_ud.act_page = new_act_page
-        book_ud.save()
+        get_object_or_404(BookUserDetail, book=book, user = request.user).update(act_page = new_act_page)
 
         request.user.add_exp(1)
         ActionBookPageChange.objects.create(autor = request.user, book = book, page=new_act_page)
@@ -220,9 +218,9 @@ def book_page_change(request, slug):
 def book_rate(request, slug):
     book = get_object_or_404(Book, slug=slug)
     if "rating_v" in request.POST:
-        budetail = request.user.books_details.get(book = book)
-        budetail.rating = int(request.POST.get("rating_v"))
-        budetail.save()
+        rating = int(request.POST.get("rating_v"))
+        budetail = request.user.books_details.get(book = book).update(rating = rating)
+        
         request.user.add_exp(2)
         ActionBookRate.objects.create(autor = request.user, book = book, valoracion=budetail.rating)
 

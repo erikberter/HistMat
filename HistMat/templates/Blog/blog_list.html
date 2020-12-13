@@ -2,15 +2,18 @@
 
 {% load static %}
 {% block css%}
-{% if request.user.is_superuser or request.user.is_content_editor%}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
-{% endif %}
+    {% if request.is_authenticated %}
+        {% if request.user.is_superuser or request.user.is_content_editor%}
+            <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
+        {% endif %}
+    {% endif %}
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/shortcuts/infinite.min.js'></script>
 
 {% endblock %}
 
 {% block js %}
+{% if request.is_authenticated %}
 {% if request.user.is_superuser or request.user.is_content_editor%}
 <script>
     var fab = new Vue({
@@ -25,6 +28,7 @@
         }
     })
 </script>
+{% endif %}
 {% endif %}
 {% endblock %}
 
@@ -49,7 +53,9 @@
 
 
 {% block widgets %}
-    {% if request.user.is_superuser or request.user.is_content_editor%}
-        {% include 'widgets/fab.html'%}
-    {% endif%}
+    {% if request.is_authenticated %}
+        {% if request.user.is_superuser or request.user.is_content_editor%}
+            {% include 'widgets/fab.html'%}
+        {% endif%}
+    {%endif%}
 {% endblock %}

@@ -29,19 +29,17 @@ class ApuntesDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data["own_apunte"]= self.get_object().autor==self.request.user
-        data["is_superuser"]= self.request.user.is_superuser
-        data["is_content_editor"] = self.request.user.is_content_editor
+        data["own_apunte"]= False
+        if self.request.user.is_authenticated:
+            data["own_apunte"]= self.get_object().autor==self.request.user
+            
         return data
 
 
 
 def apuntes_remove(request, pk):
-    apunte = get_object_or_404(Apunte, pk=pk)
-    print(request.user.is_superuser)
-    if (request.user != apunte.autor and request.user.is_superuser != True): 
-        raise Http404("No tienes permisos para borrar este apunte")
-    apunte.delete()
+    if (request.user == apunte.autor or request.user.is_superuser == True): 
+        get_object_or_404(Apunte, pk=pk).delete()
     return redirect('apuntes:apuntes')
  
 class ApunteCreateView(LoginRequiredMixin, CreateView):
@@ -72,7 +70,4 @@ class ApunteUpdateView(UserPassesTestMixin, UpdateView):
     template_name = 'Apuntes/forms/apuntes_update.html'
 
     def test_func(self, user):
-        is_valid = user == self.get_object().autor
-        is_valid |= user.is_superuser
-        is_valid |= user.is_content_editor
-        return is_valid
+        return (user == self.get_object().autor) | user.is_superuser | user.is_content_editor

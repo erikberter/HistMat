@@ -17,7 +17,7 @@ class BlogCreateView(UserPassesTestMixin, CreateView):
     template_name = 'Blog/blog_create.html'
 
     def test_func(self, user):
-        return user.is_superuser |  user.is_content_editor
+        return user.is_superuser | user.is_content_editor
     
     def form_valid(self, form):
         blog = form.save(commit=False)
@@ -54,6 +54,4 @@ class BlogDeleteView(UserPassesTestMixin, DeleteView):
     success_url = reverse_lazy('blog:blog_list')
 
     def test_func(self, user):
-        is_valid = user == self.get_object().creator
-        is_valid |= user.is_superuser
-        return is_valid
+        return ( user == self.get_object().creator ) | user.is_superuser

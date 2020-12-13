@@ -18,16 +18,13 @@ from sorl.thumbnail import get_thumbnail
 def user_detail(request, pk):
     user = Profile.objects.get(pk = pk)
     friends = user.following_users.all()[:5]
-    context = {
-        'user_detail':user,
-        'friends': friends,
-    }
+    
     context['is_own_account'] = request.user == user
     if not context['is_own_account']:
-        context['sigole'] = (user in request.user.following_users.all())
+        context['sigole'] = request.user.following_users.filter(username=user.username).exists()
     
 
-    return render(request, "Users/user_detail.html", context)
+    return render(request, "Users/user_detail.html", {'user_detail':user, 'friends': friends})
 
         
 class UserUpdateView(UserPassesTestMixin, UpdateView): 
@@ -38,10 +35,14 @@ class UserUpdateView(UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         redirect_url = super(UserUpdateView, self).form_valid(form)
-        user = self.get_object()
+        
         if form.instance.profile_image:
-            user.profile_image_t11 = get_thumbnail(form.instance.profile_image, '100x100', crop='center', quality=80).name
-        user.save()
+            self.request.user.profile_image_t11 = get_thumbnail(
+                form.instance.profile_image,
+                '100x100',
+                crop='center',
+                quality=80).name
+        self.request.user.save()
 
         return HttpResponseRedirect(user.get_absolute_url())
 
@@ -51,9 +52,7 @@ class UserUpdateView(UserPassesTestMixin, UpdateView):
         return context
 
     def test_func(self, user):
-        is_valid = user == self.get_object()
-        is_valid |= user.is_superuser
-        return is_valid
+        return ( user == self.get_object() ) | user.is_superuser
 
 
 class UserDeleteView(UserPassesTestMixin, DeleteView):
@@ -62,9 +61,7 @@ class UserDeleteView(UserPassesTestMixin, DeleteView):
     success_url = "/"
 
     def test_func(self, user):
-        is_valid = user == self.get_object()
-        is_valid |= user.is_superuser
-        return is_valid
+        return ( user == self.get_object() ) | user.is_superuser 
  
 class UserListView(ListView):
     template_name = "Users/user_list.html"
@@ -92,10 +89,9 @@ def search_view(request):
 
 def seguir(request, pk):
     user = Profile.objects.get(pk = int(pk))
-    a = request.user.following_users.all()
-    b = a.filter(username = user.username)
+    followins = request.user.following_users.all()
 
-    if  b.count()>0:
+    if  followins.filter(id = user.id).exists():
         request.user.following_users.remove(user)
     else:
         request.user.following_users.add(user)

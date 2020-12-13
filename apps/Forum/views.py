@@ -37,8 +37,9 @@ def add_comment(request, pk):
         
         if 'parent_id' in request.POST:
             if request.POST['parent_id']:
-                if Comment.objects.filter(pk=int(request.POST['parent_id'])).exists():
-                    comment.parent = Comment.objects.get(pk=int(request.POST['parent_id']))
+                parent_id = int(request.POST['parent_id'])
+                if Comment.objects.filter(pk=parent_id).exists():
+                    comment.parent = Comment.objects.get(pk=parent_id)
         
         comment.user = request.user
         comment.post = post
