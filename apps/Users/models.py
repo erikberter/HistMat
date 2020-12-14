@@ -21,11 +21,11 @@ class Profile(AbstractUser):
     born_date = models.DateField(default=timezone.now)
 
     #--------------------SOCIAL------------------------------
-    website = models.CharField(max_length=40, default = "", null=True, blank=True)
-    github = models.CharField(max_length=40, default = "",  null=True, blank=True)
-    instagram = models.CharField(max_length=40, default = "",  null=True, blank=True)
-    twitter = models.CharField(max_length=40, default = "", null=True, blank=True)
-    facebook = models.CharField(max_length=40, default = "",  null=True, blank=True)
+    website = models.CharField(max_length=40, null=True, blank=True)
+    github = models.CharField(max_length=40, null=True, blank=True)
+    instagram = models.CharField(max_length=40, null=True, blank=True)
+    twitter = models.CharField(max_length=40, null=True, blank=True)
+    facebook = models.CharField(max_length=40,  null=True, blank=True)
 
     #--------------------LEVEL------------------------------
     level = models.IntegerField(default=1)

@@ -1,0 +1,11 @@
+[
+    {"model": "Forum.post",
+         "pk": 1, 
+         "fields":
+          {"user": 1,
+             "title": "Prueba 1",
+              "body": "Prueba 2",
+               "image": "initial_data/img/forum/stalin_KzkZdMB.jpg",
+                "likes": 1, "created": "2020-12-13T17:04:28.137Z"}
+            },
+             {"model": "Forum.comment", "pk": 1, "fields": {"post": 1, "user": 1, "parent": null, "body": "Comentario 1", "likes": 0, "created": "2020-12-13T17:04:40.301Z"}}, {"model": "Forum.comment", "pk": 2, "fields": {"post": 1, "user": 1, "parent": 1, "body": "dasdasdas", "likes": 0, "created": "2020-12-13T17:04:48.435Z"}}, {"model": "Forum.comment", "pk": 3, "fields": {"post": 1, "user": 1, "parent": 2, "body": "asdasdas", "likes": 0, "created": "2020-12-13T17:05:04.459Z"}}]

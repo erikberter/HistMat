@@ -13,13 +13,13 @@ from sorl.thumbnail import get_thumbnail
 def user_detail(request, pk):
     user = Profile.objects.get(pk = pk)
     friends = user.following_users.all()[:5]
-    
+    context = {'user_detail':user, 'friends': friends}
     context['is_own_account'] = request.user == user
     if not context['is_own_account']:
         context['sigole'] = request.user.following_users.filter(username=user.username).exists()
     
 
-    return render(request, "Users/user_detail.html", {'user_detail':user, 'friends': friends})
+    return render(request, "Users/user_detail.html", context)
 
         
 class UserUpdateView(UserPassesTestMixin, UpdateView): 
@@ -32,14 +32,14 @@ class UserUpdateView(UserPassesTestMixin, UpdateView):
         super(UserUpdateView, self).form_valid(form)
         
         if form.instance.profile_image:
-            self.request.user.profile_image_t11 = get_thumbnail(
+            self.get_object().profile_image_t11 = get_thumbnail(
                 form.instance.profile_image,
                 '100x100',
                 crop='center',
                 quality=80).name
-        self.request.user.save()
+        self.get_object().save()
 
-        return HttpResponseRedirect(user.get_absolute_url())
+        return HttpResponseRedirect(self.request.user.get_absolute_url())
 
     def get_context_data(self,**kwargs):
         context = super(UserUpdateView, self).get_context_data(**kwargs)

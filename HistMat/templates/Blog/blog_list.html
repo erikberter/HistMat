@@ -2,7 +2,7 @@
 
 {% load static %}
 {% block css%}
-    {% if request.is_authenticated %}
+    {% if request.user.is_authenticated %}
         {% if request.user.is_superuser or request.user.is_content_editor%}
             <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
         {% endif %}
@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block js %}
-{% if request.is_authenticated %}
+{% if request.user.is_authenticated %}
 {% if request.user.is_superuser or request.user.is_content_editor%}
 <script>
     var fab = new Vue({
@@ -53,7 +53,7 @@
 
 
 {% block widgets %}
-    {% if request.is_authenticated %}
+    {% if request.user.is_authenticated %}
         {% if request.user.is_superuser or request.user.is_content_editor%}
             {% include 'widgets/fab.html'%}
         {% endif%}
