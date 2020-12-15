@@ -11,7 +11,6 @@ $(document).ready(function(e){
 
     $("#book_state_dropdown").change(function(){
         send_book_state_change_ajax(this.value, book_slug);
-        location.reload(); 
     });
 
     $("input[name='rating_v']").click( function(){

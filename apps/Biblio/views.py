@@ -172,13 +172,12 @@ class AuthorDetailView(DetailView):
 
 @require_POST
 def book_state_change(request, slug):
+    print("--------------------------")
     book = Book.objects.get(slug=slug)
     if request.is_ajax():
-        
         new_book_state = slugify(request.POST.get('book_state').lower(), separator="_")
         if not new_book_state:
             raise Http404("No valid book state")
-        
         if not request.user.books_details.filter(book = book).exists():
             book_ud = BookUserDetail.objects.create(book=book, user = request.user)
         else:
@@ -201,8 +200,9 @@ def book_page_change(request, slug):
 
         book = Book.objects.get(slug=slug)
         
-        get_object_or_404(BookUserDetail, book=book, user = request.user).update(act_page = new_act_page)
-
+        budetail = get_object_or_404(BookUserDetail, book=book, user = request.user)
+        budetail.act_page = new_act_page
+        budetail.save(update_fields=['act_page'])
         request.user.add_exp(1)
         ActionBookPageChange.objects.create(autor = request.user, book = book, page=new_act_page)
 
@@ -214,7 +214,9 @@ def book_rate(request, slug):
     book = get_object_or_404(Book, slug=slug)
     if "rating_v" in request.POST:
         rating = int(request.POST.get("rating_v"))
-        budetail = request.user.books_details.get(book = book).update(rating = rating)
+        budetail = request.user.books_details.get(book = book)
+        budetail.rating = rating
+        budetail.save(update_fields=['rating'])
         
         request.user.add_exp(2)
         ActionBookRate.objects.create(autor = request.user, book = book, valoracion=budetail.rating)

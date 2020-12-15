@@ -1,11 +1,19 @@
+@font-face {
+    font-family: "San Francisco";
+    font-weight: 400;
+    src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+}
 html, body {
     height: 100%;
     margin: 0;
-    
 }
 body {
     display: flex;
     flex-direction: column;
+}
+
+* {
+    font-family: "San Francisco"   
 }
 
 #main-content{
@@ -45,3 +53,15 @@ body {
  .correct-shadow{
     box-shadow: 0 0 5pt 2pt #00ee00 !important;
  }
+
+ .rcorners2 {
+    border-radius: 20px;
+  }
+
+ .rcornerst {
+    border-radius: 20px 20px 0px 0px;
+  }
+
+  .rcornersb {
+    border-radius: 0px 0px 20px 20px;
+  }

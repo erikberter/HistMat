@@ -116,7 +116,7 @@ class Book(models.Model):
         return html
 
     def save(self,thumbnail=False, *args, **kwargs):
-        if thumbnail:
+        if thumbnail and self.cover:
             img_cover_t36 = get_thumbnail(self.cover, '300x300', crop='center', quality=80)
             self.cover_t36.save(img_cover_t36.name, ContentFile(img_cover_t36.read()), True)
         super(Book, self).save(*args, **kwargs)

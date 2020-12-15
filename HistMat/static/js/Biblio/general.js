@@ -28,8 +28,9 @@ function send_book_state_change_ajax(book_state, book_slug){
         },
         success: function(result){
             $("#book_state_dropdown > option").each(function(){
-                if($(this).val() == book_act_state)
+                if($(this).val() == book_state_s)
                     $(this).attr("selected","selected");
+                location.reload();
             });
         },
         error: function(result) {

@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractUser
 from sorl.thumbnail import get_thumbnail
 
 from .badges import *
-
+from django.core.files.base import ContentFile
 
 level_name_relation = ['Principiante','Novato','Aprendiz','Jugador','Experto','Dios','Stalin']
 
@@ -43,7 +43,7 @@ class Profile(AbstractUser):
         return reverse('users:user_config', kwargs={'pk': self.pk})
     
     def get_level_progress(self):
-        progress = self.xp // self.get_level_max_xp()
+        progress = (100 * self.xp) // self.get_level_max_xp()
         return progress
     
     def get_level_max_xp(self):
@@ -61,6 +61,12 @@ class Profile(AbstractUser):
                 self.kind_of_user = level_name_relation[self.level // 10]
 
         self.save()
+
+    def save(self,thumbnail=False, *args, **kwargs):
+        if thumbnail and self.profile_image:
+            img_profile_image_t11 = get_thumbnail(self.profile_image, '100x100', crop='center', quality=80)
+            self.profile_image_t11.save(img_profile_image_t11.name, ContentFile(img_profile_image_t11.read()), True)
+        super(Profile, self).save(*args, **kwargs)
 
 class ProfileStats(models.Model):
     user = models.ForeignKey('profile', on_delete=models.CASCADE, related_name='user_stats', default=1)

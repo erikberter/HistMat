@@ -1,17 +1,17 @@
 {% for book in books %}
 {% load i18n %}
-    <li class="item card m-2 draggable infinite-item real-frame col-xs-6 shadow" b_slug="{{book.slug}}" style="max-width:200px;">         
+    <li class="shadow-sm item card m-2 draggable infinite-item real-frame col-xs-6 rcorners2" b_slug="{{book.slug}}" style="max-width:200px;">         
     <div class="frame">
         
         {% if book.cover_t36 %}
-            <img src="{{book.cover_t36.url}}" alt="{{book.title}} cover" class="img-fluid">
+            <img src="{{book.cover_t36.url}}" alt="{{book.title}} cover" class="img-fluid rcornerst">
         {% else %}
             {% load static %}
-            <img src="/HistMat/media/no_image.jpg" alt="{{book.title}} cover" class="img-fluid">
+            <img src="/HistMat/media/no_image.jpg" alt="{{book.title}} cover" class="img-fluid rcornerst">
         {% endif %}
     
 
-        <div class = "details jumbotron d-flex align-items-center">
+        <div class = "details jumbotron d-flex align-items-center rcornerst">
             <div class="container p-1 d-flex flex-column" >
                 {% if book.book_file%}
                     <a class="btn btn-primary align-middle text-white bg-transparent bold thumb-button file valid" href="{{book.book_file.url}}" style="border: white 3px solid;">
@@ -32,14 +32,13 @@
                 
             </div>
         </div>
-    
     </div>
-    <div class="detailed-details bg-light">
-        <div class="p-1">
+    <div class="detailed-details bg-light rcornersb mt-0 h-100">
+        <div class="p-2">
             <a href="{{book.get_absolute_url}}" >
-                <span class="book-info">{{book.title}}</span>
+                <h5 class="book-info">{{book.title}}</h5>
             </a>
-            <div >
+            <div class="px-1">
                 <span class="book-info">{% trans 'Por' %} {{book.author}}</span>
             </div>
         </div>

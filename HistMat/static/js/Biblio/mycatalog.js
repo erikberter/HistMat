@@ -110,7 +110,7 @@ $(document).ready(function() {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
         
-        if($("#menu-toggle i.fa-angle-double-left").length>0)
+        if($("#menu-toggle i.fa-angle-double-left").length<0)
             $("#menu-toggle i").removeClass('fa-angle-double-left').addClass("fa-angle-double-right");
         else
             $("#menu-toggle i").removeClass('fa-angle-double-right').addClass("fa-angle-double-left");

@@ -14,7 +14,7 @@
   }
   .frame img {
     width: 300px;
-    height: 300px;
+    height: 250px;
   }
   .frame .details {
     width: 100%;
@@ -46,11 +46,12 @@
     bottom:10px;
     transition: visibility 0s, opacity 0.5s linear;
   }
+
   .real-frame  .detailed-details {
     transition: all 0.4s ease-in;
   }
   .real-frame:hover  .detailed-details {
-    transform: translate(0,-70%) ;
+    transform: translate(0,-50%) ;
   }
   .real-frame:hover .extended-details {
     opacity: 1;

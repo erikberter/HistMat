@@ -21,4 +21,4 @@ def home(request):
     return render(request, 'home.html', context)
 
 def contacts(request):
-    return render(request, 'contact.html', {})
+    return render(request, 'Contact/contact.html', {})

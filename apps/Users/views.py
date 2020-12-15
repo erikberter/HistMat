@@ -29,17 +29,10 @@ class UserUpdateView(UserPassesTestMixin, UpdateView):
     template_name_suffix = '_update_form'
 
     def form_valid(self, form):
-        super(UserUpdateView, self).form_valid(form)
-        
-        if form.instance.profile_image:
-            self.get_object().profile_image_t11 = get_thumbnail(
-                form.instance.profile_image,
-                '100x100',
-                crop='center',
-                quality=80).name
-        self.get_object().save()
+        user = form.save()
+        user.save(thumbnail=True)
 
-        return HttpResponseRedirect(self.request.user.get_absolute_url())
+        return HttpResponseRedirect(user.get_absolute_url())
 
     def get_context_data(self,**kwargs):
         context = super(UserUpdateView, self).get_context_data(**kwargs)
