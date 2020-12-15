@@ -1,12 +1,15 @@
 {% load i18n %}
+{% load static %}
 <nav class="navbar navbar-expand-md navbar-light m-0 shadow">
     <div class="d-flex" id="navbar-logo">
         {% if user.is_authenticated%}
-        <a href="{% url 'layout:home'%}" class="navbar-brand font-weight-bold" style ="font-size: 2.5rem;">
+        <a href="{% url 'layout:home'%}" class="navbar-brand font-weight-bold p-0" style ="font-size: 2.5rem;">
+            <img src="{% static 'img/favicon/favicon.png' %}" style="height:70px">
             HistMat
         </a>
         {% else %}
-        <a href="{% url 'layout:index'%}" class="navbar-brand font-weight-bold" style ="font-size: 2.5rem;">
+        <a href="{% url 'layout:index'%}" class="navbar-brand font-weight-bold p-0" style ="font-size: 2.5rem;">
+            <img src="{% static 'img/favicon/favicon.png' %}" style="height:70px">
             HistMat
         </a>
         {% endif %}
@@ -16,50 +19,54 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-url" aria-controls="navbar-url" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-    <div class="navbar-collapse collapse" id="navbar-url">
-        <ul class="navbar-nav">
+    <div class="collapse navbar-collapse " id="navbar-url">
+        <ul class="nav navbar-nav nav-pills mr-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="{% url 'biblio:public_catalog'%}">
+              <a class="nav-link {% if request.resolver_match.url_name == 'public_catalog' %}active text-light{% endif %}" href="{% url 'biblio:public_catalog'%}">
                 {% trans 'Catalogo' %}
                 </a>
             </li>
             {% if user.is_authenticated%}
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'biblio:mycatalog'%}">
+                <a class="nav-link {% if request.resolver_match.url_name == 'mycatalog' %}active text-light{% endif %}" href="{% url 'biblio:mycatalog'%}">
                     {% trans 'Mis Libros' %}
                 </a>
             </li>
             {% endif %}
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'forum:post_home'%}">
+                <a class="nav-link {% if request.resolver_match.url_name == 'post_home' %}active text-light{% endif %}" href="{% url 'forum:post_home'%}">
                     {% trans 'Foro' %}
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'apuntes:apuntes'%}">
+                <a class="nav-link {% if request.resolver_match.url_name == 'apuntes' %}active text-light{% endif %}" href="{% url 'apuntes:apuntes'%}">
                     {% trans 'Apuntes' %}
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="{% url 'blog:blog_list'%}">
+            <li class="nav-item"></li>
+                <a class="nav-link {% if request.resolver_match.url_name == 'blog_list' %}active text-light{% endif %}" href="{% url 'blog:blog_list'%}">
                     {% trans 'Blog' %}
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'contacts' %}active text-light{% endif %}" href="{% url 'layout:contacts'%}">
+                    {% trans 'Contactos' %}
+                </a>
+            </li>
         </ul>
+        <div id="navbar-user">
+            {% if user.is_authenticated %}
+                {% include 'Users/_user_menu.html'%}
+            
+            {% else %}
+                <a class=" nav-item nav-link" href="{% url 'social:begin' 'google-oauth2' %}">
+                    {% trans 'Inicio de Sesinon' %}
+                </a>
+            {% endif %}
+        </div>
     </div>
     
-    <!-- No se porque si lo quito, el boton de login vuelve a la izquierda-->
-    <div class="navbar-collapse collapse" >
-    </div>
+    
 
-    <div class="navbar-nav" id="navbar-user">
-        {% if user.is_authenticated %}
-            {% include 'Users/_user_menu.html'%}
-        
-        {% else %}
-            <a class=" nav-item nav-link" href="{% url 'social:begin' 'google-oauth2' %}">
-                {% trans 'Inicio de Sesinon' %}
-            </a>
-        {% endif %}
-    </div>
+    
 </nav>

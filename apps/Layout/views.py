@@ -19,3 +19,6 @@ def home(request):
     context['action_list'] = [ obj.get_dto(lang)  for obj in Action.friends.filter(autor__in=followings).order_by('-creado')[:10] ]
     context['important_blog'] = Blog.objects.all()[:5]
     return render(request, 'home.html', context)
+
+def contacts(request):
+    return render(request, 'contact.html', {})

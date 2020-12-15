@@ -145,5 +145,7 @@ cython_debug/
 # !**/migrations/__init__.py
 **/assets/**
 
-!**/media/initial_data/**
-**/media/**
+*/media/cache/*
+*/media/model/*
+*/media/apuntes/*
+*/media/biblio/*
