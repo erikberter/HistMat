@@ -42,15 +42,11 @@
 					csrfmiddlewaretoken: window.CSRF_TOKEN
 				},
 				success: (json) =>{
-					if($(this).hasClass('far')){
-						$(".like-count-" + pk).text(parseInt($(".like-count-" + pk).text())+1);
-						$(this).addClass('fas');
-						$(this).removeClass('far');
-					}else{
-						$(".like-count-" + pk).text(parseInt($(".like-count-" + pk).text())-1);
-						$(this).addClass('far');
-						$(this).removeClass('fas');
-					}
+					var like_counter = parseInt($(".like-count-" + pk).text());
+					$(this).hasClass('far') ? like_counter++ : like_counter--;
+
+					$(".like-count-" + pk).text(like_counter);
+					$(this).toggleClass('fas far');
 					
 				},
 				error: function(result) {
@@ -67,35 +63,53 @@
 
 {% block content %} 
 <div class="container">
-	<ul class="row infinite-container justify-content-md-center align-items-center">
+	<div class="mt-3 infinite-container justify-content-md-center align-items-center">
 		{% load like_tags %}
 		{% for post in posts %}
-			<li class="card d-flex p-3 my-2 infinite-item shadow">
-					<p> {% trans 'Enviado por'%} <a href="{{post.user.get_absolute_url}}"> {{ post.user }}</a> . {{ post.date }} </p>
-					<h3>
-						<a class="font-weight-bold" href="{{post.get_absolute_url}}">
-							{{ post.body }}
-						</a>
-					</h3>
-					<div>
+			<div class="card w-100 d-flex p-3 my-2 infinite-item shadow">
+					<p> 
+						{% trans 'Enviado por'%} 
+						<a href="{{post.user.get_absolute_url}}">{{ post.user }}</a>
+						 , {{ post.created }}.
+					</p>
+					<a href="{{post.get_absolute_url}}">
+						<h2>
+							<strong>
+								{{ post.title }}
+							</strong>
+						</h2>
+					</a>
+					<div class="pt-2">
 						{% if post.image %}
-							<a href="{{post.get_absolute_url}}">
-								<img class="rounded img-fluid" src="{{post.image.url}}">
-							</a>
+							<div class="d-flex justify-content-center">
+								<a class="w-75" href="{{post.get_absolute_url}}">
+									<img class="rounded img-fluid" src="{{post.image.url}}">
+								</a>
+							</div>
 						{% else %}
-							<p class="font-weight-bold my-3"> {% trans 'Sin Imagen'%} </p>
-							<img src="/HistMat/static/img/blanco.jpg" class="img-fluid">
+							<p>
+								{{ post.body|truncatechars:400 }}
+							</p>
 						{% endif %}
 					</div>	
-					<div class="col">
+					<div>
 						{% is_liked post user as post_liked %}
-						<i class="{% if post_liked%}fas{%else%}far{% endif%} fa-thumbs-up like-button mt-2" pk='{{post.pk}}'></i> 
+						<i class="{% if post_liked%}fas{%else%}far{% endif%} fa-thumbs-up like-button mt-2 mx-2" pk='{{post.pk}}'></i> 
 						<span class="like-count-{{post.pk}} font-weight-bold">{{ post.likes }}</span> 
 					</div>
-				</li>
-			
+				</div>
+		{% empty %}
+			<div class="card p-3 rcorners2 my-3 shadow-sm">
+				<div class="d-flex justify-content-center">
+					<h1>
+						<strong>
+							{% trans 'El foro esta vacio. Se el primero en escribir algo!' %}
+						</strong>
+					</h1>
+				</div>
+			</div>
 		{% endfor%}
-		</ul>
+		</div>
 	{% if page_obj.has_next %}
         <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
 	{% endif %}

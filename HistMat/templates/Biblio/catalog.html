@@ -20,9 +20,14 @@
 <div class="container">
     <div class="card p-3 rcorners2 my-3 shadow-sm">
         <div class="d-flex justify-content-center">
-            <h1><strong>{% trans 'Catalogo Publico' %}</strong></h1>
+            <h1>
+                <strong>
+                    {% trans 'Catalogo Publico' %}
+                </strong>
+            </h1>
         </div>
     </div>
+    
     <ul class="row infinite-container d-flex justify-content-around px-2">
         {% include 'Biblio/_books_no_ul.html' with books=books%}
     </ul>

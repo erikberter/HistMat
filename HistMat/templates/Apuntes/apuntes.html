@@ -32,7 +32,7 @@
 <div class="container mt-3">
 	{% for apunte in apuntes%}
 
-	<div class="card d-flex p-3 my-2 flex-row shadow">
+	<div class="card d-flex p-3 my-2 flex-row shadow-sm">
 		<div class="row no-gutters">
 			<div class="col-md-4">
 				<a href="{{apunte.get_absolute_url}}">
@@ -48,9 +48,9 @@
 		<div class="col-md-8">
 			<div class="card-body">
 				<a href="{{apunte.get_absolute_url}}">
-					<h5 class="card-title">
+					<h2 class="card-title">
 						{{ apunte.nombre }}
-					</h5>
+					</h2>
 				</a>
 				<p class="card-text">
 					{% trans 'Creado por' %} <a href ="{{apunte.autor.get_absolute_url}}"> 
