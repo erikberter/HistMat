@@ -108,14 +108,9 @@ $(document).ready(function() {
      */
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
+
         $("#wrapper").toggleClass("toggled");
-        
-        if($("#menu-toggle i.fa-angle-double-left").length<0)
-            $("#menu-toggle i").removeClass('fa-angle-double-left').addClass("fa-angle-double-right");
-        else
-            $("#menu-toggle i").removeClass('fa-angle-double-right').addClass("fa-angle-double-left");
-            
-        
+        $("#menu-toggle i").toggleClass('fa-angle-double-left fa-angle-double-right');
       });
       
 });

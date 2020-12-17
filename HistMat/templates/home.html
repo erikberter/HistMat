@@ -5,8 +5,7 @@
 
 {% block js %}
 {% load static %}
-
-<script src="{% static 'js/home.js'%}"></script>
+    <script src="{% static 'js/home.js'%}"></script>
 {% endblock %}
 
 {% block content %}
@@ -55,7 +54,6 @@
                         </h1>
                     </div>
                 </div>
-                
                 <div class="rounded justify-content-center">
                     <div class="d-flex flex-column w-100">
                         {% for action in action_list %}
@@ -70,11 +68,11 @@
                                 </div>
                             </div>
                         {% empty %}
-                        <div class="home_action card w-100 my-2 " style="display: none;">
-                            <div class="d-flex justify-content-center">
-                                <h3 class="p-2">No hay cambios en la lista</h3>
+                            <div class="home_action card w-100 my-2 " style="display: none;">
+                                <div class="d-flex justify-content-center">
+                                    <h3 class="p-2">No hay cambios en la lista</h3>
+                                </div>
                             </div>
-                        </div>
                         {% endfor %}
                     </div>
                 </div>
@@ -110,14 +108,12 @@
                                 <div class="progress mb-3 w-100">
                                     <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width:{{user.get_level_progress}}%"></div>
                                 </div>
-                            </div>
-                            
+                            </div>     
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    
+    </div> 
 </div>
 {% endblock %}

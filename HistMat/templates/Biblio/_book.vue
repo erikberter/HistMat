@@ -1,10 +1,10 @@
 
-<li class="item card m-2 draggable infinite-item real-frame col-xs-6 shadow moving-element" v-bind:b_slug="book_slug" style="max-width:200px;"> 
+<li class="item card m-2 draggable infinite-item real-frame moving-element rcorners2" v-bind:b_slug="book_slug" style="max-width:180px;"> 
     <div class="frame">
-        <img v-bind:src="book_cover_url" v-if="book_cover_url != ''" v-bind:alt="book_title+'cover'" class="img-fluid">
-        <img src="/HistMat/media/no_image.jpg" v-else v-bind:alt="book_title+' has no cover image'" class="img-fluid">
+        <img v-bind:src="book_cover_url" v-if="book_cover_url != ''" v-bind:alt="book_title+'cover'" class="img-fluid rcornerst">
+        <img src="/HistMat/media/no_image.jpg" v-else v-bind:alt="book_title+' has no cover image'" class="img-fluid rcornerst">
         
-        <div class = "details jumbotron d-flex align-items-center">
+        <div class = "details jumbotron d-flex align-items-center rcornerst">
             <div class="container p-1 d-flex flex-column">
                 <a v-if="book_file_url != ''" class="btn btn-primary align-middle text-white bg-transparent bold thumb-button file valid" v-bind:href="book_file_url" style="border: white 3px solid;">
                     <span style="font-size:large;"><i class="fa fa-file-pdf"></i> File</span>
@@ -20,7 +20,7 @@
         </div>
     </div>
     
-    <div class="detailed-details bg-white">
+    <div class="detailed-details bg-light rcornersb  mt-0 h-100">
         <div class="p-1">
             <a v-bind:href="book_detail_url" >
                 <span class="book-info">[[book_title]]</span>

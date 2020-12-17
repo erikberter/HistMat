@@ -232,10 +232,16 @@ SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = False
 SECURE_HSTS_PRELOAD = False
 
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'tmp_cache',
+if DEBUG:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        }
     }
-}
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+            'LOCATION': 'tmp_cache',
+        }
+    }

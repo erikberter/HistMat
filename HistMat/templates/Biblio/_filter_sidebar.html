@@ -1,8 +1,10 @@
 {% load i18n %}
-<div class="bg-white border-right" id="sidebar-wrapper">
-  <button class="btn btn-success py-2" id="menu-toggle"><i class="fa fa-angle-double-right"></i></button>
+<div class="bg-white border-right h-100" id="sidebar-wrapper">
+  <button class="btn btn-success py-2" id="menu-toggle">
+    <i class="fa fa-angle-double-right"></i>
+  </button>
     <!-- TODO make default settings by cookies-->
-    <h3 class="font-weight-bold text-center mt-3">{% trans 'Filtros de Catalogo' %}</h3>
+  <h3 class="font-weight-bold text-center mt-3">{% trans 'Filtros del Catalogo' %}</h3>
 
     
 
@@ -16,7 +18,7 @@
     <hr>
      
      <div>
-      <h4 class="px-3"> {% trans 'Filtro de Estado' %} </h4>
+      <h4 class="px-3"> {% trans 'Estanterias Activas' %} </h4>
       
       <div id="book-state-cb" class="d-flex flex-column p-2">
         <div id="book-state-toggle-buttons" class="btn-group-vertical btn-group-toggle" data-toggle="buttons">
@@ -41,23 +43,21 @@
     </div>
      <hr>
     <div>
-      <h4 class="px-3"> Catalog Order </h4>
-      <form action="?">
-        <div class="btn-group d-flex flex-column p-3">
-            
-            
-            <label for="last-added">
-              <input type="radio" id="last-added" name="filter-order" value="order-last-added" @click="order_books('last-added')">
-              {% trans 'Ultimo aniadido' %}
-            </label>
-            <label  for="first-added">
-              <input type="radio" id="first-added" name="filter-order" value="order-first-added" @click="order_books('first-added')">
-              {% trans 'Primero aniadido' %}
-            </label> 
-            
-            
-        </div>
-      </form>
+      <h4 class="px-3">{% trans 'Orden del Catalogo'%} </h4>
+      <div class="btn-group-vertical btn-group-toggle w-100 p-2" data-toggle="buttons">
+          
+          
+          <label class="btn btn-secondary active" for="last-added">
+            <input type="radio" id="last-added" name="filter-order" value="order-last-added" @click="order_books('last-added')" >
+            {% trans 'Ultimo aniadido' %}
+          </label>
+          <label class="btn btn-secondary" for="first-added">
+            <input type="radio" id="first-added" name="filter-order" value="order-first-added" @click="order_books('first-added')" checked>
+            {% trans 'Primero aniadido' %}
+          </label> 
+          
+          
+      </div>
     </div>
     
 </div>
