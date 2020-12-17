@@ -85,6 +85,9 @@ MIDDLEWARE = [
 
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
+
 ]
 
 INTERNAL_IPS = [
@@ -228,3 +231,11 @@ SECURE_PROXY_SSL_HEADER = False
 SECURE_SSL_REDIRECT = False
 SECURE_HSTS_SECONDS = False
 SECURE_HSTS_PRELOAD = False
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'tmp_cache',
+    }
+}
