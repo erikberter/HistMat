@@ -34,11 +34,12 @@
 
 
 {% block content %}
-<div class="container bg-light shadow p-0">
+<div class="container bg-light shadow-sm my-4 p-0 rcorners2">
     {% if blog.thumbnail%}
-        <img  src="{{blog.thumbnail.url }}" alt="{{blog.title}} cover" class="jumbo" style="height:400px;">
+        <img  src="{{blog.thumbnail.url }}" alt="{{blog.title}} cover" class="jumbo w-100 rcornerst" style="height:400px;">
     {% endif %}
     <div class="p-3">
+        <span class="px-3"><small>{{blog.created}}</small></span>
         <h1><strong>{{blog.title}}</strong></h1>
         <p> {{blog.text|safe}}</p>
     </div>

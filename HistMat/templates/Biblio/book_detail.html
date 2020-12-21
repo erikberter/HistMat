@@ -46,57 +46,37 @@
 {% block content %}
 <input id="book_slug" type="hidden" value="{{book.slug}}">
 <div class="p-5">
-    <div class="card container-fluid bg-light shadow p-5">
+    <div class="container-fluid">
         <div class="row">
             <!-- Left Sector -->
-            <div class="col">
-                <div class="row">
+            <div class="col-md col-xs-4 order-1 order-md-1 m-2">
+                <div class="row shadow-sm ">
                     {%if book.cover%}
-                        <img src="{{book.cover.url}}" class="img-fluid" alt="{{book.title}} cover">
-
+                        <img src="{{book.cover.url}}" class="img-fluid rounded" alt="{{book.title}} cover">
                      {% else %}
                      {% load static %}
-                        <img src="/HistMat/media/no_image.jpg" alt="{{book.title}} cover" class="img-fluid">
+                        <img src="/HistMat/media/no_image.jpg" class="img-fluid rounded" alt="{{book.title}} cover">
                     {%endif%}
                 </div>
-                <div class="row pt-2">
+                <div class="row pt-2 shadow-sm">
                     {% if book.book_file%}
                         <a class="btn w-100 btn-success" href="{{book.book_file.url}}">
-                             <span> <i class="fa fa-file-pdf"></i> Book File</span>
+                             <span> <i class="fa fa-file-pdf"></i> {% trans 'Archivo del Libro'%}</span>
                         </a>
                     {% else %}
                         <a class="btn w-100 btn-success disabled" > 
-                            <span> <i class="fa fa-empty-set"></i> Book File </span> 
+                            <span> <i class="fa fa-empty-set"></i> {% trans 'Archivo del Libro'%} </span> 
                         </a>
                     {% endif %}
                     
                 </div> 
             </div>
 
-            <!-- Middle Sector -->
-            <div class="col-6">
-                <h1>{{book.title}}</h1>
-                <p> Escrito por {{book.author}}</p>
-                <p> {{book.description}}</p>
-                <div class="card p-3">
-                    <span>Paginas: <span id="npage">{{book.npages}} </span></span>
-                    <div class="d-flex flex-row">
-                        <span>Tags:</span>
-                        <div class="d-flex flex-row flex-wrap">
-                            {% for tag in book.tags.all %}
-                                <span class="badge badge-danger m-1">{{tag}}</span>
-                            {% endfor %}
-                        </div>
-                    </div>
-
-                    
-                </div>
-            </div>
             <!-- Right Sector -->
-            <div class="col">
+            <div class="col-md col-xs-4 m-2 order-2 order-md-3">
                 <!-- Book State Dropdown-->
                 {% if user.is_authenticated%}
-                <div class="row">
+                <div class="row shadow-sm">
                     <select name="book_state" id="book_state_dropdown" b_state="{{book_state}}" class="btn btn-secondary dropdown-toggle w-100" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <option value="None" {% if book_state == 'None'%} selected {% endif %}>Add to shelf</option>
                         <option value="Want to Read" {% if book_state == 'Want to Read'%} selected {% endif %}>Want to Read</option>
@@ -105,7 +85,7 @@
                     </select>
                 </div>
                 {% endif %}
-                <div class="row d-flex flex-column card p-3 mt-2">
+                <div class="row d-flex flex-column card p-3 mt-2 shadow-sm">
                     <div>
                         {% if has_book %}
                             <form method="POST" id="star-rating" action="{{ request.path }}rate">
@@ -126,36 +106,59 @@
                     </div>
                     <div class="d-flex justify-content-center">
                         {% if rating.total%}
-                            <span >El libro tiene una puntuacinon de {{ rating.total }}.</span>
+                            <span >{% trans 'El libro tiene una puntuacinon de' %} {{ rating.total }}.</span>
                         {% else %}
-                            <span>Este libro nunca se ha valorado</span>
+                            <span>{% trans 'Este libro nunca se ha valorado' %}</span>
                         {% endif %}
                     </div>
                     
                 </div>
-                <div class="row card p-3 mt-2">
+                <div class="row card p-3 mt-2 shadow-sm">
                     {% if  user.is_authenticated %}
                         {% if has_book %}
                             <div class="d-flex justify-content-center">
-                                <h4>Pagina actual</h4> 
+                                <h4>{% trans 'Pagina actual' %}</h4> 
                             </div>
                             <div class="d-flex justify-content-center">
                                 <h6 id="act-page">{{act_page}}</h6>
                             </div>
                             <hr>
                             <div class="d-flex justify-content-center">
-                                <p>Has leido mas paginas?</p>
+                                <p>{% trans 'Has leido mas paginas?' %}</p>
                             </div>
 
                             <input id="set-act-page" class="form-control" type="input" b_slug = "{{book.slug}}" placeholder="Pulsa enter para actualizar el numero">
                         {% else %}
-                            <p>You should consider adding this book to be able to track your progess!</p>
+                            <p>{% trans 'You should consider adding this book to be able to track your progess!'%}</p>
                         {% endif %}
                     {% else %}
-                        <p>To add and track books you should register!</p>
+                        <p>{% trans 'To add and track books you should register!' %}</p>
                     {% endif %}
                 </div>
             </div>
+
+            <!-- Middle Sector -->
+            <div class="col-md-6 col-xs-4 order-3 order-md-2 m-2">
+                <div class="row bg-light p-3 mb-2 card shadow-sm">
+                    <h1 class="card-title">{{book.title}}</h1>
+                    <p> Escrito por {{book.author}}</p>
+                    <p> {{book.description}}</p>
+                </div>
+                <div class="row bg-light p-3 shadow-sm d-flex flex-column">
+                    <span>Paginas: <span id="npage">{{book.npages}} </span></span>
+                    <div class="d-flex flex-row">
+                        <span>Tags:</span>
+                        <div class="d-flex flex-row flex-wrap">
+                            {% for tag in book.tags.all %}
+                                <span class="badge badge-success m-1">{{tag}}</span>
+                            {% empty %}
+                                <span class="badge badge-danger m-1">{% trans 'Ninguno' %}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             
             
             

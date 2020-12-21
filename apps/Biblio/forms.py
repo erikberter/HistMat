@@ -6,7 +6,7 @@ class BookCreateForm(ModelForm):
     author_id = forms.IntegerField()
     class Meta:
         model = Book
-        fields = ['title', 'description', 'npages', 'cover' , 'book_file', 'visibility']
+        fields = ['title', 'description', 'npages', 'cover' , 'book_file', 'visibility', 'tags']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')

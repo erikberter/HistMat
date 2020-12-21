@@ -159,6 +159,7 @@
                 {{ form.visibility|as_crispy_field }}
             </div>
         </div>
+        <!-- TODO Cahnge to dropzone with image preview -->
         <div class="row">
             <div class="col-6">
                 {{ form.cover|as_crispy_field }}
@@ -167,7 +168,7 @@
                 {{ form.book_file|as_crispy_field }}
             </div>
         </div>
-        
+        {{ form.tags|as_crispy_field }}
         
         <input type="submit" class="btn btn-primary" value="{% trans 'Enviar' %}">
     </form>

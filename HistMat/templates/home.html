@@ -24,7 +24,7 @@
                 <img class="d-block jumbo" src="{{blog.thumbnail.url}}" alt="First slide">
                 <div class="carousel-caption d-none d-md-block">
                     <h3 class="text-white">{{blog.title}}</h3>
-                    <p class="text-white">{{blog.text|truncatechars:300}}</p>
+                    <p class="text-white">{{blog.text|truncatechars:300|safe}}</p>
                     <a class="btn btn-primary" href="{{blog.get_absolute_url}}">{% trans "Leer Noticia" %}</a>
                 </div>
             </div>
@@ -42,7 +42,7 @@
       
       {% endif %}
       
-    <div class="mt-4">
+    <div class="my-4">
         <div class="row">
             <div class="col-md-8">
                 <div class="rounded p-2 bg-primary shadow-sm">
@@ -68,7 +68,7 @@
                                 </div>
                             </div>
                         {% empty %}
-                            <div class="home_action card w-100 my-2 " style="display: none;">
+                            <div class="home_action card w-100 my-2 shadow-sm" style="display: none;">
                                 <div class="d-flex justify-content-center">
                                     <h3 class="p-2">No hay cambios en la lista</h3>
                                 </div>
@@ -88,11 +88,12 @@
                     </div>
                     <div class="container">
                         <div class="row p-3">
-                            <div class="col-xl-4">
+                            <div class="col-xl-4 d-flex justify-content-center">
                                 {% if user.profile_image_t11 %}
                                     <img class="rounded img-fluid" src="{{ user.profile_image_t11.url }}" width="100" height="100" alt="{{ action.autor.username }} profile pic"/>
                                 {% else %}
-                                    <i class="fas fa-user"></i>
+                                    {% load static %}
+                                    <img class="rounded img-fluid" src="{% static 'img/no_profile_img.jpg'%}" width="100" height="100" alt="{{ action.autor.username }} profile pic"/>
                                 {% endif %}
                             </div>
                             <div class="p-1 col-xl-8">
