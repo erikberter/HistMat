@@ -2,11 +2,173 @@
 {% load crispy_forms_tags %}
 {% load i18n %}
 
+{% block title%} {% trans 'Crear libro'%} | HistMat{% endblock %}
+
+{% block js %}
+    {% load static %}
+    <script>
+        axios.defaults.xsrfCookieName = 'csrftoken';
+        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+        var author_def =  {
+            name : "",
+            surname : ""
+        }
+
+        var author_create_app = new Vue({
+            el: '#authorCreateApp',
+            delimiters: ['[[', ']]'],
+            data : {
+                author : {
+                    name : "",
+                    surname :""
+                },
+                errors : []
+            },
+            methods : {
+                add_author(){
+                    this.errors = [];
+                    if(this.author.name.length == 0 || this.author.name.length > 31)
+                        this.errors.push("Name must be between 1 and 31 characters");
+                    
+                    if(this.author.surname.length == 0 || this.author.surname.length > 31)
+                        this.errors.push("Surname must be between 1 and 31 characters");
+
+                    
+                    if(this.errors.length>0){
+                        return;
+                    }
+                    axios.post("{% url 'biblio:author_create'%}", {
+                        name : this.author.name, surname : this.author.surname
+                    })
+                    .then(response => (
+                        console.log("Author added")
+                        ))
+                    .catch(error => {
+                            console.log(error)
+                        });
+
+                    this.author= {...author_def};
+
+                },
+            }
+            
+        });
+
+    </script>
+    <script type="text/javascript">     window.CSRF_TOKEN = "{{ csrf_token }}"; </script> 
+    <script>
+        $(document).ready(function(){
+            
+            $('#author_search_button').click(function(e){
+                $.ajax({
+                    type: "POST",
+                    url:"{% url 'biblio:author_get'%}",
+                    data: {
+                        author_name : $('#author_search_input').val(),
+                        csrfmiddlewaretoken: window.CSRF_TOKEN
+                    },
+                    success: function (result){
+                        $('#authorSelect').find('option').remove();
+                        
+                        for(var i = 0; i < result['authors'].length; i++){
+                            $('#authorSelect').append($('<option>', {
+                                value: result['authors'][i].id,
+                                text: result['authors'][i].name
+                            }));
+                        }
+                        $('#authorSelect').append($('<option>', {
+                                value: 0,
+                                text: "Anonimo"
+                            }));
+                    }, 
+                    error : function (){
+                        console.log("Ha habido un error");
+                    }
+                });
+            });
+        })
+    </script>
+{% endblock %}
+
 {%block content%}
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="authorCreateApp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">{% trans 'Crear autor' %}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="nameInput">{% trans 'Nombre'%}</label>
+                <input type="text" v-model="author.name" class="form-control" id="nameInput" aria-describedby="nameHelp" placeholder="{% trans 'Introduce el nombre del autor.'%}">
+            </div>
+            <div class="form-group">
+                <label for="surnameInput">{% trans 'Apellido'%}</label>
+                <input type="text" v-model="author.surname" class="form-control" id="surnameInput" aria-describedby="surnameHelp" placeholder="{% trans 'Introduce el apellido del autor.'%}">
+            </div>
+        </div>
+        <div class="p-3">
+            <span v-if="errors.length > 0"> <strong> {% trans 'Errores' %}</strong></span>
+            <div class="card bg-danger p-1 m-1" v-for="error in errors">
+                <span class="text-light">[[error]]</span>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Cerrar'%}</button>
+          <button id="create_book" @click="add_author" type="button" class="btn btn-primary">{% trans 'Crear autor' %}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <div class="pt-3 container">
     <form action="?" method="POST" enctype="multipart/form-data" class="card p-3">
         {% csrf_token %}
-        {{ form|crispy }}
+        {{ form.title|as_crispy_field }}
+        {{ form.description|as_crispy_field }}
+        <div class="input-group">
+            <input id="author_search_input" type="text" class="form-control" name="author_name">
+            <span  class="input-group-btn">
+                <button id="author_search_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+                    {% trans 'Buscar autor' %}
+                </button>
+            </span >
+            <span  class="input-group-btn">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#authorCreateApp">
+                    {% trans 'Crear autor' %}
+                </button>
+            </span >
+        </div>
+        <select id="authorSelect" name="author_id" class="form-control my-1">
+            <option value="0">{% trans 'Anonimo'%}</option>
+        </select>
+        
+        <div class="row">
+            <div class="col-6">
+                {{ form.npages|as_crispy_field }}
+            </div>
+            <div class="col-6">
+                {{ form.visibility|as_crispy_field }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                {{ form.cover|as_crispy_field }}
+            </div>
+            <div class="col-6">
+                {{ form.book_file|as_crispy_field }}
+            </div>
+        </div>
+        
+        
         <input type="submit" class="btn btn-primary" value="{% trans 'Enviar' %}">
     </form>
 </div>

@@ -8,6 +8,8 @@ urlpatterns = [
     path('mycatalog/', views.MyCatalogView.as_view(), name='mycatalog'),
 
     path('author/<slug:slug>/detail/', views.AuthorDetailView.as_view(), name='author_view'),
+    path('author/add', views.add_author, name='author_create'),
+    path('author/get', views.get_author, name='author_get'),
     
     path('book_create', views.BookCreateView.as_view(), name='book_create'),
     path('book_update/<slug:slug>/', views.BookUpdateView.as_view(), name='book_update'),

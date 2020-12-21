@@ -11,3 +11,4 @@ class BookAdmin(admin.ModelAdmin):
     ordering = ('visibility', 'created')
 
 admin.site.register(BookUserDetail)
+admin.site.register(Author)

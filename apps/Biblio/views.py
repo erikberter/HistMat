@@ -60,6 +60,7 @@ class MyCatalogView(LoginRequiredMixin, View):
         return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
+        #TODO hay dos data's iguales, cambiar nombre a uno
         data = json.loads(request.body.decode('utf-8'))
         if not data:
             raise Http404("Empty")
@@ -80,12 +81,17 @@ class BookCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         book = form.save()
+
+        if form['author_id']:
+            author_id = form['author_id'].value()
+            if int(author_id) > 0:
+                book.author = Author.objects.get(id=int(author_id))
+        
         book.creator = self.request.user
         book_du = BookUserDetail.objects.create(book=book, user=self.request.user)
         book_du.save()
         book.save(thumbnail=True)
     
-        
         self.request.user.add_exp(10)
         badges.possibly_award_badge("book_added", user=self.request.user)
         ActionBookAdd.objects.create(autor = self.request.user, book = book, 
@@ -172,7 +178,6 @@ class AuthorDetailView(DetailView):
 
 @require_POST
 def book_state_change(request, slug):
-    print("--------------------------")
     book = Book.objects.get(slug=slug)
     if request.is_ajax():
         new_book_state = slugify(request.POST.get('book_state').lower(), separator="_")
@@ -222,3 +227,37 @@ def book_rate(request, slug):
         ActionBookRate.objects.create(autor = request.user, book = book, valoracion=budetail.rating)
 
     return HttpResponseRedirect(book.get_absolute_url())
+
+
+@require_POST
+def add_author(request):
+    data = json.loads(request.body.decode('utf-8'))
+    if not data:
+        raise Http404("Empty")
+
+    if 'name' not in data and 'surname' not in data:
+        raise Http404("Author not created") 
+    
+    Author.objects.create(name=data['name'], surname=data['surname'])
+
+    return JsonResponse(CORRECT_JSON_DICT)
+
+@require_POST
+def get_author(request):
+
+    if 'author_name' not in request.POST:
+        raise Http404("Author not created") 
+    author_name = request.POST['author_name'].split()
+
+    authors = Author.objects.none()
+    
+    for token in author_name:
+        authors |= Author.objects.filter(name__contains = token)[:10]
+        authors |= Author.objects.filter(surname__contains = token)[:10]
+    
+    authors = authors.distinct()[:10]
+    authors_dto = [author.assemble() for author in authors]
+
+    ret_data = {"authors" : authors_dto}
+    return JsonResponse(ret_data)
+

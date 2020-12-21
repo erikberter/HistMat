@@ -43,9 +43,14 @@ class Author(models.Model):
     def assemble(self):
         data = {}
         data['name'] = self.__str__()
-        data['books'] = [book.assemble() for book in Author.books.all()]
+        data['id'] = self.id
         return data
 
+    def assemble_books(self):
+        data = {}
+        data['name'] = self.__str__()
+        data['books'] = [book.assemble() for book in Author.books.all()]
+        return data
 
 
 class FriendsBookManager(models.Manager):
