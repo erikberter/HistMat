@@ -1,19 +1,20 @@
 {% extends 'base.html'%}
 
-
+{% block title %} {{blog.title}} | HistMat {% endblock %}
 
 {% load static %}
+
 {% block css%}
-    {% if request.is_authenticated %}
-        {% if request.user.is_superuser or request.user.is_content_editor%}
+    {% if request.user.is_authenticated %}
+        {% if request.user.is_superuser or request.user.is_content_editor %}
             <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
         {% endif %}
     {% endif %}
 {% endblock %}
 
 {% block js %}
-    {% if request.is_authenticated %}
-        {% if request.user.is_superuser or request.user.is_content_editor%}
+    {% if request.user.is_authenticated %}
+        {% if request.user.is_superuser or request.user.is_content_editor %}
             <script>
                 var fab = new Vue({
                     el: '#fab-container',
@@ -35,11 +36,11 @@
 {% block content %}
 <div class="container bg-light shadow p-0">
     {% if blog.thumbnail%}
-        <img  src="{{blog.thumbnail.url }}" alt="{{blog.title}} cover" class="img-fluid w-100" style="height:300px;">
+        <img  src="{{blog.thumbnail.url }}" alt="{{blog.title}} cover" class="jumbo" style="height:400px;">
     {% endif %}
     <div class="p-3">
-        <h1>{{blog.title}}</h1>
-        <p> {{blog.text}}</p>
+        <h1><strong>{{blog.title}}</strong></h1>
+        <p> {{blog.text|safe}}</p>
     </div>
     
 </div>
@@ -48,5 +49,9 @@
 {% endblock %}
 
 {% block widgets %}
-    {% include 'widgets/fab.html' with icon="fa-cog" %}
+    {% if request.user.is_authenticated %}
+        {% if request.user.is_superuser or request.user.is_content_editor %}
+            {% include 'widgets/fab.html' with icon="fa-cog" %}
+        {% endif %}
+    {% endif %}
 {% endblock %}

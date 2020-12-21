@@ -260,4 +260,3 @@ def get_author(request):
 
     ret_data = {"authors" : authors_dto}
     return JsonResponse(ret_data)
-

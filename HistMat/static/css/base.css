@@ -65,3 +65,10 @@ body {
   .rcornersb {
     border-radius: 0px 0px 20px 20px;
   }
+
+  .jumbo {
+    object-fit: cover; /* Do not scale the image */
+    object-position: center; /* Center the image within the element */
+    width: 100%;
+    max-height: 500px;
+  }
