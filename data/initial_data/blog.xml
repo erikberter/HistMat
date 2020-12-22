@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+  <object model="Blog.blog" pk="1">
+    <field name="title" type="CharField">HistMat se lanza contra el mundo!</field>
+    <field name="text" type="TextField">Ya hemos lanzado nuestra web, &lt;strong&gt;Histmat&lt;/strong&gt;! Despues de 1 lustro de duro trabajo esta aqui para vosotros!
+
+
+
+HistMat: La concepci_n materialista de la historia (tambi_n conocida como materialismo hist_rico) es un t_rmino acu_ado por el marxista ruso Gueorgui Plej_nov, que alude al marco conceptual identificado por Karl Marx y usado originalmente por _l y Friedrich Engels para comprender la historia humana.
+
+
+
+La teor_a materialista de Marx reconoce m_ltiples influencias intelectuales y sociales:
+
+    &lt;ul&gt;&lt;li&gt;Del fil_sofo alem_n Hegel, su m_todo dial_ctico.&lt;/li&gt;
+
+    &lt;li&gt;De los fil_sofos materialistas de la Ilustraci_n, la idea de la influencia de las circunstancias y de la educaci_n sobre las personas.&lt;/li&gt;
+
+    &lt;li&gt;De los historiadores franceses del periodo de la Restauraci_n, los conceptos de clase social y lucha de clases.&lt;/li&gt;
+
+    &lt;li&gt;De los economistas ingleses Adam Smith y David Ricardo, la fundamentaci_n econ_mica de las contraposiciones de clase y la teor_a del valor-trabajo.&lt;/li&gt;
+
+    &lt;li&gt;Del socialista franc_s Proudhon el _nfasis en el proletariado como la clase revolucionaria de la _poca.&lt;/li&gt;
+
+    &lt;li&gt;Del socialismo reaccionario, la cr_tica amarga al fracaso de los ideales del liberalismo.&lt;/li&gt;
+
+   &lt;li&gt; Del socialismo de Sismondi, la cr_tica de las consecuencias antisociales del r_gimen burgu_s.&lt;/li&gt;
+
+    &lt;li&gt;De la izquierda hegeliana y del fil_sofo Feuerbach, la cr_tica de la filosof_a especulativa y la idea de la religi_n como resultado de la autoenajenaci_n de la esencia humana.&lt;/li&gt;
+
+    &lt;li&gt;De la revoluci_n francesa y de Blanqui, la doctrina de la dictadura revolucionaria.&lt;/li&gt;
+
+    &lt;li&gt;De los cartistas ingleses, la importancia de la lucha pol_tica para la clase obrera.&lt;/li&gt;
+
+    &lt;li&gt;Del socialismo ut_pico, sus objetivos _ltimos: abolici_n de las clases sociales.&lt;/li&gt;&lt;/ul&gt;</field>
+    <field name="likes" type="PositiveIntegerField">0</field>
+    <field name="autor" rel="ManyToOneRel" to="Users.profile">1</field>
+    <field name="thumbnail" type="FileField">apuntes/docu/img/revolucion-francesa-delacroix.jpg</field>
+    <field name="slug" type="SlugField">histmat-se-lanza-contra-el-mundo</field>
+    <field name="created" type="DateTimeField">2020-12-21T20:20:50.442556+00:00</field>
+    <field name="updated" type="DateTimeField">2020-12-21T20:27:04.352471+00:00</field>
+  </object>
+  <object model="Blog.blog" pk="2">
+    <field name="title" type="CharField">Nueva aplicacion en la siguiente version: TRIVIA!</field>
+    <field name="text" type="TextField">Para la primera versi_n no se ha podido agregar las funciones de trivia, pero para la siguiente versi_n de la p_gina se viene.. TRIVIA!
+
+
+
+El trivia contara con las siguiente funciones:
+
+&lt;ul&gt;
+
+&lt;li&gt;Preguntas tipo texto &lt;/li&gt;
+
+&lt;li&gt;Preguntas de multiple eleccion&lt;/li&gt;
+
+&lt;li&gt;Ranking de puntuacion&lt;/li&gt;
+
+&lt;/ul&gt;
+
+
+
+En la proxima actualizacion!!</field>
+    <field name="likes" type="PositiveIntegerField">0</field>
+    <field name="autor" rel="ManyToOneRel" to="Users.profile">1</field>
+    <field name="thumbnail" type="FileField">apuntes/docu/img/The_Creation_Of_Adam.jpg</field>
+    <field name="slug" type="SlugField">nueva-aplicacion-en-la-siguiente-version-trivia</field>
+    <field name="created" type="DateTimeField">2020-12-21T20:52:37.599027+00:00</field>
+    <field name="updated" type="DateTimeField">2020-12-21T20:52:37.599027+00:00</field>
+  </object>
+</django-objects>

@@ -188,6 +188,9 @@ def book_state_change(request, slug):
         else:
             book_ud = request.user.books_details.get(book = book)
         
+        if new_book_state == 'none':
+            book_ud.delete()
+            return JsonResponse(CORRECT_JSON_DICT)
         book_ud.book_state = new_book_state
         book_ud.save()
 
@@ -206,6 +209,8 @@ def book_page_change(request, slug):
         book = Book.objects.get(slug=slug)
         
         budetail = get_object_or_404(BookUserDetail, book=book, user = request.user)
+        if new_act_page < 0:
+            return JsonResponse(CORRECT_JSON_DICT)
         budetail.act_page = new_act_page
         budetail.save(update_fields=['act_page'])
         request.user.add_exp(1)
@@ -220,6 +225,8 @@ def book_rate(request, slug):
     if "rating_v" in request.POST:
         rating = int(request.POST.get("rating_v"))
         budetail = request.user.books_details.get(book = book)
+        if rating < 0 and rating > 5:
+            return HttpResponseRedirect(book.get_absolute_url())
         budetail.rating = rating
         budetail.save(update_fields=['rating'])
         

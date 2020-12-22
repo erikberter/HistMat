@@ -17,7 +17,7 @@ class Blog(models.Model):
     updated = models.DateTimeField(auto_now=True)
     
     class Meta:
-        ordering = ['updated']
+        ordering = ['-updated']
 
     def _str_(self):
         return self.nombre

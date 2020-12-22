@@ -20,8 +20,10 @@
         </ol>
         <div class="carousel-inner">
             {% for blog in important_blog%}
-            <div class="carousel-item {% if forloop.counter0 == 0%}active {% endif %}">
-                <img class="d-block jumbo" src="{{blog.thumbnail.url}}" alt="First slide">
+            <div class="carousel-item jumbo {% if forloop.counter0 == 0%}active {% endif %}">
+                <img class="d-block img-size-limit" src="{{blog.thumbnail.url}}" alt="First slide">
+                
+                    
                 <div class="carousel-caption d-none d-md-block">
                     <h3 class="text-white">{{blog.title}}</h3>
                     <p class="text-white">{{blog.text|truncatechars:300|safe}}</p>

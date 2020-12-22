@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+  <object model="admin.logentry" pk="1">
+    <field name="action_time" type="DateTimeField">2020-12-22T11:58:52.119000+00:00</field>
+    <field name="user" rel="ManyToOneRel" to="Users.profile">1</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">8</field>
+    <field name="object_id" type="TextField">2</field>
+    <field name="object_repr" type="CharField">adminstalin-el-grande_anonymous</field>
+    <field name="action_flag" type="PositiveSmallIntegerField">2</field>
+    <field name="change_message" type="TextField">[{"changed": {"fields": ["Book state"]}}]</field>
+  </object>
+</django-objects>

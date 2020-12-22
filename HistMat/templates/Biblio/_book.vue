@@ -1,8 +1,9 @@
 
 <li class="item card m-2 draggable infinite-item real-frame moving-element rcorners2" v-bind:b_slug="book_slug" style="max-width:180px;"> 
     <div class="frame">
+    {% load static %}
         <img v-bind:src="book_cover_url" v-if="book_cover_url != ''" v-bind:alt="book_title+'cover'" class="img-fluid rcornerst">
-        <img src="/HistMat/media/no_image.jpg" v-else v-bind:alt="book_title+' has no cover image'" class="img-fluid rcornerst">
+        <img src="{% static 'img/blanco.jpg'%}" v-else v-bind:alt="book_title+' has no cover image'" class="img-fluid rcornerst">
         
         <div class = "details jumbotron d-flex align-items-center rcornerst">
             <div class="container p-1 d-flex flex-column">

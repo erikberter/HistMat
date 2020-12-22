@@ -38,9 +38,9 @@
 <div class="container my-4">
     {% for blog in blogs %}
 
-        <div class="card bg-light shadow-sm p-0 mb-3 rcorners2">
+        <div class="card bg-light shadow-sm p-0 mb-3 rcorners2 jumbo">
             {% if blog.thumbnail %}
-                <img  src="{{ blog.thumbnail.url }}" alt="{{ blog.title }} cover" class="jumbo rcornerst" style="height:200px;">
+                <img  src="{{ blog.thumbnail.url }}" alt="{{ blog.title }} cover" class="img-size-limit rcornerst" style="height:200px;">
             {% endif %}
             <div class="p-3">
                 <span class="px-3"><small>{{blog.created}}</small></span>

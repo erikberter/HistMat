@@ -77,9 +77,10 @@
                             }));
                         }
                         $('#authorSelect').append($('<option>', {
-                                value: 0,
-                                text: "Anonimo"
-                            }));
+                            value: 0,
+                            text: "Anonimo"
+                        }));
+                        $('#authorSelect').selectpicker('refresh');
                     }, 
                     error : function (){
                         console.log("Ha habido un error");
@@ -98,8 +99,10 @@
   <div class="modal fade" id="authorCreateApp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">{% trans 'Crear autor' %}</h5>
+        <div class="modal-header bg-primary">
+          <h5 class="modal-title text-white" id="exampleModalLongTitle">
+             {% trans 'Crear autor' %}
+          </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -134,20 +137,21 @@
         {% csrf_token %}
         {{ form.title|as_crispy_field }}
         {{ form.description|as_crispy_field }}
+        <label>{% trans 'Autor' %} <small>{% trans 'Puede buscar el autor mediante la barra de busqueda o crearlo' %}</small></label>
         <div class="input-group">
             <input id="author_search_input" type="text" class="form-control" name="author_name">
             <span  class="input-group-btn">
-                <button id="author_search_button" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-                    {% trans 'Buscar autor' %}
+                <button id="author_search_button" type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalLong">
+                    <i class="fas fa-search"></i> {% trans 'Buscar' %}
                 </button>
             </span >
-            <span  class="input-group-btn">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#authorCreateApp">
-                    {% trans 'Crear autor' %}
+            <span  class="ml-1 input-group-btn">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#authorCreateApp">
+                    <i class="fas fa-plus"></i> {% trans 'Crear' %}
                 </button>
             </span >
         </div>
-        <select id="authorSelect" name="author_id" class="form-control my-1">
+        <select id="authorSelect" name="author_id" class="selectpicker w-100 my-2" data-style="btn-info">
             <option value="0">{% trans 'Anonimo'%}</option>
         </select>
         

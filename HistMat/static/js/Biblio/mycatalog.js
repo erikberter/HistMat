@@ -1,38 +1,3 @@
-/**
- * **Summary**. Filtering data used during the *send_book_lookup_ajax* function.
- */
-var mycatalog_data = {
-    "book_state" : "",
-}
-
-/*
-        AJAX FUNCTIONS
-*/
-
-/**
- * **Summary**. Sends AJAX request to the server to get a HTML with the books inside
- * 
- * **Description**. Sends the server an AJAX request with the filters used inside the query. 
- *              The filters sent are based on the input in the left-side filtering panel.
- */
-function send_book_lookup_ajax(){
-    $.ajax({
-        type: "POST",
-        url: "/biblio/mycatalog",
-        data: { 
-            book_state : mycatalog_data["book_state"],
-            csrfmiddlewaretoken: window.CSRF_TOKEN
-        },
-        success: function(result) {
-            $('#book-to-add').append(result);
-            refreshSortable();
-        },
-        error: function(result) {
-            alert('error');
-        }
-    }); 
-}
-
 /*
         JQUERY UI FUNCTIONS
 */
@@ -73,36 +38,9 @@ function refreshSortable(){
 }
 
 /*
-        MYCATALOG UTIL FUNCTIONS
-*/
-
-function send_book_state_request(elem){
-    mycatalog_data["book_state"] = $("label[for=" + elem.id+"]").text().trim();
-    send_book_lookup_ajax();
-    $(elem).prop('checked',true);
-}
-
-function load_checked_filters(){
-    $(".cb_filter_selector").each(function() {
-        if(this.checked)
-            send_book_state_request(this);
-        
-        refreshSortable();
-    });
-}
-
-/*
         ONLOAD JQUERY
 */
-
-
 $(document).ready(function() {
-    
-    /**
-     *  **Summary**. On window load, check for default checked checkboxes.
-     */
-    load_checked_filters();
-    
     /**
      * **Summary**. On click listener for the filter menu toggle button.
      */
@@ -155,27 +93,33 @@ var catalog_app = new Vue({
                         this.book_lists.splice(i,1);
                     }
                 }
-                return;
+                Vue.nextTick(function () {
+                    refreshSortable();
+                });
             }else{
                 axios.post(window.location.pathname, {
                     book_state : book_state
                 })
                 .then(response => {
+
                     this.book_lists.push(response.data);
                     this.active_book_states.push(book_state);
-                    console.log("New book state " + response.data.book_state);
-                    console.log("books  " + this.book_lists[0].books.length);
+
+                    console.log(this.book_lists);
 
                     $('#container-'+response.data.book_state).remove();
                     $('#book-to-add').append(response);
-                    Vue.nextTick(function () {
+
+                    this.$nextTick(() => {
                         refreshSortable();
                     });
+                    
                 })
                 .catch(error => {
                     console.log(error)
                 });
             }
+            
         },
         order_books : function(order_function){
             switch(order_function){
@@ -195,5 +139,9 @@ var catalog_app = new Vue({
                     console.error('Not valid order');
             }
         }
+    },
+    created : function(){
+		this.load_books('Reading');
+        $('#cb-reading').attr('checked','checked');
     }
 })

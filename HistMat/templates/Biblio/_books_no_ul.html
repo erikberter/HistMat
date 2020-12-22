@@ -7,7 +7,7 @@
             <img src="{{book.cover_t36.url}}" alt="{{book.title}} cover" class="img-fluid rcornerst">
         {% else %}
             {% load static %}
-            <img src="/HistMat/media/no_image.jpg" alt="{{book.title}} cover" class="img-fluid rcornerst">
+            <img src="{% static 'img/blanco.jpg'%}" alt="{{book.title}} cover" class="img-fluid rcornerst">
         {% endif %}
     
 

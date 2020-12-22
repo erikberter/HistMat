@@ -1,0 +1,1 @@
+[{"model": "admin.logentry", "pk": 1, "fields": {"action_time": "2020-12-22T11:58:52.119Z", "user": 1, "content_type": 8, "object_id": "2", "object_repr": "adminstalin-el-grande_anonymous", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Book state\"]}}]"}}]

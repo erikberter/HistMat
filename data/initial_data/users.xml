@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0">
+  <object model="auth.permission" pk="1">
+    <field name="name" type="CharField">Can add log entry</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">1</field>
+    <field name="codename" type="CharField">add_logentry</field>
+  </object>
+  <object model="auth.permission" pk="2">
+    <field name="name" type="CharField">Can change log entry</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">1</field>
+    <field name="codename" type="CharField">change_logentry</field>
+  </object>
+  <object model="auth.permission" pk="3">
+    <field name="name" type="CharField">Can delete log entry</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">1</field>
+    <field name="codename" type="CharField">delete_logentry</field>
+  </object>
+  <object model="auth.permission" pk="4">
+    <field name="name" type="CharField">Can view log entry</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">1</field>
+    <field name="codename" type="CharField">view_logentry</field>
+  </object>
+  <object model="auth.permission" pk="5">
+    <field name="name" type="CharField">Can add permission</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">2</field>
+    <field name="codename" type="CharField">add_permission</field>
+  </object>
+  <object model="auth.permission" pk="6">
+    <field name="name" type="CharField">Can change permission</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">2</field>
+    <field name="codename" type="CharField">change_permission</field>
+  </object>
+  <object model="auth.permission" pk="7">
+    <field name="name" type="CharField">Can delete permission</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">2</field>
+    <field name="codename" type="CharField">delete_permission</field>
+  </object>
+  <object model="auth.permission" pk="8">
+    <field name="name" type="CharField">Can view permission</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">2</field>
+    <field name="codename" type="CharField">view_permission</field>
+  </object>
+  <object model="auth.permission" pk="9">
+    <field name="name" type="CharField">Can add group</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">3</field>
+    <field name="codename" type="CharField">add_group</field>
+  </object>
+  <object model="auth.permission" pk="10">
+    <field name="name" type="CharField">Can change group</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">3</field>
+    <field name="codename" type="CharField">change_group</field>
+  </object>
+  <object model="auth.permission" pk="11">
+    <field name="name" type="CharField">Can delete group</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">3</field>
+    <field name="codename" type="CharField">delete_group</field>
+  </object>
+  <object model="auth.permission" pk="12">
+    <field name="name" type="CharField">Can view group</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">3</field>
+    <field name="codename" type="CharField">view_group</field>
+  </object>
+  <object model="auth.permission" pk="13">
+    <field name="name" type="CharField">Can add content type</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">4</field>
+    <field name="codename" type="CharField">add_contenttype</field>
+  </object>
+  <object model="auth.permission" pk="14">
+    <field name="name" type="CharField">Can change content type</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">4</field>
+    <field name="codename" type="CharField">change_contenttype</field>
+  </object>
+  <object model="auth.permission" pk="15">
+    <field name="name" type="CharField">Can delete content type</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">4</field>
+    <field name="codename" type="CharField">delete_contenttype</field>
+  </object>
+  <object model="auth.permission" pk="16">
+    <field name="name" type="CharField">Can view content type</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">4</field>
+    <field name="codename" type="CharField">view_contenttype</field>
+  </object>
+  <object model="auth.permission" pk="17">
+    <field name="name" type="CharField">Can add session</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">5</field>
+    <field name="codename" type="CharField">add_session</field>
+  </object>
+  <object model="auth.permission" pk="18">
+    <field name="name" type="CharField">Can change session</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">5</field>
+    <field name="codename" type="CharField">change_session</field>
+  </object>
+  <object model="auth.permission" pk="19">
+    <field name="name" type="CharField">Can delete session</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">5</field>
+    <field name="codename" type="CharField">delete_session</field>
+  </object>
+  <object model="auth.permission" pk="20">
+    <field name="name" type="CharField">Can view session</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">5</field>
+    <field name="codename" type="CharField">view_session</field>
+  </object>
+  <object model="auth.permission" pk="21">
+    <field name="name" type="CharField">Can add author</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">6</field>
+    <field name="codename" type="CharField">add_author</field>
+  </object>
+  <object model="auth.permission" pk="22">
+    <field name="name" type="CharField">Can change author</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">6</field>
+    <field name="codename" type="CharField">change_author</field>
+  </object>
+  <object model="auth.permission" pk="23">
+    <field name="name" type="CharField">Can delete author</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">6</field>
+    <field name="codename" type="CharField">delete_author</field>
+  </object>
+  <object model="auth.permission" pk="24">
+    <field name="name" type="CharField">Can view author</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">6</field>
+    <field name="codename" type="CharField">view_author</field>
+  </object>
+  <object model="auth.permission" pk="25">
+    <field name="name" type="CharField">Can add book</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">7</field>
+    <field name="codename" type="CharField">add_book</field>
+  </object>
+  <object model="auth.permission" pk="26">
+    <field name="name" type="CharField">Can change book</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">7</field>
+    <field name="codename" type="CharField">change_book</field>
+  </object>
+  <object model="auth.permission" pk="27">
+    <field name="name" type="CharField">Can delete book</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">7</field>
+    <field name="codename" type="CharField">delete_book</field>
+  </object>
+  <object model="auth.permission" pk="28">
+    <field name="name" type="CharField">Can view book</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">7</field>
+    <field name="codename" type="CharField">view_book</field>
+  </object>
+  <object model="auth.permission" pk="29">
+    <field name="name" type="CharField">Can add book user detail</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">8</field>
+    <field name="codename" type="CharField">add_bookuserdetail</field>
+  </object>
+  <object model="auth.permission" pk="30">
+    <field name="name" type="CharField">Can change book user detail</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">8</field>
+    <field name="codename" type="CharField">change_bookuserdetail</field>
+  </object>
+  <object model="auth.permission" pk="31">
+    <field name="name" type="CharField">Can delete book user detail</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">8</field>
+    <field name="codename" type="CharField">delete_bookuserdetail</field>
+  </object>
+  <object model="auth.permission" pk="32">
+    <field name="name" type="CharField">Can view book user detail</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">8</field>
+    <field name="codename" type="CharField">view_bookuserdetail</field>
+  </object>
+  <object model="auth.permission" pk="33">
+    <field name="name" type="CharField">Can add user</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">9</field>
+    <field name="codename" type="CharField">add_profile</field>
+  </object>
+  <object model="auth.permission" pk="34">
+    <field name="name" type="CharField">Can change user</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">9</field>
+    <field name="codename" type="CharField">change_profile</field>
+  </object>
+  <object model="auth.permission" pk="35">
+    <field name="name" type="CharField">Can delete user</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">9</field>
+    <field name="codename" type="CharField">delete_profile</field>
+  </object>
+  <object model="auth.permission" pk="36">
+    <field name="name" type="CharField">Can view user</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">9</field>
+    <field name="codename" type="CharField">view_profile</field>
+  </object>
+  <object model="auth.permission" pk="37">
+    <field name="name" type="CharField">Can add profile stats</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">10</field>
+    <field name="codename" type="CharField">add_profilestats</field>
+  </object>
+  <object model="auth.permission" pk="38">
+    <field name="name" type="CharField">Can change profile stats</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">10</field>
+    <field name="codename" type="CharField">change_profilestats</field>
+  </object>
+  <object model="auth.permission" pk="39">
+    <field name="name" type="CharField">Can delete profile stats</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">10</field>
+    <field name="codename" type="CharField">delete_profilestats</field>
+  </object>
+  <object model="auth.permission" pk="40">
+    <field name="name" type="CharField">Can view profile stats</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">10</field>
+    <field name="codename" type="CharField">view_profilestats</field>
+  </object>
+  <object model="auth.permission" pk="41">
+    <field name="name" type="CharField">Can add apunte</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">11</field>
+    <field name="codename" type="CharField">add_apunte</field>
+  </object>
+  <object model="auth.permission" pk="42">
+    <field name="name" type="CharField">Can change apunte</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">11</field>
+    <field name="codename" type="CharField">change_apunte</field>
+  </object>
+  <object model="auth.permission" pk="43">
+    <field name="name" type="CharField">Can delete apunte</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">11</field>
+    <field name="codename" type="CharField">delete_apunte</field>
+  </object>
+  <object model="auth.permission" pk="44">
+    <field name="name" type="CharField">Can view apunte</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">11</field>
+    <field name="codename" type="CharField">view_apunte</field>
+  </object>
+  <object model="auth.permission" pk="45">
+    <field name="name" type="CharField">Can add post</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">12</field>
+    <field name="codename" type="CharField">add_post</field>
+  </object>
+  <object model="auth.permission" pk="46">
+    <field name="name" type="CharField">Can change post</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">12</field>
+    <field name="codename" type="CharField">change_post</field>
+  </object>
+  <object model="auth.permission" pk="47">
+    <field name="name" type="CharField">Can delete post</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">12</field>
+    <field name="codename" type="CharField">delete_post</field>
+  </object>
+  <object model="auth.permission" pk="48">
+    <field name="name" type="CharField">Can view post</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">12</field>
+    <field name="codename" type="CharField">view_post</field>
+  </object>
+  <object model="auth.permission" pk="49">
+    <field name="name" type="CharField">Can add comment</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">13</field>
+    <field name="codename" type="CharField">add_comment</field>
+  </object>
+  <object model="auth.permission" pk="50">
+    <field name="name" type="CharField">Can change comment</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">13</field>
+    <field name="codename" type="CharField">change_comment</field>
+  </object>
+  <object model="auth.permission" pk="51">
+    <field name="name" type="CharField">Can delete comment</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">13</field>
+    <field name="codename" type="CharField">delete_comment</field>
+  </object>
+  <object model="auth.permission" pk="52">
+    <field name="name" type="CharField">Can view comment</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">13</field>
+    <field name="codename" type="CharField">view_comment</field>
+  </object>
+  <object model="auth.permission" pk="53">
+    <field name="name" type="CharField">Can add action</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">14</field>
+    <field name="codename" type="CharField">add_action</field>
+  </object>
+  <object model="auth.permission" pk="54">
+    <field name="name" type="CharField">Can change action</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">14</field>
+    <field name="codename" type="CharField">change_action</field>
+  </object>
+  <object model="auth.permission" pk="55">
+    <field name="name" type="CharField">Can delete action</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">14</field>
+    <field name="codename" type="CharField">delete_action</field>
+  </object>
+  <object model="auth.permission" pk="56">
+    <field name="name" type="CharField">Can view action</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">14</field>
+    <field name="codename" type="CharField">view_action</field>
+  </object>
+  <object model="auth.permission" pk="57">
+    <field name="name" type="CharField">Can add action post like</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">15</field>
+    <field name="codename" type="CharField">add_actionpostlike</field>
+  </object>
+  <object model="auth.permission" pk="58">
+    <field name="name" type="CharField">Can change action post like</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">15</field>
+    <field name="codename" type="CharField">change_actionpostlike</field>
+  </object>
+  <object model="auth.permission" pk="59">
+    <field name="name" type="CharField">Can delete action post like</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">15</field>
+    <field name="codename" type="CharField">delete_actionpostlike</field>
+  </object>
+  <object model="auth.permission" pk="60">
+    <field name="name" type="CharField">Can view action post like</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">15</field>
+    <field name="codename" type="CharField">view_actionpostlike</field>
+  </object>
+  <object model="auth.permission" pk="61">
+    <field name="name" type="CharField">Can add action post comment</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">16</field>
+    <field name="codename" type="CharField">add_actionpostcomment</field>
+  </object>
+  <object model="auth.permission" pk="62">
+    <field name="name" type="CharField">Can change action post comment</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">16</field>
+    <field name="codename" type="CharField">change_actionpostcomment</field>
+  </object>
+  <object model="auth.permission" pk="63">
+    <field name="name" type="CharField">Can delete action post comment</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">16</field>
+    <field name="codename" type="CharField">delete_actionpostcomment</field>
+  </object>
+  <object model="auth.permission" pk="64">
+    <field name="name" type="CharField">Can view action post comment</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">16</field>
+    <field name="codename" type="CharField">view_actionpostcomment</field>
+  </object>
+  <object model="auth.permission" pk="65">
+    <field name="name" type="CharField">Can add action post add</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">17</field>
+    <field name="codename" type="CharField">add_actionpostadd</field>
+  </object>
+  <object model="auth.permission" pk="66">
+    <field name="name" type="CharField">Can change action post add</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">17</field>
+    <field name="codename" type="CharField">change_actionpostadd</field>
+  </object>
+  <object model="auth.permission" pk="67">
+    <field name="name" type="CharField">Can delete action post add</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">17</field>
+    <field name="codename" type="CharField">delete_actionpostadd</field>
+  </object>
+  <object model="auth.permission" pk="68">
+    <field name="name" type="CharField">Can view action post add</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">17</field>
+    <field name="codename" type="CharField">view_actionpostadd</field>
+  </object>
+  <object model="auth.permission" pk="69">
+    <field name="name" type="CharField">Can add action book state</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">18</field>
+    <field name="codename" type="CharField">add_actionbookstate</field>
+  </object>
+  <object model="auth.permission" pk="70">
+    <field name="name" type="CharField">Can change action book state</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">18</field>
+    <field name="codename" type="CharField">change_actionbookstate</field>
+  </object>
+  <object model="auth.permission" pk="71">
+    <field name="name" type="CharField">Can delete action book state</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">18</field>
+    <field name="codename" type="CharField">delete_actionbookstate</field>
+  </object>
+  <object model="auth.permission" pk="72">
+    <field name="name" type="CharField">Can view action book state</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">18</field>
+    <field name="codename" type="CharField">view_actionbookstate</field>
+  </object>
+  <object model="auth.permission" pk="73">
+    <field name="name" type="CharField">Can add action book rate</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">19</field>
+    <field name="codename" type="CharField">add_actionbookrate</field>
+  </object>
+  <object model="auth.permission" pk="74">
+    <field name="name" type="CharField">Can change action book rate</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">19</field>
+    <field name="codename" type="CharField">change_actionbookrate</field>
+  </object>
+  <object model="auth.permission" pk="75">
+    <field name="name" type="CharField">Can delete action book rate</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">19</field>
+    <field name="codename" type="CharField">delete_actionbookrate</field>
+  </object>
+  <object model="auth.permission" pk="76">
+    <field name="name" type="CharField">Can view action book rate</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">19</field>
+    <field name="codename" type="CharField">view_actionbookrate</field>
+  </object>
+  <object model="auth.permission" pk="77">
+    <field name="name" type="CharField">Can add action book page change</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">20</field>
+    <field name="codename" type="CharField">add_actionbookpagechange</field>
+  </object>
+  <object model="auth.permission" pk="78">
+    <field name="name" type="CharField">Can change action book page change</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">20</field>
+    <field name="codename" type="CharField">change_actionbookpagechange</field>
+  </object>
+  <object model="auth.permission" pk="79">
+    <field name="name" type="CharField">Can delete action book page change</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">20</field>
+    <field name="codename" type="CharField">delete_actionbookpagechange</field>
+  </object>
+  <object model="auth.permission" pk="80">
+    <field name="name" type="CharField">Can view action book page change</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">20</field>
+    <field name="codename" type="CharField">view_actionbookpagechange</field>
+  </object>
+  <object model="auth.permission" pk="81">
+    <field name="name" type="CharField">Can add action book add</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">21</field>
+    <field name="codename" type="CharField">add_actionbookadd</field>
+  </object>
+  <object model="auth.permission" pk="82">
+    <field name="name" type="CharField">Can change action book add</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">21</field>
+    <field name="codename" type="CharField">change_actionbookadd</field>
+  </object>
+  <object model="auth.permission" pk="83">
+    <field name="name" type="CharField">Can delete action book add</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">21</field>
+    <field name="codename" type="CharField">delete_actionbookadd</field>
+  </object>
+  <object model="auth.permission" pk="84">
+    <field name="name" type="CharField">Can view action book add</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">21</field>
+    <field name="codename" type="CharField">view_actionbookadd</field>
+  </object>
+  <object model="auth.permission" pk="85">
+    <field name="name" type="CharField">Can add action apunte add</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">22</field>
+    <field name="codename" type="CharField">add_actionapunteadd</field>
+  </object>
+  <object model="auth.permission" pk="86">
+    <field name="name" type="CharField">Can change action apunte add</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">22</field>
+    <field name="codename" type="CharField">change_actionapunteadd</field>
+  </object>
+  <object model="auth.permission" pk="87">
+    <field name="name" type="CharField">Can delete action apunte add</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">22</field>
+    <field name="codename" type="CharField">delete_actionapunteadd</field>
+  </object>
+  <object model="auth.permission" pk="88">
+    <field name="name" type="CharField">Can view action apunte add</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">22</field>
+    <field name="codename" type="CharField">view_actionapunteadd</field>
+  </object>
+  <object model="auth.permission" pk="89">
+    <field name="name" type="CharField">Can add blog</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">23</field>
+    <field name="codename" type="CharField">add_blog</field>
+  </object>
+  <object model="auth.permission" pk="90">
+    <field name="name" type="CharField">Can change blog</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">23</field>
+    <field name="codename" type="CharField">change_blog</field>
+  </object>
+  <object model="auth.permission" pk="91">
+    <field name="name" type="CharField">Can delete blog</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">23</field>
+    <field name="codename" type="CharField">delete_blog</field>
+  </object>
+  <object model="auth.permission" pk="92">
+    <field name="name" type="CharField">Can view blog</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">23</field>
+    <field name="codename" type="CharField">view_blog</field>
+  </object>
+  <object model="auth.permission" pk="93">
+    <field name="name" type="CharField">Can add tag</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">24</field>
+    <field name="codename" type="CharField">add_tag</field>
+  </object>
+  <object model="auth.permission" pk="94">
+    <field name="name" type="CharField">Can change tag</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">24</field>
+    <field name="codename" type="CharField">change_tag</field>
+  </object>
+  <object model="auth.permission" pk="95">
+    <field name="name" type="CharField">Can delete tag</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">24</field>
+    <field name="codename" type="CharField">delete_tag</field>
+  </object>
+  <object model="auth.permission" pk="96">
+    <field name="name" type="CharField">Can view tag</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">24</field>
+    <field name="codename" type="CharField">view_tag</field>
+  </object>
+  <object model="auth.permission" pk="97">
+    <field name="name" type="CharField">Can add tagged item</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">25</field>
+    <field name="codename" type="CharField">add_taggeditem</field>
+  </object>
+  <object model="auth.permission" pk="98">
+    <field name="name" type="CharField">Can change tagged item</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">25</field>
+    <field name="codename" type="CharField">change_taggeditem</field>
+  </object>
+  <object model="auth.permission" pk="99">
+    <field name="name" type="CharField">Can delete tagged item</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">25</field>
+    <field name="codename" type="CharField">delete_taggeditem</field>
+  </object>
+  <object model="auth.permission" pk="100">
+    <field name="name" type="CharField">Can view tagged item</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">25</field>
+    <field name="codename" type="CharField">view_taggeditem</field>
+  </object>
+  <object model="auth.permission" pk="101">
+    <field name="name" type="CharField">Can add association</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">26</field>
+    <field name="codename" type="CharField">add_association</field>
+  </object>
+  <object model="auth.permission" pk="102">
+    <field name="name" type="CharField">Can change association</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">26</field>
+    <field name="codename" type="CharField">change_association</field>
+  </object>
+  <object model="auth.permission" pk="103">
+    <field name="name" type="CharField">Can delete association</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">26</field>
+    <field name="codename" type="CharField">delete_association</field>
+  </object>
+  <object model="auth.permission" pk="104">
+    <field name="name" type="CharField">Can view association</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">26</field>
+    <field name="codename" type="CharField">view_association</field>
+  </object>
+  <object model="auth.permission" pk="105">
+    <field name="name" type="CharField">Can add code</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">27</field>
+    <field name="codename" type="CharField">add_code</field>
+  </object>
+  <object model="auth.permission" pk="106">
+    <field name="name" type="CharField">Can change code</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">27</field>
+    <field name="codename" type="CharField">change_code</field>
+  </object>
+  <object model="auth.permission" pk="107">
+    <field name="name" type="CharField">Can delete code</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">27</field>
+    <field name="codename" type="CharField">delete_code</field>
+  </object>
+  <object model="auth.permission" pk="108">
+    <field name="name" type="CharField">Can view code</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">27</field>
+    <field name="codename" type="CharField">view_code</field>
+  </object>
+  <object model="auth.permission" pk="109">
+    <field name="name" type="CharField">Can add nonce</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">28</field>
+    <field name="codename" type="CharField">add_nonce</field>
+  </object>
+  <object model="auth.permission" pk="110">
+    <field name="name" type="CharField">Can change nonce</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">28</field>
+    <field name="codename" type="CharField">change_nonce</field>
+  </object>
+  <object model="auth.permission" pk="111">
+    <field name="name" type="CharField">Can delete nonce</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">28</field>
+    <field name="codename" type="CharField">delete_nonce</field>
+  </object>
+  <object model="auth.permission" pk="112">
+    <field name="name" type="CharField">Can view nonce</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">28</field>
+    <field name="codename" type="CharField">view_nonce</field>
+  </object>
+  <object model="auth.permission" pk="113">
+    <field name="name" type="CharField">Can add user social auth</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">29</field>
+    <field name="codename" type="CharField">add_usersocialauth</field>
+  </object>
+  <object model="auth.permission" pk="114">
+    <field name="name" type="CharField">Can change user social auth</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">29</field>
+    <field name="codename" type="CharField">change_usersocialauth</field>
+  </object>
+  <object model="auth.permission" pk="115">
+    <field name="name" type="CharField">Can delete user social auth</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">29</field>
+    <field name="codename" type="CharField">delete_usersocialauth</field>
+  </object>
+  <object model="auth.permission" pk="116">
+    <field name="name" type="CharField">Can view user social auth</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">29</field>
+    <field name="codename" type="CharField">view_usersocialauth</field>
+  </object>
+  <object model="auth.permission" pk="117">
+    <field name="name" type="CharField">Can add partial</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">30</field>
+    <field name="codename" type="CharField">add_partial</field>
+  </object>
+  <object model="auth.permission" pk="118">
+    <field name="name" type="CharField">Can change partial</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">30</field>
+    <field name="codename" type="CharField">change_partial</field>
+  </object>
+  <object model="auth.permission" pk="119">
+    <field name="name" type="CharField">Can delete partial</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">30</field>
+    <field name="codename" type="CharField">delete_partial</field>
+  </object>
+  <object model="auth.permission" pk="120">
+    <field name="name" type="CharField">Can view partial</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">30</field>
+    <field name="codename" type="CharField">view_partial</field>
+  </object>
+  <object model="auth.permission" pk="121">
+    <field name="name" type="CharField">Can add login attempt</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">31</field>
+    <field name="codename" type="CharField">add_loginattempt</field>
+  </object>
+  <object model="auth.permission" pk="122">
+    <field name="name" type="CharField">Can change login attempt</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">31</field>
+    <field name="codename" type="CharField">change_loginattempt</field>
+  </object>
+  <object model="auth.permission" pk="123">
+    <field name="name" type="CharField">Can delete login attempt</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">31</field>
+    <field name="codename" type="CharField">delete_loginattempt</field>
+  </object>
+  <object model="auth.permission" pk="124">
+    <field name="name" type="CharField">Can view login attempt</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">31</field>
+    <field name="codename" type="CharField">view_loginattempt</field>
+  </object>
+  <object model="auth.permission" pk="125">
+    <field name="name" type="CharField">Can add kv store</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">32</field>
+    <field name="codename" type="CharField">add_kvstore</field>
+  </object>
+  <object model="auth.permission" pk="126">
+    <field name="name" type="CharField">Can change kv store</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">32</field>
+    <field name="codename" type="CharField">change_kvstore</field>
+  </object>
+  <object model="auth.permission" pk="127">
+    <field name="name" type="CharField">Can delete kv store</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">32</field>
+    <field name="codename" type="CharField">delete_kvstore</field>
+  </object>
+  <object model="auth.permission" pk="128">
+    <field name="name" type="CharField">Can view kv store</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">32</field>
+    <field name="codename" type="CharField">view_kvstore</field>
+  </object>
+  <object model="auth.permission" pk="129">
+    <field name="name" type="CharField">Can add badge award</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">33</field>
+    <field name="codename" type="CharField">add_badgeaward</field>
+  </object>
+  <object model="auth.permission" pk="130">
+    <field name="name" type="CharField">Can change badge award</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">33</field>
+    <field name="codename" type="CharField">change_badgeaward</field>
+  </object>
+  <object model="auth.permission" pk="131">
+    <field name="name" type="CharField">Can delete badge award</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">33</field>
+    <field name="codename" type="CharField">delete_badgeaward</field>
+  </object>
+  <object model="auth.permission" pk="132">
+    <field name="name" type="CharField">Can view badge award</field>
+    <field name="content_type" rel="ManyToOneRel" to="contenttypes.contenttype">33</field>
+    <field name="codename" type="CharField">view_badgeaward</field>
+  </object>
+</django-objects>
