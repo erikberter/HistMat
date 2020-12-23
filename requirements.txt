@@ -1,4 +1,5 @@
 asgiref==3.3.1
+autoflake==1.4
 beautifulsoup4==4.9.3
 certifi==2020.12.5
 cffi==1.14.4
@@ -9,11 +10,13 @@ Django==3.1.4
 django-admin-honeypot==1.1.0
 django-autoslug==1.9.8
 django-bootstrap4==2.3.1
+django-braces==1.14.0
 django-crispy-forms==1.10.0
 django-debug-toolbar==3.2
 django-jquery==3.1.0
 django-jquery-ui==1.11.4.1
 django-model-utils==4.1.1
+django-sri==0.3.0
 django-static-precompiler==1.8.2
 django-taggit==1.3.0
 google-trans-new==1.1.9
@@ -21,8 +24,10 @@ idna==2.10
 importlib-metadata==2.1.1
 oauthlib==3.1.0
 Pillow==8.0.1
+pinax-badges==3.0.0
 pyclean==2.0.0
 pycparser==2.20
+pyflakes==2.2.0
 PyJWT==1.7.1
 python-slugify==4.0.1
 python3-openid==3.2.0
