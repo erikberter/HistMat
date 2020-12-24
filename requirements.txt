@@ -13,6 +13,7 @@ django-bootstrap4==2.3.1
 django-braces==1.14.0
 django-crispy-forms==1.10.0
 django-debug-toolbar==3.2
+django-feature-policy==3.6.0
 django-jquery==3.1.0
 django-jquery-ui==1.11.4.1
 django-model-utils==4.1.1

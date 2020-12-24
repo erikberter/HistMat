@@ -15,7 +15,7 @@
     <script src="{% static 'js/Biblio/book_detail.js' %}"> </script>
     <script src="{% static 'js/widgets/toast.js'%}"></script>
 
-    {% if request.is_authenticated %}
+    {% if request.user.is_authenticated %}
     {% if has_book or request.user.is_superuser or request.user.is_content_editor%}
     <script>
         var fab = new Vue({
@@ -36,7 +36,7 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/rating.css' %}">   
-    {% if request.is_authenticated %} 
+    {% if request.user.is_authenticated %} 
         {% if has_book or request.user.is_superuser or request.user.is_content_editor%}
             <link rel="stylesheet" type="text/css" href="{% static 'css/widgets/fab.css' %}">  
         {% endif %}
@@ -158,10 +158,6 @@
                     </div>
                 </div>
             </div>
-            
-            
-            
-            
         </div>
     </div>    
 </div>
@@ -169,7 +165,7 @@
 {% endblock %}
 
 {% block widgets %}
-    {% if request.is_authenticated %}
+    {% if request.user.is_authenticated %}
         {% if book.creator == request.user or request.user.is_superuser%}
             {% include 'widgets/fab.html' with icon="fa-cog"%}
         {% endif %}

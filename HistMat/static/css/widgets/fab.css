@@ -13,8 +13,6 @@
     right: 50px;
     z-index: 999;
     cursor: pointer;
-
-    
 }
 
 
@@ -29,7 +27,6 @@
 
 .fab-container:hover > .fab-icon-holder {
     background: #006cb4;
-
 }
 
 .fab-icon-holder i {
