@@ -5,6 +5,7 @@ app_name = 'biblio'
 
 urlpatterns = [
     path('public/catalog/', views.CatalogView.as_view(), name='public_catalog'),
+    path('public/search/', views.BookSearchView.as_view(), name='catalog_search'),
     path('mycatalog/', views.MyCatalogView.as_view(), name='mycatalog'),
 
     path('author/<slug:slug>/detail/', views.AuthorDetailView.as_view(), name='author_view'),

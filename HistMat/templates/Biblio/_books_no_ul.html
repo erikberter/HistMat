@@ -1,5 +1,13 @@
 {% for book in books %}
 {% load i18n %}
+<script>
+    function addTag(tag){
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('tag_token', tag);
+        window.location.search = urlParams;
+    }
+    
+</script>
     <li class="shadow-sm item card m-2 draggable infinite-item real-frame col-xs-6 rcorners2" b_slug="{{book.slug}}" style="max-width:200px;">         
     <div class="frame">
         
@@ -49,7 +57,7 @@
             <span>Tags:</span>
             <div class="d-flex flex-row flex-wrap">
                 {% for tag in book.tags.all|slice:"0:2" %}
-                    <span class="badge badge-success m-1">{{tag}}</span>
+                    <a onclick="addTag('{{tag}}')"><span class="badge badge-success m-1">{{tag}}</span></a>
                 {% empty %}
                     <span class="badge badge-danger m-1">{% trans 'Ninguna' %}</span>
                 {% endfor %}
@@ -59,6 +67,6 @@
             
     </li>
 {% empty %}
-<h4>{% trans 'Todavia no hay libros aniadidos'%}</h4>
+    <h4>{% trans 'Todavia no hay libros aniadidos'%}</h4>
 {% endfor %}
 

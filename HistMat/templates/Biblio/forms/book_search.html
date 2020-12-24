@@ -1,6 +1,9 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
+
 {% load i18n %}
-{% block title%} {% trans 'Catalogo publico' %} | HistMat {% endblock %}
+
+{% block title %} {% trans 'Buscar libro' %} {% endblock %}
+
 
 {% load static %}
 
@@ -15,18 +18,23 @@
 <link type="text/css" href="{% static 'css/Biblio/catalog.css' %}" rel="stylesheet">
 {% endblock %}
 
-{%block content%}
+{% block content %}
 <div class="container">
     <div class="card p-3 rcorners2 my-3 shadow-sm">
         <div class="d-flex justify-content-center">
             <h1>
                 <strong>
-                    {% trans 'Catalogo Publico' %}
+                    {% trans 'Resultado de la busqueda' %}
                 </strong>
             </h1>
-            <a href="{% url 'biblio:catalog_search'%}">
-                <i class="fas fa-search float-right"></i>
-            </a>
+        </div>
+    </div>
+    <div class="card p-3 rcorners2 my-3 shadow-sm">
+        <div class="d-flex justify-content-center">
+            <form action="{% url 'biblio:catalog_search'%}">
+                <input type="text" name="search_query">
+                <input type="submit">
+            </form>
         </div>
     </div>
     
@@ -56,6 +64,4 @@
     });
 });
 </script>
-    
-{%endblock%}
-
+{% endblock %}

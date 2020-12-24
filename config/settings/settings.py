@@ -17,6 +17,7 @@ PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
 from .local_settings import SECRET_KEY as LOCAL_SECRET_KEY
+from .local_settings import DEBUG as LOCAL_DEBUG
 
 try:
     from .local_settings import *
@@ -37,9 +38,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = LOCAL_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = LOCAL_DEBUG
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['erikberter.pythonanywhere.com', 'localhost','127.0.0.1']
 
 
 # Application definition
@@ -227,18 +228,19 @@ if TESTING and TESTING_OPTIONS['PASSWORD_HASHERS']:
 
 
 # SECURITY SETTINGS
-CSRF_COOKIE_SECURE = True
+if not DEBUG:
+    CSRF_COOKIE_SECURE = True
 
-SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
 
-SECURE_PROXY_SSL_HEADER = False
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 15768000
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_PROXY_SSL_HEADER = False
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 15768000
+    SECURE_HSTS_PRELOAD = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
 
 if DEBUG:
     CACHES = {

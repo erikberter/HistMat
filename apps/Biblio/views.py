@@ -50,7 +50,20 @@ class CatalogView(ListView):
     template_name = 'Biblio/catalog.html'
     paginate_by = 20
 
-    queryset = Book.public.all()
+    def get_queryset(self):
+        tag_token = self.request.GET.get('tag_token')
+
+        books = Book.public.all()
+
+        if self.request.user.is_authenticated:
+            follows = self.request.user.following_users.all()
+            books = books | Book.friends.filter(creator__in = follows)
+            books = books | self.request.user.added_books.all()
+
+        if tag_token:
+            books = books.filter(tags__name__in = [tag_token])
+
+        return books.distinct()
 
 
 class MyCatalogView(LoginRequiredMixin, View):
@@ -158,6 +171,29 @@ class BookUpdateView(UserPassesTestMixin, UpdateView):
 
     def test_func(self, user):
         return ( user == self.get_object().creator ) | user.is_superuser | user.is_content_editor
+
+class BookSearchView(ListView):
+    model = Book
+    context_object_name = "books"
+    template_name = 'Biblio/forms/book_search.html'
+
+    def get_queryset(self):
+        text_token = self.request.GET.get('search_query')
+        tag_token = self.request.GET.get('tag_token')
+
+        books = Book.public.all()
+
+        if self.request.user.is_authenticated:
+            follows = self.request.user.following_users.all()
+            books = books | Book.friends.filter(creator__in = follows)
+            books = books | self.request.user.added_books.all()
+        
+        if text_token:
+            books = books.filter(title__contains = text_token)
+        if tag_token:
+            books = books.filter(tags__name__in = [tag_token])
+
+        return books.distinct()
 
 class BookDeleteView(UserPassesTestMixin, DeleteView):
     model = Book
