@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'pinax.badges',
     'sri',
+    'django_feature_policy',
 
     'debug_toolbar',
 ]
@@ -260,3 +261,12 @@ else:
 
 import mimetypes
 mimetypes.add_type("text/css", ".css", True)
+
+
+PERMISSIONS_POLICY = {
+    "autoplay" : [],
+    "camera" : [],
+    "fullscreen" : [],
+    "geolocation" : [],
+    "microphone" : []
+    }
