@@ -16,9 +16,6 @@ import sys
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
-from .local_settings import SECRET_KEY as LOCAL_SECRET_KEY
-from .local_settings import DEBUG as LOCAL_DEBUG
-
 try:
     from .local_settings import *
 except ImportError:
