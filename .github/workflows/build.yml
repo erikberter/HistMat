@@ -35,6 +35,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Run migrations
+        env:
+          DEBUG : "True"
+          SECRET_KEY: ${{secrets.SECRET_KEY}}
+          GOOGLE_KEY: ${{secrets.GOOGLE_KEY}}
+          GOOGLE_SECRET: ${{secrets.GOOGLE_SECRET}}
         run: |
           python manage.py makemigrations
           python manage.py migrate
