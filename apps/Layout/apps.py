@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class LayoutConfig(AppConfig):
-    name = 'Layout'
+    name = 'apps.Layout'
