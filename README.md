@@ -1,5 +1,17 @@
 # HisMat
 
-Proyecto para Ingenieria Web. 
+Reading manager implemented using Django.
 
-**Nota**: Contiene fallos y es muy mejorable.
+### v0.1 Objectives
+- [ ] GoodReads book import system
+- [ ] PDF cover extraction
+- [ ] Show PDF data
+- [ ] Update to bootstrap 5
+- [ ] Code cleaning
+- [ ] API cleaning and improvement
+- [ ] Automatic web deployment after CI
+- [ ] Wiki documentation
+
+### Future Objectives
+
+- [ ] Add user tag system for books
