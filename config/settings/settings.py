@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'pinax.badges',
     'sri',
-    'django-permissions-policy',
     'django_extensions',
 
     'debug_toolbar',
