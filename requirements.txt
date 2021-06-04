@@ -22,7 +22,7 @@ django-sri==0.3.0
 django-static-precompiler==2.0
 django-taggit==1.4.0
 google-trans-new==1.1.9
-idna==3.2
+idna==2.10
 importlib-metadata==2.1.1
 oauthlib==3.1.1
 packaging==20.9
