@@ -56,10 +56,8 @@ INSTALLED_APPS = [
     'apps.Biblio',
     'apps.Users',
     'apps.Layout',
-    'apps.Apuntes',
     'apps.Forum',
     'apps.UserMechanics',
-    'apps.Blog',
 
     'bootstrap4',
     'jquery_ui',
@@ -236,7 +234,7 @@ if not DEBUG:
 
     SESSION_COOKIE_SECURE = True
 
-    SECURE_PROXY_SSL_HEADER = False
+    SECURE_PROXY_SSL_HEADER = True
     SECURE_SSL_REDIRECT = True
     SECURE_HSTS_SECONDS = 15768000
     SECURE_HSTS_PRELOAD = True

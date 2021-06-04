@@ -4,7 +4,6 @@ from django.conf import settings
 from .action import *
 
 from apps.Biblio.models import Book
-from apps.Apuntes.models import Apunte
 from apps.Forum.models import *
 # Create your models here.
 
@@ -104,8 +103,3 @@ class ActionPostLike(Action):
     def get_string(self, lang='es'):
         return super().get_string('post_like', [self.autor.get_a_div(), self.post.get_a_div()] , lang)
 
-class ActionApunteAdd(Action):
-    apunte = models.ForeignKey(Apunte, on_delete=models.CASCADE)
-
-    def get_string(self, lang='es'):
-        return super().get_string('apunte_add', [self.autor.get_a_div(), self.apunte.get_a_div()] , lang)

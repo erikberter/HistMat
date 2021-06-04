@@ -38,21 +38,6 @@
                     {% trans 'Foro' %}
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.app_name == 'apuntes' %}active text-white{% endif %}" href="{% url 'apuntes:apuntes'%}">
-                    {% trans 'Apuntes' %}
-                </a>
-            </li>
-            <li class="nav-item"></li>
-                <a class="nav-link {% if request.resolver_match.app_name == 'blog' %}active text-white{% endif %}" href="{% url 'blog:blog_list'%}">
-                    {% trans 'Blog' %}
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'contacts' %}active text-white{% endif %}" href="{% url 'layout:contacts'%}">
-                    {% trans 'Contactos' %}
-                </a>
-            </li>
         </ul>
         <div id="navbar-user">
             {% if user.is_authenticated %}

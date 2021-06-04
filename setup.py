@@ -10,5 +10,6 @@ local_settings_file = open("config/settings/local_settings.py", "w+")
 local_settings_file.write(f"SECRET_KEY = '{generate_key()}'\n")
 local_settings_file.write(f"SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'ID_GOOGLE'\n")
 local_settings_file.write(f"SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'KEY_GOOGLE'\n")
+local_settings_file.write(f"DEBUG = False\n")
 
 local_settings_file.close()

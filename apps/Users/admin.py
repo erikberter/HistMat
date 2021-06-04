@@ -1,7 +1,6 @@
 from django.contrib import admin
 from  .models import  Profile,  ProfileStats
 from apps.Biblio.models import BookUserDetail
-from apps.Apuntes.models import Apunte
 from apps.Forum.models import Post, Comment
 
 
@@ -11,10 +10,6 @@ class StatsInLine(admin.TabularInline):
 
 class BookInLine(admin.TabularInline):
     model = BookUserDetail
-    extra = 1
-
-class ApunteInLine(admin.StackedInline):
-    model = Apunte
     extra = 1
 
 class PostInLine(admin.TabularInline):
@@ -35,7 +30,7 @@ class ProfileAdmin(admin.ModelAdmin):
         ('Rol & Amigos', {'fields': ['level', 'xp', 'kind_of_user', 'following'], 'classes': ['collapse']}),
         ('Informacion Tecnica', {'fields': ['last_login', 'date_joined', 'is_superuser', 'is_active', 'is_staff','is_content_editor', 'user_permissions', 'groups'], 'classes': ['collapse']}),
     ]
-    inlines = [ StatsInLine, BookInLine, ApunteInLine, PostInLine, CommentInLine]
+    inlines = [ StatsInLine, BookInLine,  PostInLine, CommentInLine]
 
 
 class ProfileStatsAdmin(admin.ModelAdmin):
