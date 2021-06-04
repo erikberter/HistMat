@@ -54,7 +54,7 @@ class BookModelTest(TestCase):
     
     def test_book_get_absolute_path(self):
         book_test_1 = Book.objects.create(title="test_title_1", npages=200, author=self.author_test_1)
-        self.assertEquals('/biblio/book_detail/' + book_test_1.title+'_' + book_test_1.author.name, book_test_1.get_absolute_url())
+        self.assertEquals('/es-es/biblio/book_detail/' + book_test_1.title+'_' + book_test_1.author.name, book_test_1.get_absolute_url())
 
 class BookUserDetailTest(TestCase):
     @classmethod
