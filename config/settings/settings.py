@@ -133,7 +133,7 @@ if os.environ.get('GITHUB_WORKFLOW'):
            'PORT': '5432',
         }
     }
-elif DEBUG:
+elif not DEBUG:
     DATABASES = {
         'default': {
            'ENGINE': 'django.db.backends.postgresql',
