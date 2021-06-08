@@ -35,7 +35,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get('DEBUG'))
+DEBUG = os.environ.get('DEBUG') == "True"
 
 ALLOWED_HOSTS = [ 'histmat.herokuapp.com', 'localhost','127.0.0.1']
 
@@ -120,14 +120,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
-if os.environ.get('GITHUB_WORKFLOW'):
+
+if os.environ.get('GITHUB_WORKFLOW') or DEBUG:
     DATABASES = {
         'default': {
            'ENGINE': 'django.db.backends.postgresql',
@@ -136,6 +131,24 @@ if os.environ.get('GITHUB_WORKFLOW'):
            'PASSWORD': 'postgres',
            'HOST': '127.0.0.1',
            'PORT': '5432',
+        }
+    }
+elif DEBUG:
+    DATABASES = {
+        'default': {
+           'ENGINE': 'django.db.backends.postgresql',
+           'NAME': 'histmat',
+           'USER': os.environ.get('DATABASE_USER'),
+           'PASSWORD': os.environ.get('DATABASE_PASS'),
+           'HOST': 'localhost',
+           'PORT': '',
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
 
