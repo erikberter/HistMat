@@ -87,6 +87,8 @@ MIDDLEWARE = [
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
 
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
 ]
 
 INTERNAL_IPS = [
@@ -224,6 +226,7 @@ MEDIA_URL = '/' + PROJECT_NAME +'/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # User handling
 
