@@ -134,15 +134,11 @@ if os.environ.get('GITHUB_WORKFLOW'):
         }
     }
 elif not DEBUG:
+    from decouple import config
     DATABASES = {
-        'default': {
-           'ENGINE': 'django.db.backends.postgresql',
-           'NAME': 'histmat',
-           'USER': os.environ.get('DATABASE_USER'),
-           'PASSWORD': os.environ.get('DATABASE_PASS'),
-           'HOST': '127.0.0.1',
-           'PORT': '5432',
-        }
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL')
+        )
     }
 else:
     DATABASES = {
