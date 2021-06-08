@@ -67,7 +67,7 @@ INSTALLED_APPS = [
     'pinax.badges',
     'sri',
     'django_extensions',
-    'django-permissions-policy',
+    'django_permissions_policy',
     'debug_toolbar',
 ]
 
