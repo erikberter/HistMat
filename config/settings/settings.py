@@ -226,7 +226,7 @@ MEDIA_URL = '/' + PROJECT_NAME +'/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # User handling
 
