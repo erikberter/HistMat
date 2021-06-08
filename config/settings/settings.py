@@ -140,8 +140,8 @@ elif not DEBUG:
            'NAME': 'histmat',
            'USER': os.environ.get('DATABASE_USER'),
            'PASSWORD': os.environ.get('DATABASE_PASS'),
-           'HOST': 'localhost',
-           'PORT': '',
+           'HOST': '127.0.0.1',
+           'PORT': '5432',
         }
     }
 else:
