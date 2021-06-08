@@ -40,7 +40,7 @@ class Action(models.Model):
         """ Casts the object to get the original type
 
             Extracted from:
-                - https://stackoverflow.com/questions/5225556/determining-django-model-instance-types-after-a-query-on-a-base-class
+                - https://stackoverflow.com/questions/5225556
         """
         for name in dir(self):
             try:

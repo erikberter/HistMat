@@ -1,12 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.db.models import Avg
-
 from django.http import  HttpResponseRedirect, Http404, JsonResponse
-
 from django.shortcuts import render, get_object_or_404
-
-
 
 from django.views import View
 from django.views.generic import DetailView, ListView
@@ -31,19 +26,27 @@ from apps.UserMechanics.models import *
 from sorl.thumbnail import get_thumbnail
 from pinax.badges.registry import badges
 
-#########################################
-#           Views Configuration         #
-#########################################
 
 CORRECT_JSON_DICT = {'status':'Success', 'msg': 'save successfully'}
 
 
-#########################################
-#                 Views                 #
-#########################################
 
 
 class CatalogView(ListView):
+    """
+        Catalog view.
+
+        Books shown in this view are based on different factors.
+        
+        If the user is authenticated:
+            * Own private books.
+            * Friends protected books
+
+        If filter is active:
+            * Only books filtered by that tag
+            * Only books filtered by that query
+    """
+
     model = Book
     context_object_name = 'books'
 
@@ -52,6 +55,7 @@ class CatalogView(ListView):
 
     def get_queryset(self):
         tag_token = self.request.GET.get('tag_token')
+        text_token = self.request.GET.get('search_query')
 
         books = Book.public.all()
 
@@ -60,11 +64,13 @@ class CatalogView(ListView):
             books = books | Book.friends.filter(creator__in = follows)
             books = books | self.request.user.added_books.all()
 
+        if text_token:
+            books = books.filter(title__contains = text_token)
+
         if tag_token:
             books = books.filter(tags__name__in = [tag_token])
 
         return books.distinct()
-
 
 class MyCatalogView(LoginRequiredMixin, View):
     template_name = 'Biblio/mycatalog.html'
@@ -149,6 +155,13 @@ class BookDetailView(DetailView):
 
 
 class BookUpdateView(UserPassesTestMixin, UpdateView):
+    """
+        Book update view. 
+
+        Only creators of the specific book, superusers or content 
+        editors should be able to update books.
+    
+    """
     model = Book
     fields = ['title', 'description', 'author', 'npages', 'book_file', 'cover', 'visibility', 'tags']
     template_name = 'Biblio/forms/book_update.html'
@@ -159,12 +172,10 @@ class BookUpdateView(UserPassesTestMixin, UpdateView):
         book = self.get_object()
         book.save(thumbnail=True)
 
-        ActionBookAdd.objects.filter(
-            autor = request.user
-        ).filter(
-            book=book
-        ).update(
-            visibility = form.instance.visibility
+        (ActionBookAdd.objects
+            .filter(autor = request.user)
+            .filter(book=book)
+            .update(visibility = form.instance.visibility)
         )
 
         return HttpResponseRedirect(book.get_absolute_url())
@@ -172,28 +183,7 @@ class BookUpdateView(UserPassesTestMixin, UpdateView):
     def test_func(self, user):
         return ( user == self.get_object().creator ) | user.is_superuser | user.is_content_editor
 
-class BookSearchView(ListView):
-    model = Book
-    context_object_name = "books"
-    template_name = 'Biblio/forms/book_search.html'
 
-    def get_queryset(self):
-        text_token = self.request.GET.get('search_query')
-        tag_token = self.request.GET.get('tag_token')
-
-        books = Book.public.all()
-
-        if self.request.user.is_authenticated:
-            follows = self.request.user.following_users.all()
-            books = books | Book.friends.filter(creator__in = follows)
-            books = books | self.request.user.added_books.all()
-        
-        if text_token:
-            books = books.filter(title__contains = text_token)
-        if tag_token:
-            books = books.filter(tags__name__in = [tag_token])
-
-        return books.distinct()
 
 class BookDeleteView(UserPassesTestMixin, DeleteView):
     model = Book

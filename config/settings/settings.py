@@ -67,7 +67,7 @@ INSTALLED_APPS = [
     'pinax.badges',
     'sri',
     'django_extensions',
-
+    'django_permissions_policy',
     'debug_toolbar',
 ]
 
@@ -82,7 +82,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'django-permissions-policy.PermissionsPolicyMiddleware',
+    'django_permissions_policy.PermissionsPolicyMiddleware',
 
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',

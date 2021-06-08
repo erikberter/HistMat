@@ -24,9 +24,15 @@
                     {% trans 'Catalogo Publico' %}
                 </strong>
             </h1>
-            <a href="{% url 'biblio:catalog_search'%}">
-                <i class="fas fa-search float-right"></i>
-            </a>
+        </div>
+    </div>
+
+    <div class="card p-3 rcorners2 my-3 shadow-sm">
+        <div class="d-flex justify-content-center">
+            <form action="{% url 'biblio:public_catalog'%}">
+                <input type="text" name="search_query">
+                <input type="submit">
+            </form>
         </div>
     </div>
     

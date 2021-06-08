@@ -25,6 +25,14 @@ def custom_populate(instance):
     return f"{instance.title}_{instance.author.name}"
 
 
+class FriendsBookManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().all().exclude(visibility='private')
+
+class PublicBookManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(visibility='public')
+
 #################################
 #             Models            #
 #################################
@@ -53,13 +61,7 @@ class Author(models.Model):
         return data
 
 
-class FriendsBookManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().all().exclude(visibility='private')
 
-class PublicBookManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(visibility='public')
 
 class Book(models.Model):
     VISIBILITY_CHOICES = (
