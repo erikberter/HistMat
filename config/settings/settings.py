@@ -36,7 +36,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG') == "True"
-DEBUG_PROPAGATE_EXCEPTIONS = True
+DEBUG_PROPAGATE_EXCEPTIONS = bool(os.environ.get('DEBUG_PROPAGATE_EXCEPTIONS'))
 ALLOWED_HOSTS = [ '*', 'histmat.herokuapp.com', 'localhost','127.0.0.1']
 
 
@@ -216,8 +216,7 @@ LANGUAGES = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/' + PROJECT_NAME +'/static/'
-#STATIC_ROOT = os.path.join(BASE_DIR, '../' + PROJECT_NAME +'/assets')
+STATIC_ROOT = os.path.join(BASE_DIR, '../' + PROJECT_NAME +'/assets')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "../" + PROJECT_NAME +"/static"),
