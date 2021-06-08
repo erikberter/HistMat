@@ -217,7 +217,8 @@ LANGUAGES = [
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/' + PROJECT_NAME +'/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '../' + PROJECT_NAME +'/assets')
+#STATIC_ROOT = os.path.join(BASE_DIR, '../' + PROJECT_NAME +'/assets')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "../" + PROJECT_NAME +"/static"),
 )
