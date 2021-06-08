@@ -122,7 +122,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 
-if os.environ.get('GITHUB_WORKFLOW') or DEBUG:
+if os.environ.get('GITHUB_WORKFLOW'):
     DATABASES = {
         'default': {
            'ENGINE': 'django.db.backends.postgresql',
