@@ -134,6 +134,7 @@ if os.environ.get('GITHUB_WORKFLOW'):
         }
     }
 elif not DEBUG:
+    from decouple import config
     import dj_database_url
     DATABASES = {
         'default': dj_database_url.config(
